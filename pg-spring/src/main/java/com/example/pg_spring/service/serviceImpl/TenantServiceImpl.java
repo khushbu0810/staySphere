@@ -30,6 +30,7 @@ public class TenantServiceImpl implements TenantService {
     public Tenant addTenant(Tenant tenant) {
         tenant.setOccupancyStatus("Not_Assigned");
         tenant.setRoom(null);
+        tenant.setRentPaid(false);
         return tenantRepo.save(tenant);
     }
 
@@ -88,6 +89,119 @@ public class TenantServiceImpl implements TenantService {
 
         tenantRepo.delete(tenant);
         return true;
+    }
+
+    @Override
+    public Tenant toggleRentPayment(Integer tenantId) {
+        Tenant tenant = tenantRepo.findById(tenantId).orElse(null);
+        if (tenant == null || tenant.getRoom() == null) {
+            return null;
+        }
+        boolean current = Boolean.TRUE.equals(tenant.getRentPaid());
+        tenant.setRentPaid(!current);
+        return tenantRepo.save(tenant); // 🔥 REQUIRED
+    }
+
+    @Override
+    public byte[] generateMonthTenantReport(int year, int month) {
+
+        List<Tenant> tenants = tenantRepo.findAll();
+
+        StringBuilder csv = new StringBuilder();
+        csv.append("Tenant Name,Room No,Status,Rent Paid,Join Date,End Date,Category\n");
+
+        for (Tenant t : tenants) {
+
+            boolean joinedInMonth
+                    = t.getJoinDate() != null
+                    && t.getJoinDate().getYear() == year
+                    && t.getJoinDate().getMonthValue() == month;
+
+            boolean vacatedInMonth
+                    = "vacated".equalsIgnoreCase(t.getOccupancyStatus())
+                    && t.getEndDate() != null
+                    && t.getEndDate().getYear() == year
+                    && t.getEndDate().getMonthValue() == month;
+
+            boolean isLiving
+                    = "living".equalsIgnoreCase(t.getOccupancyStatus());
+
+            if (joinedInMonth || vacatedInMonth || isLiving) {
+
+                String category;
+
+                if (joinedInMonth) {
+                    category = "New Joinee (" + year + "-" + month + ")";
+                } else if (vacatedInMonth) {
+                    category = "Vacated (" + year + "-" + month + ")";
+                } else if (Boolean.TRUE.equals(t.getRentPaid())) {
+                    category = "Rent Paid";
+                } else {
+                    category = "Rent Not Paid";
+                }
+
+                csv.append(t.getName()).append(",")
+                        .append(t.getRoom() != null ? t.getRoom().getRoomNumber() : "-").append(",")
+                        .append(t.getOccupancyStatus()).append(",")
+                        .append(Boolean.TRUE.equals(t.getRentPaid()) ? "Yes" : "No").append(",")
+                        .append(t.getJoinDate()).append(",")
+                        .append(t.getEndDate() != null ? t.getEndDate() : "-").append(",")
+                        .append(category)
+                        .append("\n");
+            }
+        }
+
+        return csv.toString().getBytes();
+    }
+
+    @Override
+    public byte[] generateYearTenantReport(int year) {
+
+        List<Tenant> tenants = tenantRepo.findAll();
+
+        StringBuilder csv = new StringBuilder();
+        csv.append("Tenant Name,Room No,Status,Rent Paid,Join Date,End Date,Category\n");
+
+        for (Tenant t : tenants) {
+
+            boolean joinedInYear
+                    = t.getJoinDate() != null
+                    && t.getJoinDate().getYear() == year;
+
+            boolean vacatedInYear
+                    = "vacated".equalsIgnoreCase(t.getOccupancyStatus())
+                    && t.getEndDate() != null
+                    && t.getEndDate().getYear() == year;
+
+            boolean isLiving
+                    = "living".equalsIgnoreCase(t.getOccupancyStatus());
+
+            if (joinedInYear || vacatedInYear || isLiving) {
+
+                String category;
+
+                if (joinedInYear) {
+                    category = "New Joinee (" + year + ")";
+                } else if (vacatedInYear) {
+                    category = "Vacated (" + year + ")";
+                } else if (Boolean.TRUE.equals(t.getRentPaid())) {
+                    category = "Rent Paid";
+                } else {
+                    category = "Rent Not Paid";
+                }
+
+                csv.append(t.getName()).append(",")
+                        .append(t.getRoom() != null ? t.getRoom().getRoomNumber() : "-").append(",")
+                        .append(t.getOccupancyStatus()).append(",")
+                        .append(Boolean.TRUE.equals(t.getRentPaid()) ? "Yes" : "No").append(",")
+                        .append(t.getJoinDate()).append(",")
+                        .append(t.getEndDate() != null ? t.getEndDate() : "-").append(",")
+                        .append(category)
+                        .append("\n");
+            }
+        }
+
+        return csv.toString().getBytes();
     }
 
 }

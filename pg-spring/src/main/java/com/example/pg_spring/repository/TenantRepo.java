@@ -10,20 +10,25 @@ public interface TenantRepo extends JpaRepository<Tenant, Integer> {
 
     // 🔹 Rent this month (all living tenants)
     @Query("""
-    SELECT COALESCE(SUM(r.rentAmount), 0)
-    FROM Tenant t
-    JOIN t.room r
-    WHERE t.occupancyStatus = 'LIVING'
-    """)
+SELECT COALESCE(SUM(r.rentAmount), 0)
+FROM Tenant t
+JOIN t.room r
+WHERE t.occupancyStatus = 'Living'
+AND t.rentPaid = true
+AND MONTH(t.joinDate) = MONTH(CURRENT_DATE)
+AND YEAR(t.joinDate) = YEAR(CURRENT_DATE)
+""")
     Double rentThisMonth();
 
     // 🔹 Rent this year (12 months assumption)
     @Query("""
-    SELECT COALESCE(SUM(r.rentAmount * 12), 0)
-    FROM Tenant t
-    JOIN t.room r
-    WHERE t.occupancyStatus = 'LIVING'
-    """)
+SELECT COALESCE(SUM(r.rentAmount), 0)
+FROM Tenant t
+JOIN t.room r
+WHERE t.occupancyStatus = 'Living'
+AND t.rentPaid = true
+AND YEAR(t.joinDate) = YEAR(CURRENT_DATE)
+""")
     Double rentThisYear();
 
     // 🔹 Deposit collected this month

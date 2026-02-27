@@ -99,6 +99,9 @@ public class RoomServiceImpl implements RoomService {
         }
 
         currentTenant.setRoom(currentRoom);
+        if (currentTenant.getRentPaid() == null) {
+            currentTenant.setRentPaid(false);
+        }
         currentTenant.setOccupancyStatus("Living");
 
         if (currentRoom.getTenants() == null) {

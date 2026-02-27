@@ -3,6 +3,8 @@ package com.example.pg_spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -75,4 +77,40 @@ public class TenantController {
         }
         return ResponseEntity.status(404).body("Tenant Not found");
     }
+
+    @PostMapping("/rent-toggle/{tenantId}")
+    public ResponseEntity<Tenant> toggleRent(@PathVariable Integer tenantId) {
+        Tenant tenant = tenantService.toggleRentPayment(tenantId);
+        if (tenant == null) {
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).body(tenant);
+    }
+
+    @GetMapping("/monthly-report/{year}/{month}")
+    public ResponseEntity<byte[]> downloadMonthTenantReport(
+            @PathVariable int year,
+            @PathVariable int month) {
+
+        byte[] report = tenantService.generateMonthTenantReport(year, month);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=Tenant_Report_" + year + "_" + month + ".csv")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(report);
+    }
+
+    @GetMapping("/yearly-report/{year}")
+    public ResponseEntity<byte[]> downloadYearTenantReport(@PathVariable int year) {
+
+        byte[] report = tenantService.generateYearTenantReport(year);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=Tenant_Report_" + year + ".csv")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(report);
+    }
+
 }
