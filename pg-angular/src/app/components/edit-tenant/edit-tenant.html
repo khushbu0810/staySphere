@@ -1,0 +1,88 @@
+<h2>Edit Tenant</h2>
+
+<form [formGroup]="tenantForm" (ngSubmit)="updateTenant()" novalidate>
+
+  <!-- Name -->
+  <div>
+    <label>Name</label><br />
+    <input type="text" formControlName="name" />
+
+    @if (f['name'].touched && f['name'].errors?.['required']) {
+      <div>
+        Name is required
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Phone Number -->
+  <div>
+    <label>Phone Number</label><br />
+    <input type="text" formControlName="phoneNumber" />
+
+    @if (f['phoneNumber'].touched && f['phoneNumber'].errors?.['required']) {
+      <div>
+        Phone number is required
+      </div>
+    }
+
+    @if (f['phoneNumber'].errors?.['pattern']) {
+      <div>
+        Enter valid 10-digit phone number
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Address -->
+  <div>
+    <label>Address</label><br />
+    <textarea formControlName="address"></textarea>
+
+    @if (f['address'].touched && f['address'].errors?.['required']) {
+      <div>
+        Address is required
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Join Date -->
+  <div>
+    <label>Join Date</label><br />
+    <input type="date" formControlName="joinDate" />
+  </div>
+
+  <br />
+
+  <!-- Deposit Amount -->
+  <div>
+    <label>Deposit Amount</label><br />
+    <input type="number" formControlName="depositAmount" />
+
+    @if (f['depositAmount'].touched && f['depositAmount'].errors?.['required']) {
+      <div>
+        Deposit amount is required
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Occupancy Status -->
+  <div>
+    <label>Occupancy Status</label><br />
+    <input type="text" formControlName="occupancyStatus" />
+  </div>
+
+  <br />
+
+  <!-- Submit -->
+  <button type="submit" [disabled]="tenantForm.invalid">
+    Update Tenant
+  </button>
+
+</form>

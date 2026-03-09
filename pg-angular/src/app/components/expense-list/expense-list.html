@@ -1,0 +1,58 @@
+<h2 class="page-title">Expenses</h2>
+
+<!-- CATEGORY VIEW -->
+@if (categories$ | async; as categories) {
+  <div>
+    <div class="category-grid">
+      @for (cat of categories; track cat) {
+        <div class="category-card" (click)="openCategory(cat.category, cat.expenses)">
+          <h3>{{ cat.category }}</h3>
+          <p>{{ cat.expenses.length }} expenses</p>
+        </div>
+      }
+    </div>
+    <!-- MODAL -->
+    @if (showModal) {
+      <div class="modal-backdrop">
+        <div class="modal">
+          <h3>{{ selectedCategory }} Expenses</h3>
+          <table class="expense-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (exp of selectedExpenses; track exp) {
+                <tr>
+                  <td>{{ exp.description }}</td>
+                  <td class="amount">₹{{ exp.amount }}</td>
+                  <td>{{ exp.expenseDate }}</td>
+                  <td class="actions">
+                    @if (exp.id) {
+                      <button class="btn edit" (click)="onEdit(exp.id)">
+                        Edit
+                      </button>
+                    }
+                    @if (exp.id) {
+                      <button class="btn delete" (click)="onDelete(exp.id)">
+                        Delete
+                      </button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          <button class="btn close" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <p class="empty-state">No expenses found</p>
+}
+

@@ -1,0 +1,31 @@
+<div class="page-wrapper">
+
+  <div class="top-actions">
+
+    <!-- LEFT SIDE -->
+    <div>
+      <!-- Show ONLY when NOT on dashboard -->
+      @if (!isDashboard) {
+        <button class="back-btn" routerLink="/dashboard">
+          ← Back to Dashboard
+        </button>
+      }
+
+      <!-- Show ONLY on dashboard -->
+      @if (isDashboard) {
+        <span class="welcome-text">
+          Hi, {{ username }}
+        </span>
+      }
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <button class="logout-btn" (click)="logout()">
+      Logout
+    </button>
+
+  </div>
+
+  <router-outlet></router-outlet>
+
+</div>

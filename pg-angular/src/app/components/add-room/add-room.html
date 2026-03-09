@@ -1,0 +1,80 @@
+<h2>Add Room</h2>
+
+<form [formGroup]="roomForm" (ngSubmit)="addRoom()" novalidate>
+
+  <!-- Room Number -->
+  <div>
+    <label>Room Number</label>
+    <input type="number" formControlName="roomNumber" />
+
+    @if (f['roomNumber'].touched && f['roomNumber'].errors?.['required']) {
+      <div>
+        Room number is required
+      </div>
+    }
+  </div>
+
+  <br>
+
+    <!-- Room Type -->
+    <div>
+      <label>Room Type</label>
+      <select formControlName="roomType" (change)="onRoomTypeChange()">
+        <option value="">Select Room Type</option>
+        @for (type of roomTypes; track type) {
+          <option [value]="type">
+            {{ type }}
+          </option>
+        }
+      </select>
+
+      @if (f['roomType'].touched && f['roomType'].errors?.['required']) {
+        <div>
+          Room type is required
+        </div>
+      }
+    </div>
+
+    <br>
+
+      <!-- Vacancy (Auto) -->
+      <div>
+        <label>Vacancy</label>
+        <input type="number" formControlName="vacancy" />
+      </div>
+
+      <br>
+        <!-- Rent Amount -->
+        <div>
+          <label>Rent Amount</label>
+          <input type="number" formControlName="rentAmount" />
+
+          @if (f['rentAmount'].touched && f['rentAmount'].errors?.['required']) {
+            <div>
+              Rent amount is required
+            </div>
+          }
+
+          @if (f['rentAmount'].touched && f['rentAmount'].errors?.['min']) {
+            <div>
+              Rent amount must be greater than 0
+            </div>
+          }
+        </div>
+        <br>
+
+          <!-- Availability -->
+          <div>
+            <label>
+              <input type="checkbox" formControlName="isAvailable" />
+              Available
+            </label>
+          </div>
+
+
+          <!-- Submit Button -->
+          <button type="submit" [disabled]="roomForm.invalid">
+            Add Room
+          </button>
+
+        </form>

@@ -1,0 +1,52 @@
+<div class="app-container">
+  @if (errorMessage) {
+    <div class="error-hover">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <form #loginForm="ngForm" (ngSubmit)="login()" class="form-container">
+    <h2>Log In</h2>
+
+    <!-- Email -->
+    <div class="form-group">
+      <input type="email" id="email" name="email" [(ngModel)]="loginInfo.email" required email
+        #emailField="ngModel" placeholder="Email" />
+        @if (emailField.invalid && emailField.touched) {
+          <div class="error-text">
+            @if (emailField.errors?.['required']) {
+              <small>Email is required.</small>
+            }
+            @if (emailField.errors?.['email']) {
+              <small>Please enter a valid email.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <input type="password" id="password" name="password" [(ngModel)]="loginInfo.password" required minlength="6"
+          #passwordField="ngModel" placeholder="Password" />
+          @if (passwordField.invalid && passwordField.touched) {
+            <div class="error-text">
+              @if (passwordField.errors?.['required']) {
+                <small>Password is required.</small>
+              }
+              @if (passwordField.errors?.['minlength']) {
+                <small>Password must be at least 6 characters.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-container">
+          <button type="submit" class="btn">Login</button>
+
+          <p class="login-link">
+            Don't have an account? <a routerLink="/signup">Sign Up</a>
+          </p>
+        </div>
+      </form>
+    </div>

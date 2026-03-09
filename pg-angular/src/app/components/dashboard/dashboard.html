@@ -1,0 +1,118 @@
+<h2 class="dashboard-title">Dashboard</h2> <!-- Actions -->
+<div class="dashboard-actions">
+  <button class="btn primary" (click)="addTenant()">Add Tenant</button>
+  <button class="btn primary" (click)="addRoom()">Add Room</button>
+  <button class="btn primary" (click)="addExpense()">Add
+  Expense</button>
+  <button class="btn secondary" (click)="tenantList()">Tenant List</button>
+  <button class="btn secondary" (click)="roomList()">Room List</button>
+  <button class="btn secondary" (click)="expenseList()">Expense
+  List</button>
+</div>
+
+<div class="report-panel">
+
+  <!-- LEFT SIDE : Filters -->
+  <div class="filters">
+    <select [(ngModel)]="selectedYear">
+      @for (y of years; track y) {
+        <option [value]="y">{{ y }}</option>
+      }
+    </select>
+
+    <select [(ngModel)]="selectedMonth">
+      @for (m of months; track m) {
+        <option [value]="m.value">
+          {{ m.name }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <!-- RIGHT SIDE : Actions -->
+  <div class="actions">
+    <button class="btn success" (click)="downloadMonthly()">
+      ⬇ Download Month Report
+    </button>
+
+    <button class="btn primary" (click)="downloadYearly()">
+      ⬇ Download Year Report
+    </button>
+  </div>
+
+</div>
+
+
+<!-- PG Summary -->
+
+<div class="summary-card pg-summary">
+  <h3 class="summary-title">PG Summary</h3>
+  <p class="summary-item"> <span class="label">Total Staying:</span> <span class="value">{{ totalStaying }}</span>
+</p>
+<p class="summary-item"> <span class="label">Total Vacancy:</span> <span class="value">{{ totalVacancy }}</span>
+</p>
+
+</div>
+<!-- MONTH vs YEAR GRID -->
+<div class="summary-grid">
+
+  <!-- THIS MONTH -->
+  <div class="summary-card" [class.profit-card]="profitLossThisMonth >= 0"
+    [class.loss-card]="profitLossThisMonth < 0">
+
+    <h3 class="summary-title">This Month</h3>
+
+    <!-- TOP ROW -->
+    <div class="card-top">
+      <div class="metric income">
+        <div class="metric-value">₹{{ incomeThisMonth }}</div>
+        <div class="metric-label">Income</div>
+      </div>
+
+      <div class="metric expense">
+        <div class="metric-value">₹{{ totalExpenseThisMonth }}</div>
+        <div class="metric-label">Expense</div>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="card-bottom">
+      <div class="profit-loss-value">
+        ₹{{ profitLossThisMonth }}
+      </div>
+      <div class="profit-loss-label">
+        Profit
+      </div>
+    </div>
+  </div>
+
+  <!-- THIS YEAR -->
+  <div class="summary-card" [class.profit-card]="profitLossThisYear >= 0" [class.loss-card]="profitLossThisYear < 0">
+
+    <h3 class="summary-title">This Year</h3>
+
+    <!-- TOP ROW -->
+    <div class="card-top">
+      <div class="metric income">
+        <div class="metric-value">₹{{ incomeThisYear }}</div>
+        <div class="metric-label">Income</div>
+      </div>
+
+      <div class="metric expense">
+        <div class="metric-value">₹{{ totalExpenseThisYear }}</div>
+        <div class="metric-label">Expense</div>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="card-bottom">
+      <div class="profit-loss-value">
+        ₹{{ profitLossThisYear }}
+      </div>
+      <div class="profit-loss-label">
+        Profit
+      </div>
+    </div>
+  </div>
+
+</div>

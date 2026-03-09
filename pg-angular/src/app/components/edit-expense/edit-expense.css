@@ -1,0 +1,121 @@
+/* ================= HOST (SAME AS DASHBOARD LISTS) ================= */
+:host {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding: 24px;
+    background: radial-gradient(circle at top left, #0f172a, #020617);
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ================= TITLE ================= */
+h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 26px;
+    background: linear-gradient(90deg, #818cf8, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ================= FORM CARD ================= */
+form {
+    width: 100%;
+    max-width: 480px;
+    /* slightly wider for expense fields */
+    margin: 0 auto;
+    /* center like dashboard lists */
+    padding: 28px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= FORM GROUP ================= */
+form>div {
+    margin-bottom: 16px;
+}
+
+/* ================= LABEL ================= */
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #c7d2fe;
+    display: block;
+}
+
+/* ================= INPUTS & SELECT ================= */
+input,
+select {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(15, 23, 42, 0.8);
+    color: #e5e7eb;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Focus glow */
+input:focus,
+select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+}
+
+/* Disabled / readonly */
+input:disabled,
+input[readonly] {
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+}
+
+/* ================= VALIDATION ERRORS ================= */
+div div {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #f87171;
+}
+
+/* ================= DASHBOARD BUTTON ================= */
+button[type="submit"] {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #4f46e5, #22d3ee);
+    box-shadow: 0 10px 26px rgba(79, 70, 229, 0.35);
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(79, 70, 229, 0.5);
+}
+
+/* Disabled */
+button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 500px) {
+    form {
+        max-width: 100%;
+        padding: 22px;
+    }
+}

@@ -1,0 +1,266 @@
+/* ================= HOST ================= */
+:host {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding: 24px;
+    background: radial-gradient(circle at top left, #0f172a, #020617);
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ================= TITLE ================= */
+h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 26px;
+    background: linear-gradient(90deg, #818cf8, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ================= TABLE ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 26px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= HEADER ================= */
+thead {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    color: #c7d2fe;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ================= ROWS ================= */
+td {
+    padding: 15px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+    font-size: 15px;
+    vertical-align: top;
+}
+
+tbody tr {
+    transition: all 0.35s ease;
+}
+
+tbody tr:hover {
+    background: rgba(99, 102, 241, 0.12);
+    transform: scale(1.01);
+}
+
+/* ================= DEPOSIT ================= */
+td:nth-child(4) {
+    font-weight: 700;
+    color: #22c55e;
+}
+
+/* ================= STATUS ================= */
+td:nth-child(5) {
+    font-weight: 600;
+    color: #38bdf8;
+}
+
+/* ================= ROOM ================= */
+td:nth-child(6) {
+    font-weight: 600;
+}
+
+/* Assigned */
+td:nth-child(6):not(:contains("Not Assigned")) {
+    color: #22c55e;
+}
+
+
+
+/* ================= DASHBOARD COMPACT BUTTONS ================= */
+button {
+    min-width: 110px;
+    padding: 7px 12px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #4f46e5, #22d3ee);
+    box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 3px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow layer */
+button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 32px rgba(79, 70, 229, 0.5);
+}
+
+button:hover::after {
+    opacity: 1;
+}
+
+/* Assign Room (secondary accent) */
+button:nth-of-type(2) {
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    box-shadow: 0 10px 24px rgba(34, 197, 94, 0.35);
+}
+
+button:nth-of-type(2):hover {
+    box-shadow: 0 14px 32px rgba(34, 197, 94, 0.6);
+}
+
+/* Remove / Delete */
+button:last-child {
+    background: linear-gradient(135deg, #ef4444, #fb7185);
+    box-shadow: 0 10px 24px rgba(239, 68, 68, 0.4);
+}
+
+button:last-child:hover {
+    box-shadow: 0 14px 32px rgba(239, 68, 68, 0.6);
+}
+
+/* ================= EMPTY STATE ================= */
+p {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 18px;
+    color: #94a3b8;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+
+    td,
+    th {
+        font-size: 14px;
+    }
+
+    button {
+        min-width: 100%;
+    }
+}
+
+
+/* ================= RENT PAID / UNPAID BUTTON ONLY ================= */
+
+/* Base rent button */
+td button.rent-btn {
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+}
+
+/* PAID */
+td button.rent-paid {
+    background: linear-gradient(135deg,
+            rgba(34, 197, 94, 0.35),
+            rgba(34, 197, 94, 0.15));
+    color: #bbf7d0;
+    border-color: rgba(34, 197, 94, 0.45);
+    box-shadow: 0 6px 18px rgba(34, 197, 94, 0.35);
+}
+
+/* UNPAID */
+td button.rent-unpaid {
+    background: linear-gradient(135deg,
+            rgba(239, 68, 68, 0.35),
+            rgba(239, 68, 68, 0.15));
+    color: #fecaca;
+    border-color: rgba(239, 68, 68, 0.45);
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35);
+}
+
+/* Hover */
+td button.rent-paid:hover,
+td button.rent-unpaid:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+
+/* ================= FILTER BAR ================= */
+.filter-bar {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin: 20px 0 26px;
+
+    padding: 14px 18px;
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
+}
+
+/* Search input */
+.filter-bar input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    font-size: 14px;
+
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.filter-bar input::placeholder {
+    color: #94a3b8;
+}
+
+.filter-bar input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+}
+
+/* Rent filter dropdown */
+.filter-bar select {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.filter-bar select:hover,
+.filter-bar select:focus {
+    border-color: #6366f1;
+}

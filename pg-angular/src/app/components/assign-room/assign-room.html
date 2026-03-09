@@ -1,0 +1,34 @@
+<h2>Assign Room</h2>
+
+<form [formGroup]="assignForm" (ngSubmit)="assignRoom()">
+
+  <!-- Room Dropdown -->
+  <div>
+    <label>Select Available Room</label><br />
+
+    <select formControlName="roomId">
+      <option [ngValue]="null">Select Room</option>
+
+      @for (room of (rooms$ | async); track room) {
+        <option [ngValue]="room.id" [disabled]="room.vacancy === 0">
+          Room {{ room.roomNumber }} - {{ room.roomType }}
+          (Vacancy: {{ room.vacancy }})
+        </option>
+      }
+    </select>
+
+
+    @if (f['roomId'].touched && f['roomId'].errors?.['required']) {
+      <div>
+        Room selection is required
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <button type="submit" [disabled]="assignForm.invalid">
+    Assign Room
+  </button>
+
+</form>

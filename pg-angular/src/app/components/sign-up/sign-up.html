@@ -1,0 +1,90 @@
+<div class="app-container">
+  <div class="form-container">
+    <h2>Registration Form</h2>
+
+    <form #registration="ngForm" (ngSubmit)="register(registration)">
+
+      <!-- Username -->
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Username" [(ngModel)]="user.username" required
+          #usernameField="ngModel" />
+
+          @if (usernameField.invalid && usernameField.touched) {
+            <div class="error-text">
+              <small>Username is required.</small>
+            </div>
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email" [(ngModel)]="user.email" required email
+            #emailField="ngModel" />
+
+            @if (emailField.invalid && emailField.touched) {
+              <div class="error-text">
+                @if (emailField.errors?.['required']) {
+                  <small>Email is required.</small>
+                }
+                @if (emailField.errors?.['email']) {
+                  <small>Invalid email format.</small>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <input type="password" name="password" placeholder="Password" [(ngModel)]="user.password" required
+              #passwordField="ngModel" />
+
+              @if (passwordField.invalid && passwordField.touched) {
+                <div class="error-text">
+                  <small>Password is required.</small>
+                </div>
+              }
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <input type="password" name="confirmPassword" placeholder="Confirm Password"
+                [(ngModel)]="confirmPassword" required #confirmPasswordField="ngModel" />
+
+                @if (confirmPasswordField.invalid && confirmPasswordField.touched) {
+                  <div class="error-text">
+                    <small>Confirm password is required.</small>
+                  </div>
+                }
+
+                @if (user.password !== confirmPassword && confirmPasswordField.touched) {
+                  <div class="error-text">
+                    <small>Passwords do not match.</small>
+                  </div>
+                }
+              </div>
+
+              <!-- Submit -->
+              <div class="button-container">
+                <button type="submit" class="btn">Signup</button>
+
+                <p class="login-link">
+                  Already have an account?
+                  <a routerLink="/login">Login</a>
+                </p>
+
+                @if (successMessage) {
+                  <p class="success-message">
+                    {{ successMessage }}
+                  </p>
+                }
+
+                @if (errorMessage) {
+                  <p class="error-message">
+                    {{ errorMessage }}
+                  </p>
+                }
+              </div>
+
+            </form>
+          </div>
+        </div>

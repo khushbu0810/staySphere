@@ -1,0 +1,83 @@
+<h2>Add Expense</h2>
+
+<form [formGroup]="expenseForm" (ngSubmit)="addExpense()" novalidate>
+
+  <!-- Category -->
+  <div>
+    <label>Category</label><br />
+    <select formControlName="category">
+      <option value="">Select Category</option>
+      @for (cat of categories; track cat) {
+        <option [value]="cat">
+          {{ cat }}
+        </option>
+      }
+    </select>
+
+    @if (f['category'].touched && f['category'].errors?.['required']) {
+      <div>
+        Category is required
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Description -->
+  <div>
+    <label>Description</label><br />
+    <input type="text" formControlName="description" />
+  </div>
+
+  <br />
+
+  <!-- Amount -->
+  <div>
+    <label>Amount</label><br />
+    <input type="number" formControlName="amount" />
+
+    @if (f['amount'].touched && f['amount'].errors?.['required']) {
+      <div>
+        Amount is required
+      </div>
+    }
+
+    @if (f['amount'].touched && f['amount'].errors?.['min']) {
+      <div>
+        Amount must be greater than 0
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Expense Date -->
+  <div>
+    <label>Expense Date</label><br />
+    <input type="date" formControlName="expenseDate" (change)="onDateChange()" />
+
+    @if (f['expenseDate'].touched && f['expenseDate'].errors?.['required']) {
+      <div>
+        Expense date is required
+      </div>
+    }
+  </div>
+
+  <br />
+
+  <!-- Expense Month (Auto) -->
+  <div>
+    <label>Expense Month</label><br />
+    <input type="text" formControlName="expenseMonth" />
+  </div>
+
+  <br />
+
+  <br />
+
+  <!-- Submit -->
+  <button type="submit" [disabled]="expenseForm.invalid">
+    Add Expense
+  </button>
+
+</form>

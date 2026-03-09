@@ -1,0 +1,47 @@
+<h2>Room List</h2>
+
+@if ((rooms$ | async); as rooms) {
+  <div class="room-grid">
+    <!-- ROOM CARD -->
+    @for (room of rooms; track room) {
+      <div class="room-card" (click)="selectedRoom = room; showModal = true">
+        <h1>Room {{ room.roomNumber }}</h1>
+        <p>{{ room.roomType }}</p>
+        @if (room.isAvailable) {
+          <span class="status available">
+            Available
+          </span>
+        }
+        @if (!room.isAvailable) {
+          <span class="status full">
+            Full
+          </span>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <p>No rooms found</p>
+}
+
+<!-- MODAL -->
+@if (showModal) {
+  <div class="modal-backdrop">
+    <div class="modal">
+      <h2>Room {{ selectedRoom?.roomNumber }}</h2>
+      <p><strong>Room Type:</strong> {{ selectedRoom?.roomType }}</p>
+      <p><strong>Occupied:</strong> {{ selectedRoom?.currentOccupancy }}</p>
+      <p><strong>Vacancy:</strong> {{ selectedRoom?.vacancy }}</p>
+      <p><strong>Rent:</strong> ₹{{ selectedRoom?.rentAmount }}</p>
+      <p><strong>Status:</strong>
+      {{ selectedRoom?.isAvailable ? 'Available' : 'Full' }}
+    </p>
+    <div class="modal-actions">
+      <button (click)="onEdit(selectedRoom!.id!)">Edit</button>
+      <button (click)="onDelete(selectedRoom!.id!)">Delete</button>
+      <button class="close" (click)="showModal = false">Close</button>
+    </div>
+  </div>
+</div>
+}
+

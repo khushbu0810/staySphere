@@ -1,0 +1,137 @@
+/* ================= HOST ================= */
+:host {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding: 24px;
+    background: radial-gradient(circle at top left, #0f172a, #020617);
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ================= TITLE ================= */
+h2 {
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 26px;
+    background: linear-gradient(90deg, #818cf8, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ================= FORM CARD ================= */
+form {
+    max-width: 520px;
+    padding: 32px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= FORM GROUP ================= */
+form>div {
+    margin-bottom: 18px;
+}
+
+/* ================= LABEL ================= */
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #c7d2fe;
+}
+
+/* ================= INPUTS & SELECT ================= */
+input,
+select {
+    width: 100%;
+    margin-top: 8px;
+    padding: 11px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(15, 23, 42, 0.8);
+    color: #e5e7eb;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Focus glow */
+input:focus,
+select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+}
+
+/* Disabled month field */
+input[readonly],
+input:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+}
+
+/* ================= VALIDATION ERRORS ================= */
+div div {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #f87171;
+}
+
+/* ================= DASHBOARD BUTTON ================= */
+button[type="submit"] {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #4f46e5, #22d3ee);
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.35);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button glow layer */
+button[type="submit"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 18px 45px rgba(79, 70, 229, 0.5);
+}
+
+button[type="submit"]:hover::after {
+    opacity: 1;
+}
+
+/* Disabled state */
+button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+    form {
+        padding: 24px;
+    }
+}
+
+form {
+    max-width: 520px;
+    margin: 40px auto;
+    /* 👈 centers the form */
+}
