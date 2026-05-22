@@ -26,6 +26,7 @@ public class Tenant {
     private Integer id;
     private String name;
     private String phoneNumber;
+    private String email;
     private String address;
     private LocalDate joinDate;
     private LocalDate endDate;
@@ -36,6 +37,9 @@ public class Tenant {
     @ManyToOne
     @JsonIgnoreProperties("tenants")
     private Room room;
+
+    @ManyToOne
+    private User user;
 
     public Room getRoom() {
         return room;

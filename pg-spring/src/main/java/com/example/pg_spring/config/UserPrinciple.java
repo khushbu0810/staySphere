@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.pg_spring.model.User;
@@ -18,17 +19,19 @@ public class UserPrinciple implements UserDetails {
     private final int id; // <-- add this
     private final String password;
     private final boolean accountStatus;
+    private final String role;
 
     public UserPrinciple(User user) {
         username = user.getEmail();
         password = user.getPassword();
         accountStatus = user.getAccountStatus();
         this.id = user.getUserId();
+        this.role = user.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_"+ role));
     }
 
     @Override

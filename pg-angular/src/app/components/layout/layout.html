@@ -4,28 +4,48 @@
 
     <!-- LEFT SIDE -->
     <div>
+      <!-- ADMIN -->
+      @if (role === 'ADMIN') {
       <!-- Show ONLY when NOT on dashboard -->
       @if (!isDashboard) {
-        <button class="back-btn" routerLink="/dashboard">
-          ← Back to Dashboard
-        </button>
+      <button class="back-btn" routerLink="/dashboard">
+        ← Back to Dashboard
+      </button>
       }
 
       <!-- Show ONLY on dashboard -->
       @if (isDashboard) {
-        <span class="welcome-text">
-          Hi, {{ username }}
-        </span>
+      <span class="welcome-text">
+        Hi, {{ username }}
+      </span>
+      }
+      }
+      <!-- USER -->
+      @if (role === 'USER') {
+
+      @if (!isDashboard) {
+      <button class="back-btn" routerLink="/user-dashboard">
+
+        ← Back
+
+      </button>
+      }
+      @if (isDashboard) {
+      <span class="welcome-text">
+        Welcome, {{ username }}
+      </span>
+      }
+
       }
     </div>
 
     <!-- RIGHT SIDE -->
-    <button class="logout-btn" (click)="logout()">
-      Logout
-    </button>
+    <div class="right-actions">
 
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
   </div>
-
   <router-outlet></router-outlet>
-
 </div>

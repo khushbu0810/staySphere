@@ -1,10 +1,13 @@
 package com.example.pg_spring.repository;
 
+import com.example.pg_spring.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.pg_spring.model.Tenant;
+
+import java.util.Optional;
 
 public interface TenantRepo extends JpaRepository<Tenant, Integer> {
 
@@ -48,4 +51,8 @@ AND YEAR(t.joinDate) = YEAR(CURRENT_DATE)
     WHERE YEAR(t.joinDate) = :year
     """)
     Double depositThisYear(@Param("year") int year);
+
+    Optional<Tenant> findByUserUserId(Integer userId);
+
+    Tenant findByUser(User user);
 }

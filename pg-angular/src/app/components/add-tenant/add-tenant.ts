@@ -24,6 +24,7 @@ export class AddTenant implements OnInit {
   ngOnInit(): void {
     this.tenantForm = this.fb.group({
       name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       address: ['', Validators.required],
       joinDate: ['', Validators.required],
@@ -36,12 +37,16 @@ export class AddTenant implements OnInit {
   addTenant() {
     if (this.tenantForm.valid) {
       this.ts.addTenant(this.tenantForm.getRawValue()).subscribe({
-        next: () => {
-          alert('Tenant added successfully');
+        next: (res) => {
+          alert(`Tenant added successfully.\n
+                Login Credentials:
+                Email: ${res.email} , 
+                Password: ${res.phoneNumber}`);
 
           // ✅ Reset form but keep default values
           this.tenantForm.reset({
             name: '',
+            email: '',
             phoneNumber: '',
             address: '',
             joinDate: '',

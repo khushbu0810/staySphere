@@ -3,7 +3,10 @@ package com.example.pg_spring.service.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.pg_spring.model.User;
+import com.example.pg_spring.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.pg_spring.model.Room;
@@ -13,21 +16,39 @@ import com.example.pg_spring.repository.TenantRepo;
 import com.example.pg_spring.service.TenantService;
 
 import jakarta.transaction.Transactional;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class TenantServiceImpl implements TenantService {
 
     TenantRepo tenantRepo;
     RoomRepo roomRepo;
+    UserRepo userRepo;
+    PasswordEncoder passwordEncoder;
+//    RedisService redisService;
 
     @Autowired
-    public TenantServiceImpl(TenantRepo tenantRepo, RoomRepo roomRepo) {
+    public TenantServiceImpl(TenantRepo tenantRepo, RoomRepo roomRepo,UserRepo userRepo,PasswordEncoder passwordEncoder) {
         this.tenantRepo = tenantRepo;
         this.roomRepo = roomRepo;
+        this.userRepo=userRepo;
+        this.passwordEncoder=passwordEncoder;
+//        this.redisService = redisService;
     }
 
     @Override
     public Tenant addTenant(Tenant tenant) {
+        if(userRepo.existsByEmail(tenant.getEmail())){
+            throw new RuntimeException("Email already exists");
+        }
+        User user = new User();
+        user.setUsername(tenant.getName());
+        user.setPassword(passwordEncoder.encode(tenant.getPhoneNumber()));
+        user.setEmail(tenant.getEmail());
+        user.setAccountStatus(true);
+        user.setRole("USER");
+        User savedUser=userRepo.save(user);
+        tenant.setUser(savedUser);
         tenant.setOccupancyStatus("Not_Assigned");
         tenant.setRoom(null);
         tenant.setRentPaid(false);
@@ -37,6 +58,16 @@ public class TenantServiceImpl implements TenantService {
     @Override
     public List<Tenant> getAllTenants() {
         return tenantRepo.findAll();
+//        List<Tenant> cachedTenants=redisService.get("allTenants", new TypeReference<List<Tenant>>() {});
+//        if(cachedTenants!=null){
+//            System.out.println("Data fetched from Redis");
+//            return cachedTenants;
+//        }else{
+//            System.out.println("Data fetched from Database");
+//            List<Tenant> tenants=tenantRepo.findAll();
+//            redisService.set("allTenants",tenants,300L);
+//            return tenants;
+//        }
     }
 
     @Override
@@ -60,7 +91,11 @@ public class TenantServiceImpl implements TenantService {
             currentTenant.setJoinDate(tenant.getJoinDate());
             currentTenant.setEndDate(tenant.getEndDate());
             currentTenant.setOccupancyStatus(tenant.getOccupancyStatus());
-            return tenantRepo.save(currentTenant);
+            Tenant updatedTenant =
+                    tenantRepo.save(currentTenant);
+            // remove old cache
+//            redisService.delete("allTenants");
+            return updatedTenant;
         }
         return null;
     }
@@ -202,6 +237,11 @@ public class TenantServiceImpl implements TenantService {
         }
 
         return csv.toString().getBytes();
+    }
+
+    @Override
+    public Optional<Tenant> getTenantByUserId(Integer userId) {
+        return tenantRepo.findByUserUserId(userId);
     }
 
 }

@@ -22,8 +22,11 @@ export class SignUp {
     username: '',
     email: '',
     password: '',
-    accountStatus: true
+    accountStatus: true,
+    role: 'USER'
   };
+
+  isStayingInPg = false;
 
   constructor(
     private authService: AuthService,
@@ -42,6 +45,12 @@ export class SignUp {
     if (this.user.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       return;
+    }
+
+    if (this.isStayingInPg) {
+      this.user.role = 'USER';
+    } else {
+      this.user.role = 'ADMIN';
     }
 
     this.authService.register(this.user).subscribe({

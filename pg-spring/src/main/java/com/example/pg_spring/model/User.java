@@ -21,6 +21,7 @@ public class User {
     private String password;
     private String username;
     private Boolean accountStatus;
+    private String role;
 
     public User() {
         accountStatus = false;

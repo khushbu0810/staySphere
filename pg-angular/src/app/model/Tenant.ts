@@ -5,6 +5,7 @@ export interface Tenant {
     name: string;
     phoneNumber: string;
     address: string;
+    email: String;
     joinDate: string;
     endDate?: string;
     depositAmount: number;

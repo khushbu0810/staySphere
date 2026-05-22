@@ -1,6 +1,7 @@
 package com.example.pg_spring.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -49,6 +50,12 @@ public class TenantController {
             return ResponseEntity.status(404).build();
         }
         return ResponseEntity.status(200).body(tenant);
+    }
+
+    @GetMapping("/tenant/user/{userId}")
+    public ResponseEntity<Optional<Tenant>> getTenantByUserId(@PathVariable Integer userId){
+        Optional<Tenant> tenant = tenantService.getTenantByUserId(userId);
+        return ResponseEntity.ok(tenant);
     }
 
     @PostMapping

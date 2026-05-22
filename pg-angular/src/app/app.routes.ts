@@ -14,9 +14,11 @@ import { Login } from './components/login/login';
 import { SignUp } from './components/sign-up/sign-up';
 import { AuthGuard } from './guards/auth-guard-guard';
 import { LayoutComponent } from './components/layout/layout';
+import { TenantChat } from './components/tenant-chat/tenant-chat';
+import { UserDashboard } from './components/user-dashboard/user-dashboard';
 
 export const routes: Routes = [
-    { path: '', component: SignUp },
+    { path: '', component: Login },
     { path: 'signup', component: SignUp },
     { path: 'login', component: Login },
     {
@@ -37,6 +39,9 @@ export const routes: Routes = [
             { path: 'expense-list', component: ExpenseList, canActivate: [AuthGuard] },
             { path: 'edit-expense/:id', component: EditExpense, canActivate: [AuthGuard] },
 
+            { path: 'user-dashboard', component: UserDashboard, canActivate: [AuthGuard] },
+
+            { path: 'tenant-chat', component: TenantChat, canActivate: [AuthGuard] },
 
             { path: 'dashboard', component: Dashboard, canActivate: [AuthGuard] }
         ]

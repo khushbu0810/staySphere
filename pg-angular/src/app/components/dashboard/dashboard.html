@@ -3,28 +3,32 @@
   <button class="btn primary" (click)="addTenant()">Add Tenant</button>
   <button class="btn primary" (click)="addRoom()">Add Room</button>
   <button class="btn primary" (click)="addExpense()">Add
-  Expense</button>
+    Expense</button>
   <button class="btn secondary" (click)="tenantList()">Tenant List</button>
   <button class="btn secondary" (click)="roomList()">Room List</button>
   <button class="btn secondary" (click)="expenseList()">Expense
-  List</button>
+    List</button>
 </div>
 
 <div class="report-panel">
+
+  <button class="chat-btn" (click)="openChat()">
+    Chat
+  </button>
 
   <!-- LEFT SIDE : Filters -->
   <div class="filters">
     <select [(ngModel)]="selectedYear">
       @for (y of years; track y) {
-        <option [value]="y">{{ y }}</option>
+      <option [value]="y">{{ y }}</option>
       }
     </select>
 
     <select [(ngModel)]="selectedMonth">
       @for (m of months; track m) {
-        <option [value]="m.value">
-          {{ m.name }}
-        </option>
+      <option [value]="m.value">
+        {{ m.name }}
+      </option>
       }
     </select>
   </div>
@@ -48,17 +52,16 @@
 <div class="summary-card pg-summary">
   <h3 class="summary-title">PG Summary</h3>
   <p class="summary-item"> <span class="label">Total Staying:</span> <span class="value">{{ totalStaying }}</span>
-</p>
-<p class="summary-item"> <span class="label">Total Vacancy:</span> <span class="value">{{ totalVacancy }}</span>
-</p>
+  </p>
+  <p class="summary-item"> <span class="label">Total Vacancy:</span> <span class="value">{{ totalVacancy }}</span>
+  </p>
 
 </div>
 <!-- MONTH vs YEAR GRID -->
 <div class="summary-grid">
 
   <!-- THIS MONTH -->
-  <div class="summary-card" [class.profit-card]="profitLossThisMonth >= 0"
-    [class.loss-card]="profitLossThisMonth < 0">
+  <div class="summary-card" [class.profit-card]="profitLossThisMonth >= 0" [class.loss-card]="profitLossThisMonth < 0">
 
     <h3 class="summary-title">This Month</h3>
 

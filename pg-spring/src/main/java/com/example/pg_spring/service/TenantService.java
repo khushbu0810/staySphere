@@ -1,6 +1,7 @@
 package com.example.pg_spring.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.pg_spring.model.Tenant;
 
@@ -22,4 +23,5 @@ public interface TenantService {
 
     byte[] generateYearTenantReport(int year);
 
+    Optional<Tenant> getTenantByUserId(Integer userId);
 }

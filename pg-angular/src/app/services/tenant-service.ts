@@ -38,6 +38,10 @@ export class TenantService {
       .pipe(tap(() => this.getAllTenants()));
   }
 
+  getTenantByUserId(userId: number) {
+    return this.httpClient.get<any>(`${this.appUrl}/tenant/user/${userId}`);
+  }
+
   toggleRentPayment(tenantId: number): Observable<Tenant> {
     return this.httpClient.post<Tenant>(
       `${this.appUrl}/rent-toggle/${tenantId}`,

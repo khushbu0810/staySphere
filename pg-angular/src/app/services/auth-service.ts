@@ -30,6 +30,8 @@ export class AuthService {
         data => {
           if (this.isBrowser()) {
             localStorage.setItem(TOKEN, `Bearer ${data.token}`);
+            localStorage.setItem('role', data.role);
+            localStorage.setItem('userId', data.userId);
             return data;
           }
         }
@@ -94,12 +96,12 @@ export class AuthService {
 
 
   isAdmin(): boolean {
-    return this.getAuthenticatedUserRole() === 'Admin';
+    return this.getAuthenticatedUserRole() === 'ADMIN';
   }
 
 
   isUser(): boolean {
-    return this.getAuthenticatedUserRole() === 'User';
+    return this.getAuthenticatedUserRole() === 'USER';
   }
 
 }

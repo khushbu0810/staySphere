@@ -39,9 +39,17 @@ public class SecurityConfig {
                 .cors(cors -> {
                 })
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/register", "/login", "/health").permitAll()
-                .anyRequest().authenticated()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/register", "/login", "/health","/chat/**","/chat.html","/topic/**", "/pg-app/**").permitAll()
+                        //admin only
+                        .requestMatchers("/rooms/**").hasRole("ADMIN")
+                        .requestMatchers("/tenants/tenant/user/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/tenants/**").hasRole("ADMIN")
+                        .requestMatchers("/expense/**").hasRole("ADMIN")
+                        .requestMatchers("/messages/**").hasAnyRole("ADMIN","USER")
+                        //user + admin
+                        .requestMatchers("/profile/**").hasAnyRole("ADMIN","USER")
+                    .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

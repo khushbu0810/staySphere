@@ -1,0 +1,92 @@
+<div class="chat-wrapper">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+
+        <div class="profile-section">
+
+            <div class="profile-circle">
+                {{ tenantName.charAt(0) | uppercase }}
+            </div>
+
+            <div class="profile-details">
+
+                <h2>{{ tenantName | titlecase }}</h2>
+
+                <span>PG Support Chat</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CHAT BODY -->
+    <div class="chat-body" #scrollMe>
+
+        @if(messages.length === 0){
+
+        <div class="empty-chat">
+
+            <div class="empty-icon">
+                💬
+            </div>
+
+            <p>
+                Start conversation with admin
+            </p>
+
+        </div>
+
+        }
+
+        @for(message of messages; track message.id){
+
+        <div class="message-row" [ngClass]="
+                message.sender === loggedInEmail
+                ? 'my-message-row'
+                : 'other-message-row'
+            ">
+
+            <div class="message-bubble" [ngClass]="
+                    message.sender === loggedInEmail
+                    ? 'my-message'
+                    : 'other-message'
+                ">
+
+                <div class="message-text">
+                    {{ message.message }}
+                </div>
+
+                <div class="message-time">
+
+                    {{
+                    message.timestamp
+                    | date:'shortTime'
+                    }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    <!-- INPUT TOOLBAR -->
+    <div class="chat-toolbar">
+
+        <input type="text" [(ngModel)]="message" name="message" placeholder="Type a message..."
+            (keyup.enter)="sendMessage()" />
+
+        <button type="button" (click)="sendMessage()">
+
+            ➤
+
+        </button>
+
+    </div>
+
+</div>

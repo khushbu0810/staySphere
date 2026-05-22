@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateUserException(user.getEmail() + " already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //default role
+        if(user.getRole()==null || user.getRole().isEmpty()){
+            user.setRole("USER");
+        }
         return userRepo.save(user);
     }
 
@@ -56,7 +61,9 @@ public class UserServiceImpl implements UserService {
             Map<String, Object> claims = new HashMap<>();
             claims.put("userId", newUser.getUserId());
             claims.put("username", newUser.getUsername());
-            return new LoginDTO(jwtUtils.generateToken(newUser.getEmail(), claims));
+            claims.put("role", newUser.getRole());
+            return new LoginDTO(jwtUtils.generateToken(newUser.getEmail(), claims),
+                    newUser.getUserId(),newUser.getRole());
         }
         throw new BadCredentialsException("Invalid username or password");
     }

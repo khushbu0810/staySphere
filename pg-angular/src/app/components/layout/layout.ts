@@ -15,17 +15,20 @@ export class LayoutComponent {
 
   isDashboard = false;
   username: string | null = null;
+  role = '';
 
   constructor(private router: Router, private as: AuthService) {
     // detect current route
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.isDashboard = event.urlAfterRedirects === '/dashboard';
+        this.isDashboard =
+          event.urlAfterRedirects === '/dashboard' ||
+          event.urlAfterRedirects === '/user-dashboard';
       });
-
     // get logged-in username (adjust key if needed)
     this.username = as.getAuthenticatedUsername();
+    this.role = as.getAuthenticatedUserRole() || '';
   }
 
 

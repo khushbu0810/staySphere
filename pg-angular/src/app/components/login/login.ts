@@ -31,7 +31,12 @@ export class Login {
     }
     this.authService.login(this.loginInfo).subscribe({
       next: (res) => {
-        this.router.navigate(['/dashboard']);
+        const role = this.authService.getAuthenticatedUserRole();
+        if (role === 'ADMIN') {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/user-dashboard']);
+        }
       },
       error: (err) => {
         this.errorMessage = "Invalid credentials.";

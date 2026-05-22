@@ -1,0 +1,79 @@
+<div class="dashboard-container">
+
+    <h1>Welcome to PG Portal</h1>
+
+    @if (isLoading) {
+
+    <div class="empty-card">
+        <h2>Loading...</h2>
+    </div>
+
+    }
+
+    @if (!isLoading && tenant?.room) {
+
+    <div class="card">
+
+        <h2>Your Room Details</h2>
+
+        <div class="detail">
+            <strong>Name:</strong>
+            <span>{{ tenant?.name }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Room Number:</strong>
+            <span>{{ tenant?.room?.roomNumber }}</span>
+        </div>
+
+        <div class="detail">
+            <strong>Status:</strong>
+            <span>{{ tenant?.occupancyStatus }}</span>
+        </div>
+
+        <div class="detail">
+
+            <strong>Rent Status:</strong>
+
+            @if (tenant?.rentPaid) {
+
+            <span class="paid">
+                Paid ✔
+            </span>
+
+            } @else {
+
+            <span class="unpaid">
+                Unpaid ✖
+            </span>
+
+            }
+
+        </div>
+
+        <div class="detail">
+            <strong>Monthly Rent:</strong>
+            <span>₹ {{ tenant?.room?.rentAmount }}</span>
+        </div>
+
+        <button class="chat-btn" (click)="openChat()">
+            Chat With Admin
+        </button>
+
+    </div>
+
+    }
+
+    @if (!isLoading && tenant && !tenant.room) {
+
+    <div class="empty-card">
+
+        <h2>No Room Assigned Yet</h2>
+
+        <p>Please contact PG admin.</p>
+
+    </div>
+
+    }
+
+</div>

@@ -6,6 +6,7 @@ import { ExpenseService } from '../../services/expense-service';
 import { Chart } from 'chart.js';
 import { TenantService } from '../../services/tenant-service';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,8 +22,12 @@ export class Dashboard implements OnInit {
     private rs: RoomService,
     private ts: TenantService,
     private es: ExpenseService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private as: AuthService
   ) { }
+
+  tenant: any;
+
 
   // PG summary
   totalStaying = 0;
@@ -63,6 +68,19 @@ export class Dashboard implements OnInit {
 
 
   ngOnInit(): void {
+    const role = localStorage.getItem('role');
+
+    const userId = this.as.getAuthenticatedUserId();
+    this.ts.getTenantByUserId(userId!).subscribe({
+      next: (res) => {
+        this.tenant = res;
+      }
+    });
+
+    if (role !== 'ADMIN') {
+      this.router.navigate(['/user-dashboard']);
+      return;
+    }
 
     // 🔹 PG Summary
     this.rs.getPgSummary().subscribe(res => {
@@ -90,6 +108,9 @@ export class Dashboard implements OnInit {
     });
   }
 
+  openChat() {
+    this.router.navigate(['/tenant-chat']);
+  }
 
   // 🔥 YEAR DOWNLOAD
   downloadYearly() {
