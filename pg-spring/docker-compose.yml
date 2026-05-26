@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+
+  pg-db:
+    image: mysql:8
+    container_name: pg-db
+
+    ports:
+      - "3306:3306"
+
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: root
+
+    volumes:
+      - ./volumes/pg-db:/var/lib/mysql
+
+    networks:
+      - internal
+
+  pg-spring:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: pg-spring
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - pg-db
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://pg-db:3306/test
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_SQL_INIT_MODE: always
+
+      JWT_SECRET: your_secret
+
+    networks:
+      - internal
+
+networks:
+  internal:

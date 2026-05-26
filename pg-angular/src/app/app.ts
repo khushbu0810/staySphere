@@ -3,7 +3,6 @@ import { Component, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from './services/auth-service';
-import { AdminChat } from "./components/admin-chat/admin-chat";
 
 @Component({
   selector: 'app-root',

@@ -1,8 +1,7 @@
 <div class="chat-wrapper">
 
-    <!-- HEADER -->
+    <!-- ===== HEADER ===== -->
     <div class="chat-header">
-
         <div class="profile-section">
 
             <div class="profile-circle">
@@ -10,81 +9,76 @@
             </div>
 
             <div class="profile-details">
-
                 <h2>{{ tenantName | titlecase }}</h2>
-
                 <span>PG Support Chat</span>
-
             </div>
 
         </div>
-
     </div>
 
-    <!-- CHAT BODY -->
+    <!-- ===== CHAT BODY ===== -->
     <div class="chat-body" #scrollMe>
 
-        @if(messages.length === 0){
-
+        <!-- Empty state -->
+        @if (messages.length === 0) {
         <div class="empty-chat">
-
-            <div class="empty-icon">
-                💬
-            </div>
-
-            <p>
-                Start conversation with admin
-            </p>
-
+            <div class="empty-icon">💬</div>
+            <p>Start a conversation with admin</p>
         </div>
-
         }
 
-        @for(message of messages; track message.id){
+        <!-- Messages -->
+        @for (message of messages; track message.id; let i = $index) {
 
-        <div class="message-row" [ngClass]="
-                message.sender === loggedInEmail
-                ? 'my-message-row'
-                : 'other-message-row'
-            ">
+        <!-- Date divider — show when day changes -->
+        @if (i === 0 || isDifferentDay(messages[i - 1].timestamp, message.timestamp)) {
+        <div class="date-divider">
+            <span>{{ formatDate(message.timestamp) }}</span>
+        </div>
+        }
 
-            <div class="message-bubble" [ngClass]="
-                    message.sender === loggedInEmail
-                    ? 'my-message'
-                    : 'other-message'
-                ">
+        <div class="message-row" [ngClass]="message.sender === loggedInEmail ? 'my-message-row' : 'other-message-row'">
 
-                <div class="message-text">
-                    {{ message.message }}
+            <!-- Avatar chip — only for others -->
+            @if (message.sender !== loggedInEmail) {
+            <div class="avatar-chip" [style.background]="getAvatarGradient(message.sender)" [title]="message.sender">
+                {{ message.sender.charAt(0).toUpperCase() }}
+            </div>
+            }
+
+            <!-- Bubble -->
+            <div class="message-bubble" [ngClass]="message.sender === loggedInEmail ? 'my-message' : 'other-message'"
+                [style.background]="message.sender !== loggedInEmail ? getBubbleBackground(message.sender) : null">
+
+                <!-- Sender label -->
+                <div class="sender-name">
+                    {{ message.sender === loggedInEmail ? 'You' : message.sender }}
                 </div>
 
-                <div class="message-time">
+                <!-- Message text -->
+                <div class="message-text">{{ message.message }}</div>
 
-                    {{
-                    message.timestamp
-                    | date:'shortTime'
-                    }}
-
-                </div>
+                <!-- Timestamp -->
+                <div class="message-time">{{ formatTime(message.timestamp) }}</div>
 
             </div>
 
         </div>
-
         }
 
     </div>
 
-    <!-- INPUT TOOLBAR -->
+    <!-- ===== INPUT TOOLBAR ===== -->
     <div class="chat-toolbar">
 
         <input type="text" [(ngModel)]="message" name="message" placeholder="Type a message..."
-            (keyup.enter)="sendMessage()" />
+            (keyup.enter)="sendMessage()" autocomplete="off" />
 
-        <button type="button" (click)="sendMessage()">
-
-            ➤
-
+        <button class="send-btn" type="button" (click)="sendMessage()" title="Send">
+            <svg viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
         </button>
 
     </div>

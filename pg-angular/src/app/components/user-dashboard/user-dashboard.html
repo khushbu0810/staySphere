@@ -15,17 +15,14 @@
     <div class="card">
 
         <h2>Your Room Details</h2>
-
         <div class="detail">
             <strong>Name:</strong>
             <span>{{ tenant?.name }}</span>
         </div>
-
         <div class="detail">
             <strong>Room Number:</strong>
             <span>{{ tenant?.room?.roomNumber }}</span>
         </div>
-
         <div class="detail">
             <strong>Status:</strong>
             <span>{{ tenant?.occupancyStatus }}</span>
@@ -67,9 +64,7 @@
     @if (!isLoading && tenant && !tenant.room) {
 
     <div class="empty-card">
-
         <h2>No Room Assigned Yet</h2>
-
         <p>Please contact PG admin.</p>
 
     </div>

@@ -1,102 +1,90 @@
-<div class="app-container">
+<!-- Background orbs -->
+<div class="page-bg">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
 
-  <div class="split-left">
+<div class="page-wrapper">
 
-    <div class="brand">
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+
+    <!-- Brand row -->
+    <div class="brand-row">
       <div class="brand-icon">
         <i class="ti ti-building-estate"></i>
       </div>
-      <span class="brand-name">Stay<span class="brand-accent">Desk</span></span>
+      <span class="brand-name">Stay<span class="accent">Desk</span></span>
     </div>
 
-    <p class="page-eyebrow">PG Management Platform</p>
-    <h1 class="page-headline">Manage your PG.<br /><em>Effortlessly.</em></h1>
-    <p class="page-sub">
-      A unified platform for tenants and admins to handle
-      rooms, payments, and communication — all in one place.
+    <!-- Big PG name -->
+    <h1 class="pg-name">
+      Manage your PG.<br /><em>Effortlessly.</em>
+    </h1>
+
+    <p class="pg-tagline">
+      Rooms, payments &amp; communication — all in one place.
     </p>
 
-    <div class="feature-list">
-      <div class="feature-item">
-        <div class="feature-dot dot-blue">
-          <i class="ti ti-building"></i>
+  </div>
+
+  <!-- ===== FORM CARD ===== -->
+  <div class="form-card">
+
+    <!-- Error banner -->
+    @if (errorMessage) {
+    <div class="error-banner">{{ errorMessage }}</div>
+    }
+
+    <form #loginForm="ngForm" (ngSubmit)="login()">
+
+      <p class="form-heading">Sign in</p>
+      <p class="form-sub">Enter your credentials to continue.</p>
+
+      <div class="divider"></div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <div class="input-wrap">
+          <i class="ti ti-mail input-icon"></i>
+          <input type="email" id="email" name="email" [(ngModel)]="loginInfo.email" required email #emailField="ngModel"
+            placeholder="you@email.com" autocomplete="email" />
         </div>
-        <div class="feature-text">
-          <strong>Room Management</strong>
-          <span>Track occupancy in real time</span>
+        @if (emailField.invalid && emailField.touched) {
+        <div class="error-text">
+          @if (emailField.errors?.['required']) { <small>Email is required.</small> }
+          @if (emailField.errors?.['email']) { <small>Please enter a valid email.</small> }
         </div>
+        }
       </div>
-      <div class="feature-item">
-        <div class="feature-dot dot-indigo">
-          <i class="ti ti-credit-card"></i>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <i class="ti ti-lock input-icon"></i>
+          <input type="password" id="password" name="password" [(ngModel)]="loginInfo.password" required minlength="6"
+            #passwordField="ngModel" placeholder="••••••••" autocomplete="current-password" />
         </div>
-        <div class="feature-text">
-          <strong>Payment Tracking</strong>
-          <span>Dues, receipts &amp; reminders</span>
+        @if (passwordField.invalid && passwordField.touched) {
+        <div class="error-text">
+          @if (passwordField.errors?.['required']) { <small>Password is required.</small> }
+          @if (passwordField.errors?.['minlength']) { <small>Password must be at least 6 characters.</small> }
         </div>
+        }
       </div>
-      <div class="feature-item">
-        <div class="feature-dot dot-green">
-          <i class="ti ti-message-circle"></i>
-        </div>
-        <div class="feature-text">
-          <strong>Communication Hub</strong>
-          <span>Notices &amp; announcements</span>
-        </div>
-      </div>
-    </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">Login →</button>
+
+      <p class="signup-link">
+        Don't have an account? <a routerLink="/signup">Sign up here</a>
+      </p>
+
+    </form>
 
   </div>
 
-  <div class="split-right">
-    <div class="form-container">
-
-      @if (errorMessage) {
-      <div class="error-hover">{{ errorMessage }}</div>
-      }
-
-      <form #loginForm="ngForm" (ngSubmit)="login()">
-
-        <h2>Welcome back</h2>
-        <p class="form-subtext">Sign in to your PG Portal account.</p>
-
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <div class="input-wrap">
-            <span class="input-icon">✉</span>
-            <input type="email" id="email" name="email" [(ngModel)]="loginInfo.email" required email
-              #emailField="ngModel" placeholder="you@email.com" />
-          </div>
-          @if (emailField.invalid && emailField.touched) {
-          <div class="error-text">
-            @if (emailField.errors?.['required']) { <small>Email is required.</small> }
-            @if (emailField.errors?.['email']) { <small>Please enter a valid email.</small> }
-          </div>
-          }
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <div class="input-wrap">
-            <span class="input-icon">🔒</span>
-            <input type="password" id="password" name="password" [(ngModel)]="loginInfo.password" required minlength="6"
-              #passwordField="ngModel" placeholder="••••••••" />
-          </div>
-          @if (passwordField.invalid && passwordField.touched) {
-          <div class="error-text">
-            @if (passwordField.errors?.['required']) { <small>Password is required.</small> }
-            @if (passwordField.errors?.['minlength']) { <small>Password must be at least 6 characters.</small> }
-          </div>
-          }
-        </div>
-
-
-        <div class="button-container">
-          <button type="submit" class="btn">Login →</button>
-          <p class="login-link">Don't have an account? <a routerLink="/signup">Sign Up</a></p>
-        </div>
-
-      </form>
-    </div>
-  </div>
 </div>
