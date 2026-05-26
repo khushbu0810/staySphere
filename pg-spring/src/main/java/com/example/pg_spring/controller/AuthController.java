@@ -1,5 +1,6 @@
 package com.example.pg_spring.controller;
 
+import com.example.pg_spring.model.GoogleLoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,5 +39,11 @@ public class AuthController {
             return ResponseEntity.status(404).build();
         }
         return ResponseEntity.status(200).body(loginDTO);
+    }
+
+    @PostMapping("/google-login")
+    public ResponseEntity<LoginDTO> googleLogin(@RequestBody GoogleLoginDTO dto) {
+        LoginDTO loginDTO = userService.googleLogin(dto);
+        return ResponseEntity.ok(loginDTO);
     }
 }

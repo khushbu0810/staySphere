@@ -40,7 +40,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers("/register", "/login", "/health","/chat/**","/chat.html","/topic/**", "/pg-app/**").permitAll()
+                    .requestMatchers("/register", "/login","/google-login", "/health","/chat/**","/chat.html","/topic/**", "/pg-app/**").permitAll()
                         //admin only
                         .requestMatchers("/rooms/**").hasRole("ADMIN")
                         .requestMatchers("/tenants/tenant/user/**").hasAnyRole("ADMIN","USER")

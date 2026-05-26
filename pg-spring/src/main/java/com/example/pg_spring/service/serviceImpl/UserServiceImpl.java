@@ -3,6 +3,9 @@ package com.example.pg_spring.service.serviceImpl;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.pg_spring.model.GoogleLoginDTO;
+import com.example.pg_spring.model.Tenant;
+import com.example.pg_spring.repository.TenantRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,12 +26,14 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepo userRepo;
+    private final TenantRepo tenantRepo;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public UserServiceImpl(UserRepo userRepo,TenantRepo tenantRepo, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userRepo = userRepo;
+        this.tenantRepo=tenantRepo;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
@@ -66,5 +71,44 @@ public class UserServiceImpl implements UserService {
                     newUser.getUserId(),newUser.getRole());
         }
         throw new BadCredentialsException("Invalid username or password");
+    }
+
+    @Override
+    public LoginDTO googleLogin(GoogleLoginDTO dto) {
+        User existingUser=userRepo.findByEmail(dto.getEmail());
+        User user;
+        if(existingUser!=null){
+            user=existingUser;
+        }
+
+        //new user
+        else{
+            user=new User();
+            user.setEmail(dto.getEmail());
+            user.setUsername(dto.getUsername());
+            user.setPassword(passwordEncoder.encode("GOOGLE_AUTH"));
+            user.setAccountStatus(true);
+            user.setRole(dto.getRole());
+            user=userRepo.save(user);
+
+            //tenant
+            if(dto.getRole().equals("USER")){
+                Tenant tenant=new Tenant();
+                tenant.setName(dto.getUsername());
+                tenant.setEmail(dto.getEmail());
+                tenant.setRoom(null);
+                tenant.setUser(user);
+                tenant.setOccupancyStatus("Not_Assigned");
+                tenant.setRentPaid(false);
+                tenantRepo.save(tenant);
+            }
+        }
+        //JWT TOKEN
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getUserId());
+        claims.put("username", user.getUsername());
+        claims.put("role", user.getRole());
+        String token = jwtUtils.generateToken(user.getEmail(), claims);
+        return new LoginDTO(token,user.getUserId(),user.getRole());
     }
 }
