@@ -33,6 +33,8 @@ public class Tenant {
     private Double depositAmount;
     private String occupancyStatus; //living or vacated
     private Boolean rentPaid;
+    private String profileImageUrl;
+    private String identityProofUrl;
 
     @ManyToOne
     @JsonIgnoreProperties("tenants")
