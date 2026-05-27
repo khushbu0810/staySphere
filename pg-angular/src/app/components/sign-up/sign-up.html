@@ -117,6 +117,34 @@
 
       <!-- Submit -->
       <button type="submit" class="btn-submit">Create Account →</button>
+      <!-- ===== GOOGLE SIGN-IN ===== -->
+      <div class="google-divider"><span>OR CONTINUE WITH GOOGLE</span></div>
+
+      <div class="google-section">
+        <label class="form-label">Sign in as</label>
+
+        <!-- Role toggle tabs -->
+        <div class="google-role-tabs">
+          <button type="button" class="g-role-tab" [class.selected]="selectedGoogleRole === 'USER'"
+            (click)="selectedGoogleRole = 'USER'">
+            <i class="ti ti-home"></i> Tenant
+          </button>
+          <button type="button" class="g-role-tab" [class.selected]="selectedGoogleRole === 'ADMIN'"
+            (click)="selectedGoogleRole = 'ADMIN'">
+            <i class="ti ti-shield"></i> Admin
+          </button>
+        </div>
+
+        <!-- Custom Google button -->
+        <!-- <div class="google-btn-wrap" id="googleBtn">
+          <button class="google-btn-text">Continue with Google</button>
+          <span class="google-role-badge">
+            {{ selectedGoogleRole === 'USER' ? 'Tenant' : 'Admin' }}
+          </span>
+        </div> -->
+        <div id="googleBtn"></div>
+      </div>
+      <!-- ===== END GOOGLE ===== -->
 
       <p class="login-link">
         Already have an account? <a routerLink="/login">Login here</a>

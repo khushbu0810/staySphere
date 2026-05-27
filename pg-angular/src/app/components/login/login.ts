@@ -14,13 +14,14 @@ import { AuthService } from '../../services/auth-service';
 })
 export class Login {
 
-  @ViewChild('loginForm') loginForm!: NgForm;
+  @ViewChild('loginForm')
+  loginForm!: NgForm;
 
   loginInfo: LoginModel = { email: '', password: '' };
   errorMessage = '';
 
-
   constructor(private authService: AuthService, private readonly router: Router) { }
+
 
   login() {
     if (this.loginForm.invalid) {

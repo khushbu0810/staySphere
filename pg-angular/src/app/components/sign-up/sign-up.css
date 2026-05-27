@@ -412,3 +412,73 @@
         font-size: 38px;
     }
 }
+
+/* ================= GOOGLE DIVIDER ================= */
+.google-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 18px;
+}
+
+.google-divider::before,
+.google-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.google-divider span {
+    font-size: 11px;
+    color: #334155;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+/* ================= GOOGLE SECTION ================= */
+.google-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Role toggle tabs */
+.google-role-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.g-role-tab {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(2, 6, 23, 0.5);
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.g-role-tab.selected {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+}
+
+
+#googleBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+}

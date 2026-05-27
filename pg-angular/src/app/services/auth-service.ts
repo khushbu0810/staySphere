@@ -39,6 +39,21 @@ export class AuthService {
     );
   }
 
+  googleLogin(data: any): Observable<any> {
+    return this.http
+      .post<any>(`${this.appUrl}/google-login`, data)
+      .pipe(
+        map(data => {
+          if (this.isBrowser()) {
+            localStorage.setItem(TOKEN, `Bearer ${data.token}`);
+            localStorage.setItem('role', data.role);
+            localStorage.setItem('userId', data.userId);
+          }
+          return data;
+        })
+      );
+  }
+
   getAuthenticatedToken(): string | null {
     if (!this.isBrowser()) return null;
     const tokenWithBearer = localStorage.getItem(TOKEN);
