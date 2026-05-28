@@ -264,3 +264,209 @@ td button.rent-unpaid:hover {
 .filter-bar select:focus {
     border-color: #6366f1;
 }
+
+/* ================= TENANT INFO CELL ================= */
+.tenant-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tenant-avatar {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(99, 102, 241, 0.5);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+
+.tenant-avatar:hover {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.45);
+}
+
+.tenant-avatar-placeholder {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f46e5, #22d3ee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    cursor: default;
+}
+
+.tenant-name {
+    font-weight: 600;
+    color: #f1f5f9;
+    font-size: 14px;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.action-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-edit {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-vacate {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: #1c1917;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-assign {
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    color: #052e16;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #ef4444, #fb7185);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}
+
+/* ================= STATUS BADGES ================= */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.badge-living {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+}
+
+.badge-unassigned {
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+}
+
+.badge-vacated {
+    background: rgba(100, 116, 139, 0.2);
+    border: 1px solid rgba(100, 116, 139, 0.3);
+    color: #94a3b8;
+}
+
+/* ================= IMAGE MODAL ================= */
+.img-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.88);
+    backdrop-filter: blur(14px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.img-modal {
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.img-modal img {
+    display: block;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+.img-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e5e7eb;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.img-modal-close:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.img-modal-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 18px;
+    background: linear-gradient(transparent, rgba(2, 6, 23, 0.95));
+    font-size: 15px;
+    font-weight: 700;
+    color: #f8fafc;
+    text-align: center;
+}

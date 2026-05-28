@@ -11,6 +11,7 @@ export interface Tenant {
     depositAmount: number;
     occupancyStatus: string;
     rentPaid: boolean;
-
     room?: Room | null;
+    profileImageUrl?: string;
+    identityProofUrl?: string;
 }

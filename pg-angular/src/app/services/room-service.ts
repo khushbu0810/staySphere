@@ -49,6 +49,33 @@ export class RoomService {
     return this.httpClient.get<any>(`${this.appUrl}/pg-summary`);
   }
 
+  uploadRoomImages(
+    roomId: number,
+    files: File[]
+  ): Observable<any> {
+
+    const formData = new FormData();
+
+    files.forEach(file => {
+      formData.append('files', file);
+    });
+
+    return this.httpClient.post(
+      `${globalUrl}/uploads/room/${roomId}/images`,
+      formData
+    );
+  }
+
+  uploadPgImages(files: File[]) {
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('files', file);
+    });
+    return this.httpClient.post<string[]>(
+      `${globalUrl}/uploads/pg/images`,
+      formData
+    );
+  }
 
 
 }

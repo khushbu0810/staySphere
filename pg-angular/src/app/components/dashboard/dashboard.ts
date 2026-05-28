@@ -27,6 +27,8 @@ export class Dashboard implements OnInit {
   ) { }
 
   tenant: any;
+  selectedPgImages: File[] = [];
+  maxFileSize = 5 * 1024 * 1024; // 5 MB
 
 
   // PG summary
@@ -105,6 +107,50 @@ export class Dashboard implements OnInit {
       this.profitLossThisYear = res.profitLossThisYear;
 
       this.cdr.detectChanges();
+    });
+  }
+
+  onPgImagesSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    this.selectedPgImages = [];
+    for (let file of files) {
+      // Image validation
+      if (!file.type.startsWith('image/')) {
+        alert('Only image files are allowed.');
+        return;
+      }
+      // Size validation
+      if (file.size > this.maxFileSize) {
+        alert(
+          `Image "${file.name}" exceeds maximum allowed size of 5 MB.`
+        );
+        return;
+      }
+      this.selectedPgImages.push(file);
+    }
+  }
+
+  uploadPgImages() {
+    if (this.selectedPgImages.length === 0) {
+      alert('Please select at least one image.');
+      return;
+    }
+    this.rs.uploadPgImages(
+      this.selectedPgImages
+    ).subscribe({
+      next: () => {
+        alert('PG images uploaded successfully');
+        // Clear selected files
+        this.selectedPgImages = [];
+      },
+      error: (err) => {
+        console.log(err);
+        if (err.error) {
+          alert(err.error);
+        } else {
+          alert('Failed to upload PG images.');
+        }
+      }
     });
   }
 

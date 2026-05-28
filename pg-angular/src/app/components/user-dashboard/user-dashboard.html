@@ -12,63 +12,120 @@
 
     @if (!isLoading && tenant?.room) {
 
-    <div class="card">
+    <div class="dashboard-grid">
 
-        <h2>Your Room Details</h2>
-        <div class="detail">
-            <strong>Name:</strong>
-            <span>{{ tenant?.name }}</span>
+        <!-- LEFT -->
+        <div class="card">
+
+            <h2>Your Room Details</h2>
+
+            <div class="detail">
+                <strong>Name:</strong>
+                <span>{{ tenant?.name }}</span>
+            </div>
+
+            <div class="detail">
+                <strong>Room Number:</strong>
+                <span>{{ tenant?.room?.roomNumber }}</span>
+            </div>
+
+            <div class="detail">
+                <strong>Status:</strong>
+                <span>{{ tenant?.occupancyStatus }}</span>
+            </div>
+
+            <div class="detail">
+
+                <strong>Rent Status:</strong>
+
+                @if (tenant?.rentPaid) {
+
+                <span class="paid">
+                    Paid ✔
+                </span>
+
+                } @else {
+
+                <span class="unpaid">
+                    Unpaid ✖
+                </span>
+
+                }
+
+            </div>
+
+            <div class="detail">
+                <strong>Monthly Rent:</strong>
+                <span>₹ {{ tenant?.room?.rentAmount }}</span>
+            </div>
+
+            <button class="chat-btn" (click)="openChat()">
+                💬 CHAT WITH ADMIN
+            </button>
+
         </div>
-        <div class="detail">
-            <strong>Room Number:</strong>
-            <span>{{ tenant?.room?.roomNumber }}</span>
+
+        <!-- RIGHT -->
+        <div class="side-panel">
+
+            <!-- Profile upload card -->
+            <div class="upload-card">
+                <h3>Profile Image</h3>
+                <div class="file-row">
+                    <input type="file" accept="image/*" (change)="onProfileImageChange($event)" />
+                </div>
+                <button (click)="uploadProfileImage()">Upload Profile</button>
+            </div>
+
+            <!-- PDF upload card -->
+            <div class="upload-card">
+                <h3>Identity Proof PDF</h3>
+                <div class="file-row">
+                    <input type="file" accept="application/pdf" (change)="onPdfChange($event)" />
+                </div>
+                <button (click)="uploadIdentityProof()">Upload PDF</button>
+            </div>
+
+            <!-- Gallery card -->
+            <div class="upload-card">
+                <h3>PG Gallery</h3>
+                <button class="chat-btn" (click)="togglePgImages()">
+                    {{ showPgImages ? 'Hide PG Images' : 'Show PG Images' }}
+                </button>
+            </div>
+
+
+
         </div>
-        <div class="detail">
-            <strong>Status:</strong>
-            <span>{{ tenant?.occupancyStatus }}</span>
-        </div>
-
-        <div class="detail">
-
-            <strong>Rent Status:</strong>
-
-            @if (tenant?.rentPaid) {
-
-            <span class="paid">
-                Paid ✔
-            </span>
-
-            } @else {
-
-            <span class="unpaid">
-                Unpaid ✖
-            </span>
-
-            }
-
-        </div>
-
-        <div class="detail">
-            <strong>Monthly Rent:</strong>
-            <span>₹ {{ tenant?.room?.rentAmount }}</span>
-        </div>
-
-        <button class="chat-btn" (click)="openChat()">
-            Chat With Admin
-        </button>
-
-    </div>
-
-    }
-
-    @if (!isLoading && tenant && !tenant.room) {
-
-    <div class="empty-card">
-        <h2>No Room Assigned Yet</h2>
-        <p>Please contact PG admin.</p>
 
     </div>
 
     }
 
 </div>
+
+<!-- GALLERY — replace existing @if block -->
+@if (showPgImages) {
+
+<div class="pg-gallery-wrapper">
+    <h3 class="gallery-heading">
+        <span>PG Gallery</span>
+        <span class="gallery-count">{{ pgImages.length }} photos</span>
+    </h3>
+
+    <div class="pg-gallery">
+        @for (image of pgImages; track image) {
+        <img [src]="image" alt="PG Image" class="pg-image" loading="lazy" (click)="openLightbox(image)" />
+        }
+    </div>
+</div>
+
+}
+
+<!-- LIGHTBOX -->
+@if (lightboxImage) {
+<div class="lightbox-overlay" (click)="lightboxImage = null">
+    <img [src]="lightboxImage" class="lightbox-img" alt="Full size" />
+    <button class="lightbox-close" (click)="lightboxImage = null">✕</button>
+</div>
+}

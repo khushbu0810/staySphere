@@ -1,47 +1,108 @@
 <h2>Room List</h2>
 
 @if ((rooms$ | async); as rooms) {
-  <div class="room-grid">
-    <!-- ROOM CARD -->
-    @for (room of rooms; track room) {
-      <div class="room-card" (click)="selectedRoom = room; showModal = true">
-        <h1>Room {{ room.roomNumber }}</h1>
-        <p>{{ room.roomType }}</p>
-        @if (room.isAvailable) {
-          <span class="status available">
-            Available
-          </span>
-        }
-        @if (!room.isAvailable) {
-          <span class="status full">
-            Full
-          </span>
-        }
-      </div>
+<div class="room-grid">
+  @for (room of rooms; track room) {
+  <div class="room-card" (click)="openModal(room)">
+
+    <!-- Background image -->
+    @if (room.roomImageUrls?.length) {
+    <div class="room-bg" [style.background-image]="'url(' + room.roomImageUrls![0] + ')'">
+    </div>
+    } @else {
+    <div class="room-no-img">🏠</div>
     }
+
+    <!-- Always-on gradient overlay -->
+    <div class="room-overlay"></div>
+
+    <!-- Status badge -->
+    <span class="status" [class.available]="room.isAvailable" [class.full]="!room.isAvailable">
+      {{ room.isAvailable ? 'Available' : 'Full' }}
+    </span>
+
+    <!-- Eye button — only if images exist -->
+    @if (room.roomImageUrls?.length) {
+    <button class="eye-btn" (click)="$event.stopPropagation(); openGallery(room)">
+      👁
+    </button>
+    }
+
+    <!-- Card content -->
+    <div class="room-content">
+      <h1>Room {{ room.roomNumber }}</h1>
+      <span class="room-type-badge">{{ room.roomType }}</span>
+      <div class="room-meta">
+        <span>👤 <strong>{{ room.currentOccupancy }}/{{ room.capacity }}</strong></span>
+        <span>💰 <strong>₹{{ room.rentAmount }}</strong></span>
+      </div>
+    </div>
+
   </div>
+  }
+</div>
 } @else {
-  <p>No rooms found</p>
+<p>No rooms found</p>
 }
 
-<!-- MODAL -->
-@if (showModal) {
-  <div class="modal-backdrop">
-    <div class="modal">
-      <h2>Room {{ selectedRoom?.roomNumber }}</h2>
-      <p><strong>Room Type:</strong> {{ selectedRoom?.roomType }}</p>
-      <p><strong>Occupied:</strong> {{ selectedRoom?.currentOccupancy }}</p>
-      <p><strong>Vacancy:</strong> {{ selectedRoom?.vacancy }}</p>
-      <p><strong>Rent:</strong> ₹{{ selectedRoom?.rentAmount }}</p>
-      <p><strong>Status:</strong>
-      {{ selectedRoom?.isAvailable ? 'Available' : 'Full' }}
-    </p>
-    <div class="modal-actions">
-      <button (click)="onEdit(selectedRoom!.id!)">Edit</button>
-      <button (click)="onDelete(selectedRoom!.id!)">Delete</button>
-      <button class="close" (click)="showModal = false">Close</button>
+<!-- ROOM MODAL -->
+@if (showModal && selectedRoom) {
+<div class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal">
+
+    <!-- Image banner with nav -->
+    <div class="modal-img-banner">
+      @if (selectedRoom.roomImageUrls?.length) {
+      <img [src]="selectedRoom.roomImageUrls![activeImageIndex]" alt="Room image" />
+      <span class="img-counter">
+        {{ activeImageIndex + 1 }} / {{ selectedRoom.roomImageUrls!.length }}
+      </span>
+      @if (selectedRoom.roomImageUrls!.length > 1) {
+      <div class="img-nav">
+        <button class="img-nav-btn" (click)="prevImage()">‹</button>
+        <button class="img-nav-btn" (click)="nextImage()">›</button>
+      </div>
+      }
+      } @else {
+      <div class="modal-img-none">🏠</div>
+      }
+      <div class="modal-img-gradient"></div>
     </div>
+
+    <!-- Details -->
+    <div class="modal-body">
+      <h2>Room {{ selectedRoom.roomNumber }}</h2>
+
+      <div class="modal-detail">
+        <span>Room Type</span>
+        <strong>{{ selectedRoom.roomType }}</strong>
+      </div>
+      <div class="modal-detail">
+        <span>Occupied</span>
+        <strong>{{ selectedRoom.currentOccupancy }}</strong>
+      </div>
+      <div class="modal-detail">
+        <span>Vacancy</span>
+        <strong>{{ selectedRoom.vacancy }}</strong>
+      </div>
+      <div class="modal-detail">
+        <span>Monthly Rent</span>
+        <strong class="rent-val">₹{{ selectedRoom.rentAmount }}</strong>
+      </div>
+      <div class="modal-detail">
+        <span>Status</span>
+        <strong [style.color]="selectedRoom.isAvailable ? '#4ade80' : '#f87171'">
+          {{ selectedRoom.isAvailable ? 'Available' : 'Full' }}
+        </strong>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-edit" (click)="onEdit(selectedRoom.id!)">✏ Edit</button>
+        <button class="btn-delete" (click)="onDelete(selectedRoom.id!)">🗑 Delete</button>
+        <button class="btn-close" (click)="showModal = false">✕ Close</button>
+      </div>
+    </div>
+
   </div>
 </div>
 }
-

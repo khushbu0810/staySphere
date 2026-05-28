@@ -11,108 +11,132 @@
     <option value="UNPAID">Unpaid</option>
   </select>
 </div>
+<!-- IMAGE MODAL -->
+@if (modalImageUrl) {
+<div class="img-modal-overlay" (click)="closeImageModal($event)">
+  <div class="img-modal">
+    <button class="img-modal-close" (click)="modalImageUrl = null">✕</button>
+    <img [src]="modalImageUrl" [alt]="modalTenantName" />
+    <div class="img-modal-name">{{ modalTenantName }}</div>
+  </div>
+</div>
+}
 
 @if ((activeTenants$ | async); as tenants) {
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Join Date</th>
-        <th>Deposit</th>
-        <th>Status</th>
-        <th>Room Number</th>
-        <th>Action</th>
-        <th>Rent</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (tenant of tenants; track tenant) {
-        <tr>
-          <td>{{ tenant.name }}</td>
-          <td>{{ tenant.phoneNumber }}</td>
-          <td>{{ tenant.joinDate }}</td>
-          <td>{{ tenant.depositAmount }}</td>
-          <td>
-            @if (tenant.occupancyStatus === 'Living') {
-              <span>Living</span>
-            }
-            @if (tenant.occupancyStatus === 'Not_Assigned') {
-              <span>Not Assigned</span>
-            }
-          </td>
-          <td>
-            {{ tenant.room?.roomNumber || 'Not Assigned' }}
-          </td>
-          <td>
-            <button (click)="onEdit(tenant.id!)">Edit</button><br />
-            @if (tenant.occupancyStatus === 'Living') {
-              <button (click)="onVacate(tenant.id!)">
-                Vacate Room
-              </button>
-              }<br />
-              @if (tenant.occupancyStatus === 'Not_Assigned') {
-                <button (click)="onAssign(tenant.id!)">
-                  Assign Room
-                </button>
-                }<br />
-                <button (click)="onDelete(tenant.id!)">
-                  Remove from Record / PG
-                </button>
-              </td>
-              <!-- ✅ RENT COLUMN -->
-              <td>
-                @if (tenant.occupancyStatus === 'Living') {
-                  <button (click)="toggleRent(tenant.id!)" class="rent-btn"
-                    [ngClass]="tenant.rentPaid ? 'rent-paid' : 'rent-unpaid'">
-                    {{ tenant.rentPaid
-                    ? 'Paid ✔ ₹' + tenant.room?.rentAmount
-                    : 'Unpaid ✖ ₹' + tenant.room?.rentAmount }}
-                  </button>
-                }
-              </td>
-            </tr>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Join Date</th>
+      <th>Deposit</th>
+      <th>Status</th>
+      <th>Room Number</th>
+      <th>Action</th>
+      <th>Rent</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (tenant of tenants; track tenant) {
+    <tr>
+      <!-- Replace the Name <td> with this -->
+      <td>
+        <div class="tenant-info">
+
+          @if (tenant.profileImageUrl) {
+          <img class="tenant-avatar" [src]="tenant.profileImageUrl" [alt]="tenant.name"
+            (click)="openImageModal(tenant.profileImageUrl, tenant.name)" />
+          } @else {
+          <div class="tenant-avatar-placeholder">
+            {{ tenant.name.charAt(0) }}
+          </div>
           }
-        </tbody>
-      </table>
-    } @else {
-      <p>No active tenants</p>
+
+          <span class="tenant-name">{{ tenant.name }}</span>
+        </div>
+      </td>
+      <td>{{ tenant.phoneNumber }}</td>
+      <td>{{ tenant.joinDate }}</td>
+      <td>{{ tenant.depositAmount }}</td>
+      <td>
+        @if (tenant.occupancyStatus === 'Living') {
+        <span>Living</span>
+        }
+        @if (tenant.occupancyStatus === 'Not_Assigned') {
+        <span>Not Assigned</span>
+        }
+      </td>
+      <td>
+        {{ tenant.room?.roomNumber || 'Not Assigned' }}
+      </td>
+      <td>
+        <button (click)="onEdit(tenant.id!)">Edit</button><br />
+        @if (tenant.occupancyStatus === 'Living') {
+        <button (click)="onVacate(tenant.id!)">
+          Vacate Room
+        </button>
+        }<br />
+        @if (tenant.occupancyStatus === 'Not_Assigned') {
+        <button (click)="onAssign(tenant.id!)">
+          Assign Room
+        </button>
+        }<br />
+        <button (click)="onDelete(tenant.id!)">
+          Remove from Record / PG
+        </button>
+      </td>
+      <!-- ✅ RENT COLUMN -->
+      <td>
+        @if (tenant.occupancyStatus === 'Living') {
+        <button (click)="toggleRent(tenant.id!)" class="rent-btn"
+          [ngClass]="tenant.rentPaid ? 'rent-paid' : 'rent-unpaid'">
+          {{ tenant.rentPaid
+          ? 'Paid ✔ ₹' + tenant.room?.rentAmount
+          : 'Unpaid ✖ ₹' + tenant.room?.rentAmount }}
+        </button>
+        }
+      </td>
+    </tr>
     }
+  </tbody>
+</table>
+} @else {
+<p>No active tenants</p>
+}
 
 
-    <hr style="margin: 40px 0;" />
+<hr style="margin: 40px 0;" />
 
-    <h2>Past Tenants</h2>
+<h2>Past Tenants</h2>
 
-    @if ((pastTenants$ | async); as tenants) {
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Last Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (tenant of tenants; track tenant) {
-            <tr>
-              <td>{{ tenant.name }}</td>
-              <td>{{ tenant.phoneNumber }}</td>
-              <td>Vacated</td>
-              <td>
-                <button (click)="onAssign(tenant.id!)">
-                  Assign Room Again
-                </button>
-                <button (click)="onDelete(tenant.id!)">
-                  Remove from Record
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    } @else {
-      <p>No past tenants</p>
+@if ((pastTenants$ | async); as tenants) {
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Last Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (tenant of tenants; track tenant) {
+    <tr>
+      <td>{{ tenant.name }}</td>
+      <td>{{ tenant.phoneNumber }}</td>
+      <td>Vacated</td>
+      <td>
+        <button (click)="onAssign(tenant.id!)">
+          Assign Room Again
+        </button>
+        <button (click)="onDelete(tenant.id!)">
+          Remove from Record
+        </button>
+      </td>
+    </tr>
     }
-
+  </tbody>
+</table>
+} @else {
+<p>No past tenants</p>
+}

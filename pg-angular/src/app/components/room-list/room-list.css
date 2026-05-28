@@ -8,7 +8,7 @@
     font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* ================= PAGE TITLE ================= */
+/* ================= TITLE ================= */
 h2 {
     font-size: 26px;
     font-weight: 800;
@@ -18,112 +18,217 @@ h2 {
     -webkit-text-fill-color: transparent;
 }
 
-/* ================= ROOM GRID ================= */
+/* ================= GRID ================= */
 .room-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 22px;
 }
 
-/* ================= ROOM CARD ================= */
+/* ================= CARD ================= */
 .room-card {
     position: relative;
-    padding: 22px;
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.35s ease;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 200px;
+    background: #0f172a;
 }
 
 .room-card:hover {
     transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 30px 65px rgba(0, 0, 0, 0.65);
 }
 
-/* ================= ROOM TEXT ================= */
-.room-card h1 {
-    font-size: 28px;
-    font-weight: 900;
-    margin-bottom: 6px;
-    color: #e0e7ff;
+/* ================= BG IMAGE ================= */
+.room-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.45s ease;
 }
 
-.room-card p {
-    font-size: 14px;
-    color: #c7d2fe;
-    margin-bottom: 18px;
+.room-card:hover .room-bg {
+    transform: scale(1.07);
+}
+
+/* ================= OVERLAY ================= */
+.room-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+            rgba(2, 6, 23, 0.95) 0%,
+            rgba(2, 6, 23, 0.5) 55%,
+            rgba(2, 6, 23, 0.15) 100%);
+    z-index: 1;
+}
+
+/* ================= NO IMAGE ================= */
+.room-no-img {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            rgba(99, 102, 241, 0.18),
+            rgba(34, 211, 238, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    opacity: 0.3;
 }
 
 /* ================= STATUS BADGE ================= */
 .status {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    padding: 6px 14px;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    padding: 5px 12px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.3px;
 }
 
-/* Available */
 .status.available {
-    background: linear-gradient(135deg,
-            rgba(34, 197, 94, 0.35),
-            rgba(34, 197, 94, 0.15));
+    background: rgba(34, 197, 94, 0.25);
     color: #bbf7d0;
     border: 1px solid rgba(34, 197, 94, 0.45);
-    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
-/* Full */
 .status.full {
-    background: linear-gradient(135deg,
-            rgba(239, 68, 68, 0.35),
-            rgba(239, 68, 68, 0.15));
+    background: rgba(239, 68, 68, 0.25);
     color: #fecaca;
     border: 1px solid rgba(239, 68, 68, 0.45);
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-/* ================= NO ROOMS ================= */
-p {
+/* ================= EYE BUTTON ================= */
+.eye-btn {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 3;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     font-size: 15px;
+    transition: all 0.25s ease;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.room-card:hover .eye-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.eye-btn:hover {
+    background: rgba(99, 102, 241, 0.5);
+    border-color: #6366f1;
+    box-shadow: 0 0 14px rgba(99, 102, 241, 0.5);
+}
+
+/* ================= CARD CONTENT ================= */
+.room-content {
+    position: relative;
+    z-index: 2;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 200px;
+}
+
+.room-content h1 {
+    font-size: 38px;
+    font-weight: 900;
+    color: #f1f5f9;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.room-type-badge {
+    display: inline-flex;
+    margin-top: 20px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #e0e7ff;
+    background: linear-gradient(135deg,
+            rgba(79, 70, 229, 0.35),
+            rgba(34, 211, 238, 0.25));
+    border: 1px solid rgba(99, 102, 241, 0.45);
+    backdrop-filter: blur(6px);
+    width: fit-content;
+}
+
+.room-meta {
+    display: flex;
+    gap: 102px;
+    margin-top: 28px;
+}
+
+.room-meta span {
+    font-size: 18px;
     color: #94a3b8;
+}
+
+.room-meta strong {
+    color: #e2e8f0;
 }
 
 /* ================= MODAL BACKDROP ================= */
 .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(2, 6, 23, 0.75);
-    backdrop-filter: blur(6px);
+    background: rgba(2, 6, 23, 0.82);
+    backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100;
+    animation: fadeIn 0.2s ease;
 }
 
-/* ================= MODAL CARD ================= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ================= MODAL ================= */
 .modal {
     width: 100%;
-    max-width: 420px;
-    padding: 28px;
+    max-width: 440px;
     border-radius: 26px;
-    background: rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
     animation: scaleIn 0.25s ease;
 }
 
-/* Modal animation */
 @keyframes scaleIn {
     from {
-        transform: scale(0.95);
+        transform: scale(0.92);
         opacity: 0;
     }
 
@@ -133,93 +238,175 @@ p {
     }
 }
 
-/* ================= MODAL CONTENT ================= */
-.modal h2 {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 18px;
+/* ================= MODAL IMAGE BANNER ================= */
+.modal-img-banner {
+    position: relative;
+    height: 190px;
+    background: #0f172a;
+    overflow: hidden;
 }
 
-.modal p {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #c7d2fe;
+.modal-img-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.2s ease;
 }
 
-.modal p strong {
+.modal-img-none {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+            rgba(79, 70, 229, 0.2),
+            rgba(34, 211, 238, 0.12));
+    font-size: 52px;
+    opacity: 0.35;
+}
+
+.modal-img-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.95));
+}
+
+/* Image counter */
+.img-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    font-size: 11px;
+    color: #94a3b8;
+    background: rgba(2, 6, 23, 0.7);
+    padding: 3px 9px;
+    border-radius: 20px;
+    z-index: 2;
+}
+
+/* Nav arrows */
+.img-nav {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+}
+
+.img-nav-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: #e5e7eb;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.img-nav-btn:hover {
+    background: rgba(99, 102, 241, 0.5);
+    border-color: #6366f1;
+}
+
+/* ================= MODAL BODY ================= */
+.modal-body {
+    padding: 22px 24px;
+}
+
+.modal-body h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+.modal-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.modal-detail:last-of-type {
+    border-bottom: none;
+}
+
+.modal-detail span {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.modal-detail strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.rent-val {
+    color: #22c55e !important;
+    font-size: 16px !important;
 }
 
 /* ================= MODAL ACTIONS ================= */
 .modal-actions {
     display: flex;
-    gap: 12px;
-    margin-top: 22px;
-    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .modal-actions button {
-    padding: 10px 16px;
+    flex: 1;
+    padding: 10px;
     border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 700;
     border: none;
     cursor: pointer;
     transition: all 0.25s ease;
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Edit */
-.modal-actions button:first-child {
+.btn-edit {
     background: linear-gradient(135deg, #4f46e5, #22d3ee);
-    color: white;
-    box-shadow: 0 10px 24px rgba(79, 70, 229, 0.45);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
 }
 
-/* Delete */
-.modal-actions button:nth-child(2) {
-    background: rgba(239, 68, 68, 0.25);
-    color: #fecaca;
-    border: 1px solid rgba(239, 68, 68, 0.45);
+.btn-delete {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.35) !important;
 }
 
-/* Close */
-.modal-actions .close {
-    background: rgba(255, 255, 255, 0.12);
-    color: #e5e7eb;
+.btn-close {
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Hover effect */
 .modal-actions button:hover {
     transform: translateY(-2px);
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 600px) {
-    .room-card h1 {
-        font-size: 24px;
+    .room-content h1 {
+        font-size: 20px;
     }
 
     .modal {
         margin: 16px;
     }
-}
-
-/* ================= ROOM TYPE BADGE ================= */
-.room-card p {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #e0e7ff;
-
-    background: linear-gradient(135deg,
-            rgba(79, 70, 229, 0.35),
-            rgba(34, 211, 238, 0.25));
-
-    border: 1px solid rgba(99, 102, 241, 0.45);
-
-    box-shadow:
-        0 6px 16px rgba(79, 70, 229, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }

@@ -16,6 +16,9 @@ export class AddRoom implements OnInit {
   constructor(private rs: RoomService, private fb: FormBuilder, private router: Router) { }
 
   roomForm!: FormGroup;
+  maxFileSize = 5 * 1024 * 1024; // 5 MB
+  selectedRoomImages: File[] = [];
+
 
   ngOnInit(): void {
     this.roomForm = this.fb.group({
@@ -29,6 +32,8 @@ export class AddRoom implements OnInit {
     })
   }
 
+
+
   roomTypes: string[] = [
     '2 Sharing',
     '3 Sharing',
@@ -40,8 +45,19 @@ export class AddRoom implements OnInit {
   addRoom() {
     if (this.roomForm.valid) {
       this.rs.addRoom(this.roomForm.getRawValue()).subscribe({
-        next: () => {
-          alert('Room added successfully');
+        next: (room) => {
+          if (this.selectedRoomImages.length > 0) {
+
+            this.rs.uploadRoomImages(
+              room.id!,
+              this.selectedRoomImages
+            ).subscribe(() => {
+
+              alert('Room added successfully');
+
+            });
+
+          }
 
           // ✅ Reset form with default values
           this.roomForm.reset({
@@ -51,11 +67,19 @@ export class AddRoom implements OnInit {
             currentOccupancy: 0,
             vacancy: 0,
             rentAmount: '',
-            isAvailable: true
+            isAvailable: true,
+            roomImageUrls: []
           });
         },
-        error: () => {
-          alert('Failed to add room');
+        error: (err) => {
+
+          console.log(err);
+
+          if (err.error) {
+            alert(err.error);
+          } else {
+            alert('Failed to add room. Please try again.');
+          }
         }
       });
     }
@@ -77,6 +101,25 @@ export class AddRoom implements OnInit {
     }
   }
 
+  onRoomImagesSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    this.selectedRoomImages = [];
+    for (let file of files) {
+      // Check image type
+      if (!file.type.startsWith('image/')) {
+        alert('Only image files are allowed.');
+        return;
+      }
+      // Check file size
+      if (file.size > this.maxFileSize) {
+        alert(
+          `Image "${file.name}" is too large. Maximum allowed size is 5 MB.`
+        );
+        return;
+      }
+      this.selectedRoomImages.push(file);
+    }
+  }
 
   get f() {
     return this.roomForm.controls;

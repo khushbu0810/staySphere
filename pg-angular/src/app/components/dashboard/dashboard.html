@@ -10,11 +10,35 @@
     List</button>
 </div>
 
-<div class="report-panel">
-
-  <button class="chat-btn" (click)="openChat()">
-    Chat
+<div class="chat-section">
+  <button class="chat-action-btn" (click)="openChat()">
+    💬 CHAT WITH TENANTS
   </button>
+</div>
+
+<div class="upload-card">
+
+  <h3>Upload PG Images</h3>
+
+  <input type="file" multiple accept="image/*" (change)="onPgImagesSelected($event)" />
+  <br>
+  @if (selectedPgImages.length > 0) {
+
+  <p class="selected-count">
+    {{ selectedPgImages.length }} image(s) selected
+  </p>
+
+  }
+  <br>
+  <button class="btn primary" (click)="uploadPgImages()">
+    Upload PG Images
+  </button>
+
+</div>
+
+
+
+<div class="report-panel">
 
   <!-- LEFT SIDE : Filters -->
   <div class="filters">

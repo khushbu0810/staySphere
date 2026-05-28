@@ -65,4 +65,40 @@ export class TenantService {
     );
   }
 
+
+  uploadProfileImage(
+    tenantId: number,
+    file: File
+  ): Observable<any> {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.httpClient.post(
+      `${globalUrl}/uploads/tenant/${tenantId}/profile-image`,
+      formData
+    );
+  }
+
+  uploadIdentityProof(
+    tenantId: number,
+    file: File
+  ): Observable<any> {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.httpClient.post(
+      `${globalUrl}/uploads/tenant/${tenantId}/identity-proof`,
+      formData
+    );
+  }
+
+  getPgImages() {
+
+    return this.httpClient.get<string[]>(
+      `${globalUrl}/uploads/pg/images`
+    );
+  }
+
 }

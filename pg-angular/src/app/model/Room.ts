@@ -10,5 +10,6 @@ export interface Room {
     rentAmount: number;
     isAvailable: boolean;
     tenants?: Tenant[];
+    roomImageUrls?: string[];
 }
 

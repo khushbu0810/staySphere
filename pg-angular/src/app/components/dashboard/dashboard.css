@@ -568,3 +568,126 @@
         width: 100%;
     }
 }
+
+/* ================= UPLOAD CARD ================= */
+.upload-card {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+    margin-bottom: 18px;
+    transition: transform 0.25s ease;
+}
+
+.upload-card:hover {
+    transform: translateY(-2px);
+}
+
+.upload-card h3 {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.upload-card h3::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 13px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #818cf8, #22d3ee);
+    flex-shrink: 0;
+}
+
+/* File input wrapper */
+.upload-card input[type="file"] {
+    flex: 1;
+    min-width: 160px;
+    padding: 9px 12px;
+    border-radius: 11px;
+    border: 1px dashed rgba(99, 102, 241, 0.38);
+    background: rgba(254, 240, 42, 0.671);
+    color: #ffffff;
+    font-size: 12px;
+    font-family: 'Inter', system-ui, sans-serif;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s;
+    outline: none;
+}
+
+.upload-card input[type="file"]:hover {
+    border-color: rgba(99, 102, 241, 0.65);
+    background: rgba(99, 102, 241, 0.07);
+}
+
+.upload-card input[type="file"]::file-selector-button {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(241, 99, 99, 0.832);
+    color: #f6f6f6;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background 0.2s;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.upload-card input[type="file"]::file-selector-button:hover {
+    background: rgba(99, 102, 241, 0.45);
+}
+
+/* Selected count badge */
+.selected-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #818cf8;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.28);
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Chat button */
+.chat-section {
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+}
+
+.chat-action-btn {
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(241, 184, 99, 0.35);
+    background: rgb(225, 17, 17);
+    color: #ffffff;
+
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.chat-action-btn:hover {
+    background: rgba(233, 140, 41, 0.22);
+    border-color: rgba(241, 184, 99, 0.55);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(241, 184, 99, 0.2);
+}

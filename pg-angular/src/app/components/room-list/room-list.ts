@@ -32,6 +32,36 @@ export class RoomList implements OnInit {
     );
   }
 
+  activeImageIndex = 0;
+
+  openModal(room: Room) {
+    this.selectedRoom = room;
+    this.activeImageIndex = 0;
+    this.showModal = true;
+  }
+
+  openGallery(room: Room) {
+    this.selectedRoom = room;
+    this.activeImageIndex = 0;
+    this.showModal = true;
+  }
+
+  onBackdropClick(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
+      this.showModal = false;
+    }
+  }
+
+  nextImage() {
+    const len = this.selectedRoom?.roomImageUrls?.length ?? 0;
+    this.activeImageIndex = (this.activeImageIndex + 1) % len;
+  }
+
+  prevImage() {
+    const len = this.selectedRoom?.roomImageUrls?.length ?? 0;
+    this.activeImageIndex = (this.activeImageIndex - 1 + len) % len;
+  }
+
   onDelete(roomId: number) {
     this.rs.deleteRoom(roomId).subscribe(() => {
       alert('Room deleted successfully');

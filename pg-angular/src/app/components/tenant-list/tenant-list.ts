@@ -64,6 +64,8 @@ export class TenantList implements OnInit {
       )
     );
 
+
+
     // 🔹 Paid tenants (unchanged)
     this.paidTenants$ = this.tenants$.pipe(
       map(t => t.filter(x =>
@@ -82,6 +84,22 @@ export class TenantList implements OnInit {
     this.pastTenants$ = this.tenants$.pipe(
       map(t => t.filter(x => x.occupancyStatus === 'Vacated'))
     );
+  }
+
+  // Add these properties
+  modalImageUrl: string | null = null;
+  modalTenantName = '';
+
+  // Add these methods
+  openImageModal(url: string, name: string) {
+    this.modalImageUrl = url;
+    this.modalTenantName = name;
+  }
+
+  closeImageModal(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('img-modal-overlay')) {
+      this.modalImageUrl = null;
+    }
   }
 
   // 🔹 ADDED: filter handlers
