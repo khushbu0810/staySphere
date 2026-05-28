@@ -1,4 +1,4 @@
-package com.example.pg_spring.config;
+package com.example.pg_spring.config.FileUpload;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;
