@@ -36,5 +36,6 @@ public class Room {
     private List<Tenant> tenants;
 
     @ElementCollection
+    @Column(length = 1000)
     private List<String> roomImageUrls=new ArrayList<>();
 }
