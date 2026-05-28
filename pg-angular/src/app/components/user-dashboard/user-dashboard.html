@@ -13,69 +13,126 @@
     @if (!isLoading && tenant?.room) {
 
     <div class="dashboard-grid">
+        <!-- ===== PROFILE HERO ===== -->
+        <div class="card profile-main-card">
+            <div class="profile-room-layout">
+                <div class="profile-hero">
 
-        <!-- LEFT -->
-        <div class="card">
+                    <div class="profile-wrapper">
 
-            <h2>Your Room Details</h2>
+                        @if (tenant?.profileImageUrl) {
+                        <img [src]="tenant?.profileImageUrl" class="profile-avatar" alt="Profile"
+                            (click)="toggleProfileMenu()" />
+                        } @else {
+                        <div class="profile-avatar dummy-avatar" (click)="toggleProfileMenu()">
+                            <span>👤</span>
+                        </div>
+                        }
 
-            <div class="detail">
-                <strong>Name:</strong>
-                <span>{{ tenant?.name }}</span>
+                        <!-- PLUS BUTTON -->
+                        <div class="add-icon" (click)="fileInput.click()" title="Change photo">
+                            +
+                        </div>
+
+                        <!-- HIDDEN INPUT -->
+                        <input #fileInput type="file" accept="image/*" hidden (change)="onProfileImageChange($event)" />
+
+                    </div>
+
+                    <!-- Tenant name under avatar -->
+                    <h2 class="profile-name">{{ tenant?.name }}</h2>
+                    <!-- PROFILE MENU -->
+                    @if (showProfileMenu) {
+
+                    <div class="profile-menu">
+
+                        @if (tenant?.profileImageUrl) {
+
+                        <!-- IF PHOTO EXISTS -->
+
+                        <button (click)="viewProfilePicture()">
+                            View Profile Picture
+                        </button>
+
+                        <button (click)="fileInput.click()">
+                            Upload New Photo
+                        </button>
+
+                        <button class="remove-btn" (click)="removeProfilePicture()">
+                            Remove Photo
+                        </button>
+
+                        } @else {
+
+                        <!-- IF NO PHOTO -->
+
+                        <button (click)="fileInput.click()">
+                            Upload Photo
+                        </button>
+
+                        }
+
+                    </div>
+
+                    }
+
+                </div>
+
+                <!-- ===== ROOM DETAILS (below profile) ===== -->
+                <div class="details-section">
+
+                    <p class="details-label">Room Details</p>
+
+                    <div class="detail">
+                        <strong>Name:</strong>
+                        <span>{{ tenant?.name }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <strong>Room Number:</strong>
+                        <span>{{ tenant?.room?.roomNumber }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <strong>Status:</strong>
+                        <span>{{ tenant?.occupancyStatus }}</span>
+                    </div>
+
+                    <div class="detail">
+
+                        <strong>Rent Status:</strong>
+
+                        @if (tenant?.rentPaid) {
+
+                        <span class="paid">
+                            Paid ✔
+                        </span>
+
+                        } @else {
+
+                        <span class="unpaid">
+                            Unpaid ✖
+                        </span>
+
+                        }
+
+                    </div>
+
+                    <div class="detail">
+                        <strong>Monthly Rent:</strong>
+                        <span>₹ {{ tenant?.room?.rentAmount }}</span>
+                    </div>
+
+                    <button class="chat-btn" (click)="openChat()">
+                        💬 CHAT WITH ADMIN
+                    </button>
+
+                </div>
             </div>
-
-            <div class="detail">
-                <strong>Room Number:</strong>
-                <span>{{ tenant?.room?.roomNumber }}</span>
-            </div>
-
-            <div class="detail">
-                <strong>Status:</strong>
-                <span>{{ tenant?.occupancyStatus }}</span>
-            </div>
-
-            <div class="detail">
-
-                <strong>Rent Status:</strong>
-
-                @if (tenant?.rentPaid) {
-
-                <span class="paid">
-                    Paid ✔
-                </span>
-
-                } @else {
-
-                <span class="unpaid">
-                    Unpaid ✖
-                </span>
-
-                }
-
-            </div>
-
-            <div class="detail">
-                <strong>Monthly Rent:</strong>
-                <span>₹ {{ tenant?.room?.rentAmount }}</span>
-            </div>
-
-            <button class="chat-btn" (click)="openChat()">
-                💬 CHAT WITH ADMIN
-            </button>
-
         </div>
 
         <!-- RIGHT -->
         <div class="side-panel">
-
-            <!-- Profile upload card -->
-            <div class="upload-card">
-                <h3>Profile Image</h3>
-                <div class="file-row">
-                    <input type="file" accept="image/*" (change)="onProfileImageChange($event)" />
-                </div>
-                <button (click)="uploadProfileImage()">Upload Profile</button>
-            </div>
 
             <!-- PDF upload card -->
             <div class="upload-card">

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -56,6 +56,44 @@ export class UserDashboard implements OnInit {
     }, 100);
 
   }
+  showProfileMenu = false;
+  toggleProfileMenu() {
+    this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  viewProfilePicture() {
+    if (this.tenant?.profileImageUrl) {
+      this.openLightbox(this.tenant.profileImageUrl);
+    }
+
+  }
+
+  removeProfilePicture() {
+    if (!this.tenant) return;
+    this.tenant.profileImageUrl = '';
+    this.showProfileMenu = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+
+    const clickedElement =
+      event.target as HTMLElement;
+
+    const clickedInsideMenu =
+      clickedElement.closest('.profile-menu');
+
+    const clickedProfile =
+      clickedElement.closest('.profile-wrapper');
+
+    if (
+      !clickedInsideMenu &&
+      !clickedProfile
+    ) {
+      this.showProfileMenu = false;
+    }
+
+  }
 
   loadPgImages() {
     this.ts.getPgImages().subscribe({
@@ -98,6 +136,8 @@ export class UserDashboard implements OnInit {
       return;
     }
     this.selectedProfileImage = file;
+    // AUTO UPLOAD
+    this.uploadProfileImage();
   }
 
   onPdfChange(event: any) {
@@ -134,6 +174,8 @@ export class UserDashboard implements OnInit {
           this.auth.getAuthenticatedUserId()!
         ).subscribe(res => {
           this.tenant = res;
+          // CLOSE MENU AFTER SUCCESS
+          this.showProfileMenu = false;
         });
       },
       error: (err) => {
