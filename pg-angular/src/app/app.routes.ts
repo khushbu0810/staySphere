@@ -16,9 +16,10 @@ import { AuthGuard } from './guards/auth-guard-guard';
 import { LayoutComponent } from './components/layout/layout';
 import { TenantChat } from './components/tenant-chat/tenant-chat';
 import { UserDashboard } from './components/user-dashboard/user-dashboard';
+import { LandingPage } from './components/landing-page/landing-page';
 
 export const routes: Routes = [
-    { path: '', component: Login },
+    { path: '', component: LandingPage },
     { path: 'signup', component: SignUp },
     { path: 'login', component: Login },
     {

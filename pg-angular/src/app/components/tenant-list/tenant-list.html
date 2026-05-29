@@ -1,8 +1,8 @@
-<h2>Current Tenants</h2>
+<h2>Current Residants</h2>
 
 <!-- 🔍 FILTER BAR -->
 <div class="filter-bar">
-  <input type="text" placeholder="Search by tenant name or room number" #searchBox
+  <input type="text" placeholder="Search by residant name or room number" #searchBox
     (input)="onSearchChange(searchBox.value)" />
 
   <select #rentSelect (change)="onRentFilterChange(rentSelect.value)">
@@ -82,7 +82,7 @@
         </button>
         }<br />
         <button (click)="onDelete(tenant.id!)">
-          Remove from Record / PG
+          Remove from Record / Property
         </button>
       </td>
       <!-- ✅ RENT COLUMN -->
@@ -101,13 +101,13 @@
   </tbody>
 </table>
 } @else {
-<p>No active tenants</p>
+<p>No active residants</p>
 }
 
 
 <hr style="margin: 40px 0;" />
 
-<h2>Past Tenants</h2>
+<h2>Past Residants</h2>
 
 @if ((pastTenants$ | async); as tenants) {
 <table border="1">
@@ -138,5 +138,5 @@
   </tbody>
 </table>
 } @else {
-<p>No past tenants</p>
+<p>No past residants</p>
 }

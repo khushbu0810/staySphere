@@ -1,24 +1,24 @@
 <h2 class="dashboard-title">Dashboard</h2> <!-- Actions -->
 <div class="dashboard-actions">
-  <button class="btn primary" (click)="addTenant()">Add Tenant</button>
-  <button class="btn primary" (click)="addRoom()">Add Room</button>
+  <button class="btn primary" (click)="addTenant()">Add Residant</button>
+  <button class="btn primary" (click)="addRoom()">Add Space</button>
   <button class="btn primary" (click)="addExpense()">Add
     Expense</button>
-  <button class="btn secondary" (click)="tenantList()">Tenant List</button>
-  <button class="btn secondary" (click)="roomList()">Room List</button>
+  <button class="btn secondary" (click)="tenantList()">Residant List</button>
+  <button class="btn secondary" (click)="roomList()">Space List</button>
   <button class="btn secondary" (click)="expenseList()">Expense
     List</button>
 </div>
 
 <div class="chat-section">
   <button class="chat-action-btn" (click)="openChat()">
-    💬 CHAT WITH TENANTS
+    💬 CHAT WITH RESIDANTS
   </button>
 </div>
 
 <div class="upload-card">
 
-  <h3>Upload PG Images</h3>
+  <h3>Upload Property Images</h3>
 
   <input type="file" multiple accept="image/*" (change)="onPgImagesSelected($event)" />
   <br>
@@ -31,7 +31,7 @@
   }
   <br>
   <button class="btn primary" (click)="uploadPgImages()">
-    Upload PG Images
+    Upload Property Images
   </button>
 
 </div>
@@ -74,7 +74,7 @@
 <!-- PG Summary -->
 
 <div class="summary-card pg-summary">
-  <h3 class="summary-title">PG Summary</h3>
+  <h3 class="summary-title">Property Summary</h3>
   <p class="summary-item"> <span class="label">Total Staying:</span> <span class="value">{{ totalStaying }}</span>
   </p>
   <p class="summary-item"> <span class="label">Total Vacancy:</span> <span class="value">{{ totalVacancy }}</span>

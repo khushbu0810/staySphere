@@ -1,4 +1,4 @@
-<h2>Edit Tenant</h2>
+<h2>Edit Residant</h2>
 
 <form [formGroup]="tenantForm" (ngSubmit)="updateTenant()" novalidate>
 
@@ -8,9 +8,9 @@
     <input type="text" formControlName="name" />
 
     @if (f['name'].touched && f['name'].errors?.['required']) {
-      <div>
-        Name is required
-      </div>
+    <div>
+      Name is required
+    </div>
     }
   </div>
 
@@ -22,15 +22,15 @@
     <input type="text" formControlName="phoneNumber" />
 
     @if (f['phoneNumber'].touched && f['phoneNumber'].errors?.['required']) {
-      <div>
-        Phone number is required
-      </div>
+    <div>
+      Phone number is required
+    </div>
     }
 
     @if (f['phoneNumber'].errors?.['pattern']) {
-      <div>
-        Enter valid 10-digit phone number
-      </div>
+    <div>
+      Enter valid 10-digit phone number
+    </div>
     }
   </div>
 
@@ -42,9 +42,9 @@
     <textarea formControlName="address"></textarea>
 
     @if (f['address'].touched && f['address'].errors?.['required']) {
-      <div>
-        Address is required
-      </div>
+    <div>
+      Address is required
+    </div>
     }
   </div>
 
@@ -64,9 +64,9 @@
     <input type="number" formControlName="depositAmount" />
 
     @if (f['depositAmount'].touched && f['depositAmount'].errors?.['required']) {
-      <div>
-        Deposit amount is required
-      </div>
+    <div>
+      Deposit amount is required
+    </div>
     }
   </div>
 
@@ -82,7 +82,7 @@
 
   <!-- Submit -->
   <button type="submit" [disabled]="tenantForm.invalid">
-    Update Tenant
+    Update Residant
   </button>
 
 </form>

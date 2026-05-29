@@ -1,6 +1,6 @@
 <div class="dashboard-container">
 
-    <h1>Welcome to PG Portal</h1>
+    <h1>Welcome to Property Portal</h1>
 
     @if (isLoading) {
 
@@ -81,7 +81,7 @@
                 <!-- ===== ROOM DETAILS (below profile) ===== -->
                 <div class="details-section">
 
-                    <p class="details-label">Room Details</p>
+                    <p class="details-label">Your Room Details</p>
 
                     <div class="detail">
                         <strong>Name:</strong>
@@ -124,7 +124,7 @@
                     </div>
 
                     <button class="chat-btn" (click)="openChat()">
-                        💬 CHAT WITH ADMIN
+                        💬 CHAT WITH Property Manager
                     </button>
 
                 </div>
@@ -145,9 +145,9 @@
 
             <!-- Gallery card -->
             <div class="upload-card">
-                <h3>PG Gallery</h3>
+                <h3>Property Gallery</h3>
                 <button class="chat-btn" (click)="togglePgImages()">
-                    {{ showPgImages ? 'Hide PG Images' : 'Show PG Images' }}
+                    {{ showPgImages ? 'Hide Property Images' : 'Show Property Images' }}
                 </button>
             </div>
 
@@ -166,7 +166,7 @@
 
 <div class="pg-gallery-wrapper">
     <h3 class="gallery-heading">
-        <span>PG Gallery</span>
+        <span>Property Gallery</span>
         <span class="gallery-count">{{ pgImages.length }} photos</span>
     </h3>
 
