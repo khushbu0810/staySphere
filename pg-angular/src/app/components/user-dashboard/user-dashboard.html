@@ -36,6 +36,19 @@
                         <div class="add-icon" (click)="fileInput.click()" title="Change photo">
                             +
                         </div>
+                        @if (showProfileMenu) {
+                        <div class="profile-menu">
+
+                            @if (tenant?.profileImageUrl) {
+                            <button (click)="viewProfilePicture()">View Profile Picture</button>
+                            <button (click)="fileInput.click()">Upload New Photo</button>
+                            <button class="remove-btn" (click)="removeProfilePicture()">Remove Photo</button>
+                            } @else {
+                            <button (click)="fileInput.click()">Upload Photo</button>
+                            }
+
+                        </div>
+                        }
 
                         <!-- HIDDEN INPUT -->
                         <input #fileInput type="file" accept="image/*" hidden (change)="onProfileImageChange($event)" />
@@ -46,37 +59,6 @@
                     <h2 class="profile-name">
                         {{ tenant?.name }}
                     </h2>
-
-                    <!-- PROFILE MENU -->
-                    @if (showProfileMenu) {
-
-                    <div class="profile-menu">
-
-                        @if (tenant?.profileImageUrl) {
-
-                        <button (click)="viewProfilePicture()">
-                            View Profile Picture
-                        </button>
-
-                        <button (click)="fileInput.click()">
-                            Upload New Photo
-                        </button>
-
-                        <button class="remove-btn" (click)="removeProfilePicture()">
-                            Remove Photo
-                        </button>
-
-                        } @else {
-
-                        <button (click)="fileInput.click()">
-                            Upload Photo
-                        </button>
-
-                        }
-
-                    </div>
-
-                    }
 
                 </div>
 
