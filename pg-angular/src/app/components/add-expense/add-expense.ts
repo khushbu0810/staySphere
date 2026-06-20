@@ -36,12 +36,15 @@ export class AddExpense implements OnInit {
   paymentStatuses: string[] = ['Paid', 'UnPaid'];
 
   categories: string[] = [
-    'Electricity',
-    'Water',
-    'Internet',
-    'Maintenance',
+    'Venue Maintenance',
+    'Marketing',
+    'Staff Salary',
+    'Utilities',
+    'Equipment',
+    'Decoration',
+    'Security',
     'Cleaning',
-    'Kitchen',
+    'Vendor Payment',
     'Other'
   ];
 

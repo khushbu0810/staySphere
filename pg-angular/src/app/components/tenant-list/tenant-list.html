@@ -1,142 +1,244 @@
-<h2>Current Residants</h2>
+<!-- ══════════════════════════════════════
+   organizers.component.html
+   Royal Blue Theme — Organizer Management
+══════════════════════════════════════ -->
 
-<!-- 🔍 FILTER BAR -->
-<div class="filter-bar">
-  <input type="text" placeholder="Search by residant name or room number" #searchBox
-    (input)="onSearchChange(searchBox.value)" />
+<div class="page-wrapper">
 
-  <select #rentSelect (change)="onRentFilterChange(rentSelect.value)">
-    <option value="ALL">All</option>
-    <option value="PAID">Paid</option>
-    <option value="UNPAID">Unpaid</option>
-  </select>
-</div>
-<!-- IMAGE MODAL -->
-@if (modalImageUrl) {
-<div class="img-modal-overlay" (click)="closeImageModal($event)">
-  <div class="img-modal">
-    <button class="img-modal-close" (click)="modalImageUrl = null">✕</button>
-    <img [src]="modalImageUrl" [alt]="modalTenantName" />
-    <div class="img-modal-name">{{ modalTenantName }}</div>
+  <!-- ── Page Heading ── -->
+  <h2>Current Organizers</h2>
+
+  <!-- ── Filter Bar ── -->
+  <div class="filter-bar">
+    <div class="search-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" placeholder="Search by organizer name, event type, or booking ID" #searchBox
+        (input)="onSearchChange(searchBox.value)" />
+    </div>
+
+    <select #rentSelect (change)="onRentFilterChange(rentSelect.value)">
+      <option value="ALL">All Organizers</option>
+      <option value="PAID">Active</option>
+      <option value="UNPAID">Inactive</option>
+    </select>
   </div>
-</div>
-}
 
-@if ((activeTenants$ | async); as tenants) {
-<table border="1">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Phone</th>
-      <th>Join Date</th>
-      <th>Deposit</th>
-      <th>Status</th>
-      <th>Room Number</th>
-      <th>Action</th>
-      <th>Rent</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (tenant of tenants; track tenant) {
-    <tr>
-      <!-- Replace the Name <td> with this -->
-      <td>
-        <div class="tenant-info">
+  <!-- ── Image Modal ── -->
+  @if (modalImageUrl) {
+  <div class="img-modal-overlay" (click)="closeImageModal($event)">
+    <div class="img-modal">
+      <button class="img-modal-close" (click)="modalImageUrl = null">&#10005;</button>
+      <img [src]="modalImageUrl" [alt]="modalTenantName" />
+      <div class="img-modal-name">{{ modalTenantName }}</div>
+    </div>
+  </div>
+  }
 
-          @if (tenant.profileImageUrl) {
-          <img class="tenant-avatar" [src]="tenant.profileImageUrl" [alt]="tenant.name"
-            (click)="openImageModal(tenant.profileImageUrl, tenant.name)" />
-          } @else {
-          <div class="tenant-avatar-placeholder">
-            {{ tenant.name.charAt(0) }}
-          </div>
+  <!-- ── Active Organizers Table ── -->
+  @if ((activeTenants$ | async); as tenants) {
+
+  <div class="table-card">
+    <div class="table-card-header">
+      <div class="header-icon">&#128197;</div>
+      <div>
+        <h3>Event Organizers</h3>
+        <p>Manage active bookings, venue assignments, and payments</p>
+      </div>
+      <span class="header-count">{{ tenants.length }} organizer{{ tenants.length !== 1 ? 's' : '' }}</span>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Organizer Name</th>
+            <th>Contact Number</th>
+            <th>Registration Date</th>
+            <th>Advance Booking Amount</th>
+            <th>Status</th>
+            <th>Booked Venue</th>
+            <th>Action</th>
+            <th>Payment Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tenant of tenants; track tenant) {
+          <tr>
+
+            <!-- Organizer Name + Avatar -->
+            <td>
+              <div class="organizer-info">
+                @if (tenant.profileImageUrl) {
+                <img class="tenant-avatar" [src]="tenant.profileImageUrl" [alt]="tenant.name"
+                  (click)="openImageModal(tenant.profileImageUrl, tenant.name)" />
+                } @else {
+                <div class="tenant-avatar-placeholder">
+                  {{ tenant.name.charAt(0) }}
+                </div>
+                }
+                <div>
+                  <span class="tenant-name">{{ tenant.name }}</span>
+                  <span class="organizer-id">{{ tenant.id }}</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Contact -->
+            <td>{{ tenant.phoneNumber }}</td>
+
+            <!-- Registration Date -->
+            <td>{{ tenant.joinDate }}</td>
+
+            <!-- Advance Booking Amount -->
+            <td>{{ tenant.depositAmount }}</td>
+
+            <!-- Status Badge -->
+            <td>
+              @if (tenant.occupancyStatus === 'Living') {
+              <span class="badge badge-active">
+                <span class="badge-dot"></span>
+                Active
+              </span>
+              }
+              @if (tenant.occupancyStatus === 'Not_Assigned') {
+              <span class="badge badge-unassigned">
+                <span class="badge-dot"></span>
+                Not Venue Assigned
+              </span>
+              }
+            </td>
+
+            <!-- Booked Venue -->
+            <td>
+              @if (tenant.room?.roomNumber) {
+              <span class="venue-tag">{{ tenant.room?.roomNumber }}</span>
+              } @else {
+              <span class="venue-none">Not Assigned</span>
+              }
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <div class="action-group">
+                <button class="btn-action btn-edit" (click)="onEdit(tenant.id!)">
+                  Edit
+                </button>
+
+                @if (tenant.occupancyStatus === 'Living') {
+                <button class="btn-action btn-cancel-booking" (click)="onVacate(tenant.id!)">
+                  Cancel Booking
+                </button>
+                }
+
+                @if (tenant.occupancyStatus === 'Not_Assigned') {
+                <button class="btn-action btn-assign" (click)="onAssign(tenant.id!)">
+                  Assign Venue
+                </button>
+                }
+
+                <button class="btn-action btn-deactivate" (click)="onDelete(tenant.id!)">
+                  Deactivate Organizer
+                </button>
+              </div>
+            </td>
+
+            <!-- Payment Status -->
+            <td>
+              @if (tenant.occupancyStatus === 'Living') {
+              <button class="rent-btn" [ngClass]="tenant.rentPaid ? 'rent-paid' : 'rent-unpaid'"
+                (click)="toggleRent(tenant.id!)">
+                {{ tenant.rentPaid
+                ? 'Paid ✔ ₹' + tenant.room?.rentAmount
+                : 'Pending ✖ ₹' + tenant.room?.rentAmount }}
+              </button>
+              }
+            </td>
+
+          </tr>
           }
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-          <span class="tenant-name">{{ tenant.name }}</span>
-        </div>
-      </td>
-      <td>{{ tenant.phoneNumber }}</td>
-      <td>{{ tenant.joinDate }}</td>
-      <td>{{ tenant.depositAmount }}</td>
-      <td>
-        @if (tenant.occupancyStatus === 'Living') {
-        <span>Living</span>
-        }
-        @if (tenant.occupancyStatus === 'Not_Assigned') {
-        <span>Not Assigned</span>
-        }
-      </td>
-      <td>
-        {{ tenant.room?.roomNumber || 'Not Assigned' }}
-      </td>
-      <td>
-        <button (click)="onEdit(tenant.id!)">Edit</button><br />
-        @if (tenant.occupancyStatus === 'Living') {
-        <button (click)="onVacate(tenant.id!)">
-          Vacate Room
-        </button>
-        }<br />
-        @if (tenant.occupancyStatus === 'Not_Assigned') {
-        <button (click)="onAssign(tenant.id!)">
-          Assign Room
-        </button>
-        }<br />
-        <button (click)="onDelete(tenant.id!)">
-          Remove from Record / Property
-        </button>
-      </td>
-      <!-- ✅ RENT COLUMN -->
-      <td>
-        @if (tenant.occupancyStatus === 'Living') {
-        <button (click)="toggleRent(tenant.id!)" class="rent-btn"
-          [ngClass]="tenant.rentPaid ? 'rent-paid' : 'rent-unpaid'">
-          {{ tenant.rentPaid
-          ? 'Paid ✔ ₹' + tenant.room?.rentAmount
-          : 'Unpaid ✖ ₹' + tenant.room?.rentAmount }}
-        </button>
-        }
-      </td>
-    </tr>
-    }
-  </tbody>
-</table>
-} @else {
-<p>No active residants</p>
-}
+  } @else {
+  <p class="no-data">No active organizers found.</p>
+  }
 
+  <!-- ── Section Divider ── -->
+  <div class="section-divider"></div>
 
-<hr style="margin: 40px 0;" />
+  <!-- ── Past Organizers ── -->
+  <h2>Past Organizers</h2>
 
-<h2>Past Residants</h2>
+  @if ((pastTenants$ | async); as tenants) {
 
-@if ((pastTenants$ | async); as tenants) {
-<table border="1">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Phone</th>
-      <th>Last Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (tenant of tenants; track tenant) {
-    <tr>
-      <td>{{ tenant.name }}</td>
-      <td>{{ tenant.phoneNumber }}</td>
-      <td>Vacated</td>
-      <td>
-        <button (click)="onAssign(tenant.id!)">
-          Assign Room Again
-        </button>
-        <button (click)="onDelete(tenant.id!)">
-          Remove from Record
-        </button>
-      </td>
-    </tr>
-    }
-  </tbody>
-</table>
-} @else {
-<p>No past residants</p>
-}
+  <div class="table-card">
+    <div class="table-card-header">
+      <div class="header-icon">&#128451;</div>
+      <div>
+        <h3>Previous Bookings</h3>
+        <p>Organizers who have completed or cancelled their venue bookings</p>
+      </div>
+      <span class="header-count">{{ tenants.length }} record{{ tenants.length !== 1 ? 's' : '' }}</span>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Organizer Name</th>
+            <th>Contact Number</th>
+            <th>Last Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tenant of tenants; track tenant) {
+          <tr>
+
+            <!-- Name -->
+            <td>
+              <div class="organizer-info">
+                <div class="tenant-avatar-placeholder">
+                  {{ tenant.name.charAt(0) }}
+                </div>
+                <span class="tenant-name">{{ tenant.name }}</span>
+              </div>
+            </td>
+
+            <!-- Contact -->
+            <td>{{ tenant.phoneNumber }}</td>
+
+            <!-- Last Status -->
+            <td>
+              <span class="badge badge-vacated">
+                <span class="badge-dot"></span>
+                Vacated
+              </span>
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <div class="action-group" style="flex-direction: row; flex-wrap: wrap;">
+                <button class="btn-action btn-assign" (click)="onAssign(tenant.id!)">
+                  Book Venue Again
+                </button>
+                <button class="btn-action btn-deactivate" (click)="onDelete(tenant.id!)">
+                  Deactivate Organizer
+                </button>
+              </div>
+            </td>
+
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  } @else {
+  <p class="no-data">No past organizers found.</p>
+  }
+
+</div><!-- /.page-wrapper -->

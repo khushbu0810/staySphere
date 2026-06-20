@@ -38,7 +38,7 @@ export class AddTenant implements OnInit {
     if (this.tenantForm.valid) {
       this.ts.addTenant(this.tenantForm.getRawValue()).subscribe({
         next: (res) => {
-          alert(`Tenant added successfully.\n
+          alert(`Venue added successfully.\n
                 Login Credentials:
                 Email: ${res.email} , 
                 Password: ${res.phoneNumber}`);
@@ -56,7 +56,7 @@ export class AddTenant implements OnInit {
           });
         },
         error: () => {
-          alert('Failed to add tenant');
+          alert('Failed to add Venue. Please try again.');
         }
       });
     }

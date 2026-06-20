@@ -1,58 +1,126 @@
-<h2 class="page-title">Expenses</h2>
+<div class="page-wrapper">
 
-<!-- CATEGORY VIEW -->
-@if (categories$ | async; as categories) {
-  <div>
-    <div class="category-grid">
-      @for (cat of categories; track cat) {
-        <div class="category-card" (click)="openCategory(cat.category, cat.expenses)">
-          <h3>{{ cat.category }}</h3>
-          <p>{{ cat.expenses.length }} expenses</p>
-        </div>
-      }
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Expenses</h2>
+      <p class="page-subtitle">Browse spending by category</p>
     </div>
-    <!-- MODAL -->
-    @if (showModal) {
-      <div class="modal-backdrop">
-        <div class="modal">
-          <h3>{{ selectedCategory }} Expenses</h3>
-          <table class="expense-table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (exp of selectedExpenses; track exp) {
-                <tr>
-                  <td>{{ exp.description }}</td>
-                  <td class="amount">₹{{ exp.amount }}</td>
-                  <td>{{ exp.expenseDate }}</td>
-                  <td class="actions">
-                    @if (exp.id) {
-                      <button class="btn edit" (click)="onEdit(exp.id)">
-                        Edit
-                      </button>
-                    }
-                    @if (exp.id) {
-                      <button class="btn delete" (click)="onDelete(exp.id)">
-                        Delete
-                      </button>
-                    }
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-          <button class="btn close" (click)="closeModal()">Close</button>
-        </div>
+  </div>
+
+  <!-- CATEGORY VIEW -->
+  @if (categories$ | async; as categories) {
+  @if (categories.length > 0) {
+  <div class="category-grid">
+    @for (cat of categories; track cat) {
+    <div class="category-card" (click)="openCategory(cat.category, cat.expenses)">
+      <div class="category-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg>
       </div>
+      <div class="category-body">
+        <h3 class="category-name">{{ cat.category }}</h3>
+        <p class="category-count">{{ cat.expenses.length }} expense{{ cat.expenses.length === 1 ? '' : 's' }}</p>
+      </div>
+      <svg class="category-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </div>
     }
   </div>
-} @else {
-  <p class="empty-state">No expenses found</p>
-}
+  } @else {
+  <div class="empty-state">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2" />
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+    </svg>
+    <p class="empty-title">No expenses found</p>
+    <p class="empty-sub">Expenses will appear here once they're added</p>
+  </div>
+  }
 
+  <!-- MODAL -->
+  @if (showModal) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">{{ selectedCategory }}</h3>
+          <p class="modal-subtitle">{{ selectedExpenses.length }} expense{{ selectedExpenses.length === 1 ? '' : 's' }}
+          </p>
+        </div>
+        <button class="modal-close" (click)="closeModal()" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        @if (selectedExpenses.length > 0) {
+        <table class="expense-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th class="col-action">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (exp of selectedExpenses; track exp) {
+            <tr>
+              <td class="description">{{ exp.description }}</td>
+              <td class="amount">₹{{ exp.amount }}</td>
+              <td class="date">{{ exp.expenseDate }}</td>
+              <td class="actions">
+                @if (exp.id) {
+                <button class="icon-btn edit" (click)="onEdit(exp.id)" aria-label="Edit expense">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                  </svg>
+                </button>
+                }
+                @if (exp.id) {
+                <button class="icon-btn delete" (click)="onDelete(exp.id)" aria-label="Delete expense">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                      d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+                  </svg>
+                </button>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        } @else {
+        <div class="modal-empty">
+          <p>No expenses in this category yet</p>
+        </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn secondary" (click)="closeModal()">Close</button>
+      </div>
+
+    </div>
+  </div>
+  }
+
+  } @else {
+  <div class="empty-state">
+    <p class="empty-title">No expenses found</p>
+  </div>
+  }
+
+</div>

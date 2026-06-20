@@ -4,6 +4,7 @@
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 </div>
+
 <div class="grid-overlay"></div>
 
 <div class="page">
@@ -11,14 +12,16 @@
     <!-- ===== NAV ===== -->
     <nav class="landing-nav">
         <div class="nav-brand">
-            <div class="nav-icon">P</div>
-            <span class="nav-name">Stay<span class="accent">Desk</span></span>
+            <div class="nav-icon">E</div>
+            <span class="nav-name">Event<span class="accent">Flow</span></span>
         </div>
+
         <div class="nav-links">
             <a (click)="scrollTo('features')">Features</a>
             <a (click)="scrollTo('roles')">Roles</a>
             <a (click)="scrollTo('tech')">Tech Stack</a>
         </div>
+
         <div class="nav-actions">
             <button class="btn-ghost" (click)="goToLogin()">Log In</button>
             <button class="btn-nav" (click)="goToSignup()">Get Started →</button>
@@ -27,159 +30,276 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero">
+
         <div class="hero-badge">
-            <span class="badge-dot"></span> Property Management Platform
+            <span class="badge-dot"></span>
+            Venue Booking & Event Management Platform
         </div>
-        <h1>Manage your Property.<br /><span class="gradient-text">Effortlessly.</span></h1>
+
+        <h1>
+            Streamline Venue Operations.<br />
+            <span class="gradient-text">
+                Elevate Every Event Experience.
+            </span>
+        </h1>
+
         <p class="hero-sub">
-            A full-stack platform for Property owners and residants — handle Space,
-            payment, expenses, documents and communication in one place.
+            A comprehensive venue management platform that enables organizers to discover and book venues, while
+            empowering venue managers to streamline bookings, optimize operations, and drive revenue growth.
         </p>
+
         <div class="hero-btns">
-            <button class="btn-primary" (click)="goToSignup()">Get Started →</button>
-            <button class="btn-secondary" (click)="scrollTo('features')">View Features ↓</button>
+            <button class="btn-primary" (click)="goToSignup()">
+                Get Started →
+            </button>
+
+            <button class="btn-secondary" (click)="scrollTo('features')">
+                Explore Features ↓
+            </button>
         </div>
+
     </section>
 
-    <!-- ===== STATS BAR ===== -->
+    <!-- ===== STATS ===== -->
     <div class="stats-bar">
+
         <div class="stat-cell">
-            <span class="stat-num">100%</span>
-            <span class="stat-txt">Uptime</span>
+            <span class="stat-num">24/7</span>
+            <span class="stat-txt">Venue Availability</span>
         </div>
+
         <div class="stat-cell">
             <span class="stat-num">Real-time</span>
-            <span class="stat-txt">Payment Sync</span>
+            <span class="stat-txt">Booking Updates</span>
         </div>
+
         <div class="stat-cell">
             <span class="stat-num">2 Roles</span>
-            <span class="stat-txt">Property Manager & Residant</span>
+            <span class="stat-txt">Venue Manager & Organizer</span>
         </div>
+
         <div class="stat-cell">
             <span class="stat-num">Secure</span>
-            <span class="stat-txt">Firebase Auth</span>
+            <span class="stat-txt">Online Payments</span>
         </div>
+
     </div>
 
     <!-- ===== FEATURES ===== -->
     <section class="content-section" id="features">
+
         <p class="section-eyebrow">Features</p>
-        <h2 class="section-title">Everything you need to run your Property</h2>
+
+        <h2 class="section-title">
+            Everything you need to manage venues and events
+        </h2>
+
         <p class="section-sub">
-            From residant onboarding to monthly reports — StayDesk covers the full lifecycle.
+            From venue discovery to booking approvals and payment management.
         </p>
+
         <div class="feature-grid">
+
             <div class="feature-card">
-                <div class="fc-icon fc-i1">🏠</div>
-                <h3>Space Management</h3>
-                <p>Add, assign, and track Space with real-time occupancy and vacancy counts.</p>
+                <div class="fc-icon fc-i1">🏛️</div>
+                <h3>Venue Management</h3>
+                <p>
+                    Create and manage venue listings with images,
+                    pricing, availability and capacity.
+                </p>
             </div>
+
             <div class="feature-card">
-                <div class="fc-icon fc-i2">💰</div>
+                <div class="fc-icon fc-i2">📅</div>
+                <h3>Booking Workflow</h3>
+                <p>
+                    Receive booking requests, approve reservations
+                    and manage venue schedules.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="fc-icon fc-i3">💳</div>
                 <h3>Payment Tracking</h3>
-                <p>Mark Payment as paid or unpaid per residant. Visual indicators and monthly snapshots.</p>
+                <p>
+                    Track booking payments, revenue and financial activity
+                    from one dashboard.
+                </p>
             </div>
+
             <div class="feature-card">
-                <div class="fc-icon fc-i3">📊</div>
-                <h3>Financial Reports</h3>
-                <p>Download monthly and yearly income vs expense reports as PDFs instantly.</p>
+                <div class="fc-icon fc-i4">🎪</div>
+                <h3>Venue Discovery</h3>
+                <p>
+                    Organizers can browse venues based on capacity,
+                    type and event requirements.
+                </p>
             </div>
+
             <div class="feature-card">
-                <div class="fc-icon fc-i4">💬</div>
-                <h3>Direct Chat</h3>
-                <p>residants and Property Managers communicate via built-in real-time chat per residant.</p>
+                <div class="fc-icon fc-i5">📈</div>
+                <h3>Business Reports</h3>
+                <p>
+                    Monitor bookings, revenue and operational expenses
+                    through detailed reports.
+                </p>
             </div>
+
             <div class="feature-card">
-                <div class="fc-icon fc-i5">📁</div>
-                <h3>Document Upload</h3>
-                <p>Residants upload identity proof PDFs. Property Managers upload Property gallery images to MinIO.</p>
+                <div class="fc-icon fc-i6">💬</div>
+                <h3>Booking Support</h3>
+                <p>
+                    Communicate with venue managers and organizers
+                    through integrated messaging.
+                </p>
             </div>
-            <div class="feature-card">
-                <div class="fc-icon fc-i6">🔐</div>
-                <h3>Secure Auth</h3>
-                <p>Email/password and Google OAuth sign-in with role-based access control.</p>
-            </div>
+
         </div>
+
     </section>
 
     <!-- ===== ROLES ===== -->
+    <!-- ===== ROLES ===== -->
     <section class="content-section" id="roles">
-        <p class="section-eyebrow">Roles</p>
-        <h2 class="section-title">Two Roles. One Platform.</h2>
+
+        <p class="section-eyebrow">User Roles</p>
+
+        <h2 class="section-title">
+            Built for Venue Managers and Event Organizers
+        </h2>
+
         <p class="section-sub">
-            Property Managers controls the entire Property. Residants get a personal dashboard for their stay.
+            EventFlow provides dedicated workspaces for venue owners and event organizers,
+            enabling seamless collaboration throughout the booking lifecycle.
         </p>
+
         <div class="role-grid">
 
+            <!-- Venue Manager -->
             <div class="role-card admin-card">
+
                 <div class="role-header">
-                    <div class="role-icon admin-icon">🛡</div>
+                    <div class="role-icon admin-icon">🏛️</div>
+
                     <div>
-                        <h3>Property Manager</h3>
-                        <p>Full control over the Property</p>
+                        <h3>Venue Manager</h3>
+                        <p>Manage venues, bookings and business operations</p>
                     </div>
                 </div>
+
                 <div class="role-list">
+
                     <div class="role-item">
-                        <div class="role-check admin-check">✓</div> Add & manage residants and Space
+                        <div class="role-check admin-check">✓</div>
+                        Onboard and manage event organizers
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check admin-check">✓</div> Track expenses and income
+                        <div class="role-check admin-check">✓</div>
+                        Publish and maintain venue listings
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check admin-check">✓</div> Download monthly & yearly reports
+                        <div class="role-check admin-check">✓</div>
+                        Upload venue galleries and promotional images
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check admin-check">✓</div> Upload Property Gallery images
+                        <div class="role-check admin-check">✓</div>
+                        Manage venue availability and booking status
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check admin-check">✓</div> Chat with all Residants
+                        <div class="role-check admin-check">✓</div>
+                        Track payments, revenue and operational expenses
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check admin-check">✓</div> Assign and vacate Space
+                        <div class="role-check admin-check">✓</div>
+                        Generate monthly and annual business reports
                     </div>
+
+                    <div class="role-item">
+                        <div class="role-check admin-check">✓</div>
+                        Provide booking assistance through integrated support chat
+                    </div>
+
                 </div>
+
             </div>
 
+            <!-- Event Organizer -->
             <div class="role-card tenant-card">
+
                 <div class="role-header">
-                    <div class="role-icon tenant-icon">👤</div>
+                    <div class="role-icon tenant-icon">🎟️</div>
+
                     <div>
-                        <h3>Residant</h3>
-                        <p>Personal stay dashboard</p>
+                        <h3>Event Organizer</h3>
+                        <p>Discover venues and manage event bookings</p>
                     </div>
                 </div>
+
                 <div class="role-list">
+
                     <div class="role-item">
-                        <div class="role-check tenant-check">✓</div> View Space and Payment status
+                        <div class="role-check tenant-check">✓</div>
+                        Browse available venues and venue galleries
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check tenant-check">✓</div> Upload profile picture
+                        <div class="role-check tenant-check">✓</div>
+                        View assigned venue and booking information
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check tenant-check">✓</div> Upload identity proof PDF
+                        <div class="role-check tenant-check">✓</div>
+                        Monitor booking and payment status in real time
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check tenant-check">✓</div> Browse Property gallery images
+                        <div class="role-check tenant-check">✓</div>
+                        Access venue pricing and booking details
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check tenant-check">✓</div> Chat directly with Property Manager
+                        <div class="role-check tenant-check">✓</div>
+                        Upload organizer profile and verification documents
                     </div>
+
                     <div class="role-item">
-                        <div class="role-check tenant-check">✓</div> Google or email sign-in
+                        <div class="role-check tenant-check">✓</div>
+                        Explore venue photos and event spaces
                     </div>
+
+                    <div class="role-item">
+                        <div class="role-check tenant-check">✓</div>
+                        Communicate directly with venue management through support chat
+                    </div>
+
                 </div>
+
             </div>
 
         </div>
+
     </section>
 
     <!-- ===== TECH STACK ===== -->
     <section class="content-section" id="tech">
+
         <p class="section-eyebrow">Tech Stack</p>
-        <h2 class="section-title">Built with modern tools</h2>
-        <p class="section-sub">Production-grade stack from frontend to cloud storage.</p>
+
+        <h2 class="section-title">
+            Built with modern technologies
+        </h2>
+
+        <p class="section-sub">
+            Production-ready architecture for scalability and performance.
+        </p>
+
         <div class="tech-grid">
+
             <div class="tech-pill">⚡ Angular 18</div>
             <div class="tech-pill">☕ Spring Boot</div>
             <div class="tech-pill">🔥 Firebase Auth</div>
@@ -188,21 +308,32 @@
             <div class="tech-pill">🔐 Google OAuth</div>
             <div class="tech-pill">💬 Real-time Chat</div>
             <div class="tech-pill">📄 PDF Reports</div>
-            <div class="tech-pill">🌐 REST API</div>
-            <div class="tech-pill">🎨 Custom CSS</div>
+            <div class="tech-pill">🌐 REST APIs</div>
+            <div class="tech-pill">🎨 Custom UI</div>
+
         </div>
+
     </section>
 
     <!-- ===== CTA ===== -->
     <section class="cta-section">
-        <h2>Ready to run your Property smarter?</h2>
-        <p>Sign up in seconds. No setup required.</p>
-        <button class="btn-primary" (click)="goToSignup()">Create Account →</button>
+
+        <h2>Ready to simplify venue booking?</h2>
+
+        <p>
+            Manage venues, bookings, organizers and business operations
+            from one powerful platform.
+        </p>
+
+        <button class="btn-primary" (click)="goToSignup()">
+            Create Account →
+        </button>
+
     </section>
 
     <!-- ===== FOOTER ===== -->
     <footer class="landing-footer">
-        © 2025 StayDesk · Property Management Platform · Built with Angular & Spring Boot
+        © 2026 EventFlow · Venue Booking & Event Management Platform · Built with Angular & Spring Boot
     </footer>
 
 </div>

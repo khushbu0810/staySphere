@@ -1,118 +1,124 @@
-<h2>Add Residant</h2>
+<div class="page-wrapper">
+  <h2>Add Organizer</h2>
 
-<form [formGroup]="tenantForm" (ngSubmit)="addTenant()" novalidate>
-
-  <!-- Name -->
-  <div>
-    <label>Name</label>
-    <input type="text" formControlName="name" />
-
-    @if (f['name'].touched && f['name'].errors?.['required']) {
-    <div>
-      Name is required
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="header-icon">
+        <i class="ti ti-id-badge"></i>
+      </div>
+      <div>
+        <h3>New Organizer Registration</h3>
+        <p>Fill in the details to register a new event organizer</p>
+      </div>
     </div>
-    }
+
+    <div class="form-card-body">
+      <p class="required-note">Fields marked <span>*</span> are required</p>
+
+      <form [formGroup]="tenantForm" (ngSubmit)="addTenant()" novalidate>
+
+        <div class="section-title">Personal details</div>
+
+        <!-- Name + Status side by side -->
+        <div class="field-row">
+          <div class="field">
+            <label>Organizer name <span class="req">*</span></label>
+            <input type="text" formControlName="name" placeholder="Full name" />
+            @if (f['name'].touched && f['name'].errors?.['required']) {
+            <div class="field-error">Organizer name is required</div>
+            }
+          </div>
+
+          <div class="field">
+
+
+            <label>Organizer status <span class="badge">auto</span></label>
+            <!-- Swap this for the input if you need formControl binding -->
+            <div class="status-display">
+              <span class="status-dot"></span>
+              <span class="status-text"> <input type="text" formControlName="occupancyStatus" />
+              </span>
+            </div>
+            <!-- Or keep the readonly input: -->
+            <!-- <input type="text" formControlName="occupancyStatus" readonly /> -->
+          </div>
+        </div>
+
+        <!-- Email + Phone side by side -->
+        <div class="field-row">
+          <div class="field">
+            <label>Email address <span class="req">*</span></label>
+            <div class="prefix-wrap">
+              <i class="ti ti-mail prefix-icon" style="font-size:15px"></i>
+              <input type="email" formControlName="email" placeholder="organizer@email.com" />
+            </div>
+            @if (f['email'].touched && f['email'].errors?.['required']) {
+            <div class="field-error">Email is required</div>
+            }
+            @if (f['email'].errors?.['email']) {
+            <div class="field-error">Enter a valid email address</div>
+            }
+          </div>
+
+          <div class="field">
+            <label>Contact number <span class="req">*</span></label>
+            <div class="prefix-wrap">
+              <i class="ti ti-phone prefix-icon" style="font-size:15px"></i>
+              <input type="text" formControlName="phoneNumber" placeholder="10-digit mobile number" maxlength="10" />
+            </div>
+            @if (f['phoneNumber'].touched && f['phoneNumber'].errors?.['required']) {
+            <div class="field-error">Contact number is required</div>
+            }
+            @if (f['phoneNumber'].errors?.['pattern']) {
+            <div class="field-error">Enter a valid 10-digit number</div>
+            }
+          </div>
+        </div>
+
+        <!-- Address full width -->
+        <div class="field">
+          <label>Organizer address <span class="req">*</span></label>
+          <textarea formControlName="address" placeholder="Street, City, State, PIN…"></textarea>
+          @if (f['address'].touched && f['address'].errors?.['required']) {
+          <div class="field-error">Organizer address is required</div>
+          }
+        </div>
+
+        <div class="section-divider"></div>
+        <div class="section-title">Registration &amp; financials</div>
+
+        <!-- Date + Deposit side by side -->
+        <div class="field-row">
+          <div class="field">
+            <label>Registration date <span class="req">*</span></label>
+            <input type="date" formControlName="joinDate" />
+            @if (f['joinDate'].touched && f['joinDate'].errors?.['required']) {
+            <div class="field-error">Registration date is required</div>
+            }
+          </div>
+
+          <div class="field">
+            <label>Advance booking amount <span class="req">*</span></label>
+            <div class="prefix-wrap">
+              <span class="prefix-sym">₹</span>
+              <input type="number" formControlName="depositAmount" placeholder="0.00" min="1" />
+            </div>
+            @if (f['depositAmount'].touched && f['depositAmount'].errors?.['required']) {
+            <div class="field-error">Advance booking amount is required</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/dashboard">
+            Cancel
+          </button>
+          <button type="submit" class="btn-submit" [disabled]="tenantForm.invalid">
+            Add Organizer
+          </button>
+        </div>
+
+      </form>
+    </div>
   </div>
-
-  <br />
-
-  <!-- Email -->
-  <div>
-    <label>Email</label>
-
-    <input type="email" formControlName="email" />
-
-    @if (f['email'].touched &&
-    f['email'].errors?.['required']) {
-
-    <div>
-      Email is required
-    </div>
-    }
-
-    @if (f['email'].errors?.['email']) {
-
-    <div>
-      Enter valid email
-    </div>
-    }
-  </div>
-
-  <br />
-
-  <!-- Phone Number -->
-  <div>
-    <label>Phone Number</label>
-    <input type="text" formControlName="phoneNumber" />
-
-    @if (f['phoneNumber'].touched && f['phoneNumber'].errors?.['required']) {
-    <div>
-      Phone number is required
-    </div>
-    }
-
-    @if (f['phoneNumber'].errors?.['pattern']) {
-    <div>
-      Enter valid 10-digit phone number
-    </div>
-    }
-  </div>
-
-  <br />
-
-  <!-- Address -->
-  <div>
-    <label>Address</label>
-    <textarea formControlName="address"></textarea>
-
-    @if (f['address'].touched && f['address'].errors?.['required']) {
-    <div>
-      Address is required
-    </div>
-    }
-  </div>
-
-  <br />
-
-  <!-- Join Date -->
-  <div>
-    <label>Join Date</label>
-    <input type="date" formControlName="joinDate" />
-
-    @if (f['joinDate'].touched && f['joinDate'].errors?.['required']) {
-    <div>
-      Join date is required
-    </div>
-    }
-  </div>
-
-  <br />
-
-  <!-- Deposit Amount -->
-  <div>
-    <label>Deposit Amount</label>
-    <input type="number" formControlName="depositAmount" />
-
-    @if (f['depositAmount'].touched && f['depositAmount'].errors?.['required']) {
-    <div>
-      Deposit amount is required
-    </div>
-    }
-  </div>
-
-  <br />
-
-  <!-- Occupancy Status (Readonly) -->
-  <div>
-    <label>Occupancy Status</label>
-    <input type="text" formControlName="occupancyStatus" />
-  </div>
-
-  <br />
-
-  <!-- Submit -->
-  <button type="submit" [disabled]="tenantForm.invalid">
-    Add Residant
-  </button>
-
-</form>
+</div>

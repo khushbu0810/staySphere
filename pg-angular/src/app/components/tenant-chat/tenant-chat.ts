@@ -98,42 +98,63 @@ export class TenantChat implements OnInit, OnDestroy {
     this.chatService.connect();
     this.loggedInEmail = this.authService.getAuthenticatedUserEmail() ?? '';
     const userId = this.authService.getAuthenticatedUserId();
+    const role =
+      localStorage.getItem('role');
+    // ADMIN
+    if (role === 'ADMIN') {
+
+      this.tenantId = 0;
+      this.tenantName = 'Organizer Support';
+
+      this.loadMessages();
+
+      return;
+    }
+    // ORGANIZER
+    this.tenantService.getTenantByUserId(userId!).subscribe({
+      next: (tenant) => {
+
+        if (!tenant) {
+          console.error('Organizer not found');
+          return;
+        }
+
+        this.tenantId = tenant.id;
+        this.tenantName = tenant.name;
+
+        this.loadMessages();
+      }
+    });
+
+  }
+
+  private loadMessages() {
 
     this.subs.add(
-      //fetch tenant details using userId to get tenantId and tenantName, which are needed for sending messages and displaying in UI
-      this.tenantService.getTenantByUserId(userId!).subscribe({
-        next: (tenant) => {
-          this.tenantId = tenant.id;
-          this.tenantName = tenant.name;
-          // OLD MESSAGES
-          //fetch old messages for the tenant to display chat history in UI
-          this.subs.add(
-            this.chatService.getAllOldMessages().subscribe((oldMessages) => {
-              this.messages = oldMessages;
-              this.cdr.detectChanges();
-              this.scrollAfterRender();
-            })
-          );
+      this.chatService.getAllOldMessages().subscribe((oldMessages) => {
+        this.messages = oldMessages;
+        this.cdr.detectChanges();
+        this.scrollAfterRender();
+      })
+    );
 
-          // REALTIME MESSAGES
-          //subscribe to the messages$ observable to receive realtime messages sent by the backend. 
-          this.subs.add(this.chatService.getMessages().subscribe((incoming) => {
-            if (!incoming) return;
-            //When a new message is received, we check if it already exists in the messages array (to avoid duplicates) and if not, we add it to the array and update the UI.
-            const alreadyExists = this.messages.some((m) => m.id === incoming.id);
-            if (!alreadyExists) {
-              this.messages = [
-                ...this.messages,
-                incoming
-              ];
-              console.log('MESSAGE ADDED TO UI');
-              // FORCE ANGULAR UI UPDATE
-              this.cdr.detectChanges();
-              // AUTO SCROLL
-              this.scrollAfterRender();
-            }
-          })
-          );
+    this.subs.add(
+      this.chatService.getMessages().subscribe((incoming) => {
+
+        if (!incoming) return;
+
+        const alreadyExists =
+          this.messages.some(m => m.id === incoming.id);
+
+        if (!alreadyExists) {
+
+          this.messages = [
+            ...this.messages,
+            incoming
+          ];
+
+          this.cdr.detectChanges();
+          this.scrollAfterRender();
         }
       })
     );

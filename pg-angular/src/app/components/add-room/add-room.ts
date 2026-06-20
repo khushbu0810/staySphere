@@ -24,7 +24,7 @@ export class AddRoom implements OnInit {
     this.roomForm = this.fb.group({
       roomNumber: ['', Validators.required],
       roomType: ['', Validators.required],
-      capacity: [{ value: 0, disabled: true }, [Validators.required, Validators.min(1)]],
+      capacity: ['', [Validators.required, Validators.min(1)]],
       currentOccupancy: [0],
       vacancy: [{ value: 0, disabled: true }],
       rentAmount: ['', [Validators.required, Validators.min(1)]],
@@ -41,6 +41,31 @@ export class AddRoom implements OnInit {
     '5 Sharing'
   ];
 
+  venueNames: string[] = [
+    'Grand Hall',
+    'Royal Banquet',
+    'Skyline Event Center',
+    'Emerald Convention Hall',
+    'Crystal Ballroom',
+    'Elite Conference Center',
+    'Sunrise Banquet Hall',
+    'Golden Crown Venue',
+    'Harmony Event Space',
+    'Imperial Wedding Hall'
+  ];
+
+  venueTypes: string[] = [
+    'Wedding Venue',
+    'Banquet Hall',
+    'Conference Hall',
+    'Convention Center',
+    'Outdoor Venue',
+    'Corporate Event Space',
+    'Party Hall',
+    'Exhibition Center',
+    'Rooftop Venue',
+    'Luxury Ballroom'
+  ];
 
   addRoom() {
     if (this.roomForm.valid) {
@@ -53,7 +78,7 @@ export class AddRoom implements OnInit {
               this.selectedRoomImages
             ).subscribe(() => {
 
-              alert('Room added successfully');
+              alert('Venue added successfully');
 
             });
 
@@ -78,7 +103,7 @@ export class AddRoom implements OnInit {
           if (err.error) {
             alert(err.error);
           } else {
-            alert('Failed to add room. Please try again.');
+            alert('Failed to add venue. Please try again.');
           }
         }
       });
@@ -87,18 +112,59 @@ export class AddRoom implements OnInit {
 
 
   onRoomTypeChange() {
-    const roomType = this.roomForm.get('roomType')?.value;
+    const venueType = this.roomForm.get('roomType')?.value;
 
-    if (roomType) {
-      const capacity = parseInt(roomType); // "2 Sharing" → 2
+    let capacity = 0;
+    switch (venueType) {
 
-      this.roomForm.patchValue({
-        capacity: capacity,
-        currentOccupancy: 0,
-        vacancy: capacity,
-        isAvailable: true
-      });
+      case 'Wedding Venue':
+        capacity = 500;
+        break;
+
+      case 'Banquet Hall':
+        capacity = 300;
+        break;
+
+      case 'Conference Hall':
+        capacity = 150;
+        break;
+
+      case 'Convention Center':
+        capacity = 1000;
+        break;
+
+      case 'Outdoor Venue':
+        capacity = 800;
+        break;
+
+      case 'Corporate Event Space':
+        capacity = 200;
+        break;
+
+      case 'Party Hall':
+        capacity = 100;
+        break;
+
+      case 'Exhibition Center':
+        capacity = 1200;
+        break;
+
+      case 'Rooftop Venue':
+        capacity = 120;
+        break;
+
+      case 'Luxury Ballroom':
+        capacity = 400;
+        break;
     }
+
+    this.roomForm.patchValue({
+      capacity: capacity,
+      currentOccupancy: 0,
+      vacancy: capacity,
+      isAvailable: true
+    });
+
   }
 
   onRoomImagesSelected(event: any) {

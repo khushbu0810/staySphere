@@ -1,83 +1,90 @@
-<h2>Add Expense</h2>
+<div class="page-wrapper">
+  <h2>Add Operational Expense</h2>
 
-<form [formGroup]="expenseForm" (ngSubmit)="addExpense()" novalidate>
-
-  <!-- Category -->
-  <div>
-    <label>Category</label><br />
-    <select formControlName="category">
-      <option value="">Select Category</option>
-      @for (cat of categories; track cat) {
-        <option [value]="cat">
-          {{ cat }}
-        </option>
-      }
-    </select>
-
-    @if (f['category'].touched && f['category'].errors?.['required']) {
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="header-icon">💸</div>
       <div>
-        Category is required
+        <h3>Expense Details</h3>
+        <p>Record a new operational expense entry</p>
       </div>
-    }
-  </div>
+    </div>
 
-  <br />
+    <form class="expense-form" [formGroup]="expenseForm" (ngSubmit)="addExpense()" novalidate>
 
-  <!-- Description -->
-  <div>
-    <label>Description</label><br />
-    <input type="text" formControlName="description" />
-  </div>
+      <!-- Category -->
+      <div class="form-group">
+        <label>Expense Category <span class="required-mark">*</span></label>
+        <select formControlName="category" [class.input-error]="f['category'].touched && f['category'].invalid">
+          <option value="">Select Category</option>
+          @for (cat of categories; track cat) {
+          <option [value]="cat">
+            {{ cat }}
+          </option>
+          }
+        </select>
 
-  <br />
-
-  <!-- Amount -->
-  <div>
-    <label>Amount</label><br />
-    <input type="number" formControlName="amount" />
-
-    @if (f['amount'].touched && f['amount'].errors?.['required']) {
-      <div>
-        Amount is required
+        @if (f['category'].touched && f['category'].errors?.['required']) {
+        <div class="field-error">
+          Expense Category is required
+        </div>
+        }
       </div>
-    }
 
-    @if (f['amount'].touched && f['amount'].errors?.['min']) {
-      <div>
-        Amount must be greater than 0
+      <!-- Description -->
+      <div class="form-group">
+        <label>Expense Description</label>
+        <input type="text" formControlName="description" placeholder="e.g. Plumbing repair, generator fuel" />
       </div>
-    }
-  </div>
 
-  <br />
+      <!-- Amount -->
+      <div class="form-group">
+        <label>Expense Amount <span class="required-mark">*</span></label>
+        <div class="input-prefix-wrap">
+          <span class="input-prefix">₹</span>
+          <input type="number" formControlName="amount" placeholder="0.00"
+            [class.input-error]="f['amount'].touched && f['amount'].invalid" />
+        </div>
 
-  <!-- Expense Date -->
-  <div>
-    <label>Expense Date</label><br />
-    <input type="date" formControlName="expenseDate" (change)="onDateChange()" />
+        @if (f['amount'].touched && f['amount'].errors?.['required']) {
+        <div class="field-error">
+          Expense amount is required
+        </div>
+        }
 
-    @if (f['expenseDate'].touched && f['expenseDate'].errors?.['required']) {
-      <div>
-        Expense date is required
+        @if (f['amount'].touched && f['amount'].errors?.['min']) {
+        <div class="field-error">
+          Expense amount must be greater than 0
+        </div>
+        }
       </div>
-    }
+
+      <!-- Expense Date -->
+      <div class="form-group">
+        <label>Expense Date <span class="required-mark">*</span></label>
+        <input type="date" formControlName="expenseDate" (change)="onDateChange()"
+          [class.input-error]="f['expenseDate'].touched && f['expenseDate'].invalid" />
+
+        @if (f['expenseDate'].touched && f['expenseDate'].errors?.['required']) {
+        <div class="field-error">
+          Expense date is required
+        </div>
+        }
+      </div>
+
+      <!-- Expense Month (Auto) -->
+      <div class="form-group">
+        <label>Expense Month <span class="auto-tag">Auto-filled</span></label>
+        <input type="text" formControlName="expenseMonth" class="input-readonly" readonly />
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="expenseForm.invalid">
+          Add Expense
+        </button>
+      </div>
+
+    </form>
   </div>
-
-  <br />
-
-  <!-- Expense Month (Auto) -->
-  <div>
-    <label>Expense Month</label><br />
-    <input type="text" formControlName="expenseMonth" />
-  </div>
-
-  <br />
-
-  <br />
-
-  <!-- Submit -->
-  <button type="submit" [disabled]="expenseForm.invalid">
-    Add Expense
-  </button>
-
-</form>
+</div>

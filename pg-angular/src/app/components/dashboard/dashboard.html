@@ -1,143 +1,248 @@
-<h2 class="dashboard-title">Dashboard</h2> <!-- Actions -->
-<div class="dashboard-actions">
-  <button class="btn primary" (click)="addTenant()">Add Residant</button>
-  <button class="btn primary" (click)="addRoom()">Add Space</button>
-  <button class="btn primary" (click)="addExpense()">Add
-    Expense</button>
-  <button class="btn secondary" (click)="tenantList()">Residant List</button>
-  <button class="btn secondary" (click)="roomList()">Space List</button>
-  <button class="btn secondary" (click)="expenseList()">Expense
-    List</button>
-</div>
+<div class="page-wrapper">
 
-<div class="chat-section">
-  <button class="chat-action-btn" (click)="openChat()">
-    💬 CHAT WITH RESIDANTS
-  </button>
-</div>
-
-<div class="upload-card">
-
-  <h3>Upload Property Images</h3>
-
-  <input type="file" multiple accept="image/*" (change)="onPgImagesSelected($event)" />
-  <br>
-  @if (selectedPgImages.length > 0) {
-
-  <p class="selected-count">
-    {{ selectedPgImages.length }} image(s) selected
-  </p>
-
-  }
-  <br>
-  <button class="btn primary" (click)="uploadPgImages()">
-    Upload Property Images
-  </button>
-
-</div>
-
-
-
-<div class="report-panel">
-
-  <!-- LEFT SIDE : Filters -->
-  <div class="filters">
-    <select [(ngModel)]="selectedYear">
-      @for (y of years; track y) {
-      <option [value]="y">{{ y }}</option>
-      }
-    </select>
-
-    <select [(ngModel)]="selectedMonth">
-      @for (m of months; track m) {
-      <option [value]="m.value">
-        {{ m.name }}
-      </option>
-      }
-    </select>
-  </div>
-
-  <!-- RIGHT SIDE : Actions -->
-  <div class="actions">
-    <button class="btn success" (click)="downloadMonthly()">
-      ⬇ Download Month Report
-    </button>
-
-    <button class="btn primary" (click)="downloadYearly()">
-      ⬇ Download Year Report
+  <!-- ── Page Header ── -->
+  <div class="page-header">
+    <div>
+      <h2 class="dashboard-title">EventFlow Dashboard</h2>
+      <p class="page-subtitle">Venue operations, bookings &amp; financial overview</p>
+    </div>
+    <button class="chat-action-btn" (click)="openChat()">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      Organizer Support Chat
     </button>
   </div>
 
-</div>
-
-
-<!-- PG Summary -->
-
-<div class="summary-card pg-summary">
-  <h3 class="summary-title">Property Summary</h3>
-  <p class="summary-item"> <span class="label">Total Staying:</span> <span class="value">{{ totalStaying }}</span>
-  </p>
-  <p class="summary-item"> <span class="label">Total Vacancy:</span> <span class="value">{{ totalVacancy }}</span>
-  </p>
-
-</div>
-<!-- MONTH vs YEAR GRID -->
-<div class="summary-grid">
-
-  <!-- THIS MONTH -->
-  <div class="summary-card" [class.profit-card]="profitLossThisMonth >= 0" [class.loss-card]="profitLossThisMonth < 0">
-
-    <h3 class="summary-title">This Month</h3>
-
-    <!-- TOP ROW -->
-    <div class="card-top">
-      <div class="metric income">
-        <div class="metric-value">₹{{ incomeThisMonth }}</div>
-        <div class="metric-label">Income</div>
-      </div>
-
-      <div class="metric expense">
-        <div class="metric-value">₹{{ totalExpenseThisMonth }}</div>
-        <div class="metric-label">Expense</div>
-      </div>
+  <!-- ── Occupancy Strip ── -->
+  <div class="occupancy-card">
+    <div class="occupancy-head">
+      <span class="occupancy-title">Venue Utilization</span>
+      <span class="occupancy-ratio">{{ totalStaying }} of {{ totalStaying + totalVacancy }} venues currently
+        booked</span>
     </div>
-
-    <!-- BOTTOM -->
-    <div class="card-bottom">
-      <div class="profit-loss-value">
-        ₹{{ profitLossThisMonth }}
+    <div class="occupancy-bar">
+      <div class="occupancy-fill" [style.width.%]="(totalStaying / (totalStaying + totalVacancy)) * 100"></div>
+    </div>
+    <div class="occupancy-legend">
+      <div class="legend-item">
+        <span class="legend-dot filled"></span>
+        <span class="legend-value">{{ totalStaying }}</span>
+        <span class="legend-label">Booked</span>
       </div>
-      <div class="profit-loss-label">
-        Profit
+      <div class="legend-item">
+        <span class="legend-dot vacant"></span>
+        <span class="legend-value">{{ totalVacancy }}</span>
+        <span class="legend-label">Available</span>
       </div>
     </div>
   </div>
 
-  <!-- THIS YEAR -->
-  <div class="summary-card" [class.profit-card]="profitLossThisYear >= 0" [class.loss-card]="profitLossThisYear < 0">
+  <!-- ── Financial Summary ── -->
+  <div class="finance-grid">
 
-    <h3 class="summary-title">This Year</h3>
-
-    <!-- TOP ROW -->
-    <div class="card-top">
-      <div class="metric income">
-        <div class="metric-value">₹{{ incomeThisYear }}</div>
-        <div class="metric-label">Income</div>
+    <!-- THIS MONTH -->
+    <div class="finance-card" [class.is-profit]="profitLossThisMonth >= 0" [class.is-loss]="profitLossThisMonth < 0">
+      <div class="finance-card-head">
+        <span class="finance-period">This Month</span>
+        <span class="finance-pill" [class.pill-profit]="profitLossThisMonth >= 0"
+          [class.pill-loss]="profitLossThisMonth < 0">
+          @if (profitLossThisMonth >= 0) { ▲ Profit } @else { ▼ Loss }
+        </span>
       </div>
 
-      <div class="metric expense">
-        <div class="metric-value">₹{{ totalExpenseThisYear }}</div>
-        <div class="metric-label">Expense</div>
+      <div class="finance-net">₹{{ profitLossThisMonth }}</div>
+
+      <div class="finance-breakdown">
+        <div class="breakdown-row">
+          <span class="breakdown-label">Venue Revenue</span>
+          <span class="breakdown-bar"><span class="bar-fill income-fill"></span></span>
+          <span class="breakdown-value income-text">₹{{ incomeThisMonth }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Operational Cost</span>
+          <span class="breakdown-bar"><span class="bar-fill expense-fill"></span></span>
+          <span class="breakdown-value expense-text">₹{{ totalExpenseThisMonth }}</span>
+        </div>
       </div>
     </div>
 
-    <!-- BOTTOM -->
-    <div class="card-bottom">
-      <div class="profit-loss-value">
-        ₹{{ profitLossThisYear }}
+    <!-- THIS YEAR -->
+    <div class="finance-card" [class.is-profit]="profitLossThisYear >= 0" [class.is-loss]="profitLossThisYear < 0">
+      <div class="finance-card-head">
+        <span class="finance-period">This Year</span>
+        <span class="finance-pill" [class.pill-profit]="profitLossThisYear >= 0"
+          [class.pill-loss]="profitLossThisYear < 0">
+          @if (profitLossThisYear >= 0) { ▲ Profit } @else { ▼ Loss }
+        </span>
       </div>
-      <div class="profit-loss-label">
-        Profit
+
+      <div class="finance-net">₹{{ profitLossThisYear }}</div>
+
+      <div class="finance-breakdown">
+        <div class="breakdown-row">
+          <span class="breakdown-label">Venue Revenue</span>
+          <span class="breakdown-bar"><span class="bar-fill income-fill"></span></span>
+          <span class="breakdown-value income-text">₹{{ incomeThisYear }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Operational Cost</span>
+          <span class="breakdown-bar"><span class="bar-fill expense-fill"></span></span>
+          <span class="breakdown-value expense-text">₹{{ totalExpenseThisYear }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Quick Actions ── -->
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </div>
+      <div>
+        <h3>Manage Event Operations</h3>
+        <p>Manage organizers, venues and operational expenses</p>
+      </div>
+    </div>
+
+    <div class="form-card-body">
+      <div class="manage-row">
+        <div class="manage-item">
+          <div class="manage-info">
+            <span class="manage-name">Organizers</span>
+            <span class="manage-count">{{ totalStaying }} Registered organizers</span>
+          </div>
+          <div class="manage-buttons">
+            <button class="btn secondary" (click)="tenantList()">Browse Organizers</button>
+            <button class="btn primary" (click)="addTenant()">Onboard Organizer</button>
+          </div>
+        </div>
+
+        <div class="manage-item">
+          <div class="manage-info">
+            <span class="manage-name">Venues</span>
+            <span class="manage-count">{{ totalStaying + totalVacancy }} venues</span>
+          </div>
+          <div class="manage-buttons">
+            <button class="btn secondary" (click)="roomList()">Venue Catalog</button>
+            <button class="btn primary" (click)="addRoom()">Publish Venue</button>
+          </div>
+        </div>
+
+        <div class="manage-item">
+          <div class="manage-info">
+            <span class="manage-name">Operational Expenses</span>
+            <span class="manage-count">₹{{ totalExpenseThisMonth }} this month</span>
+          </div>
+          <div class="manage-buttons">
+            <button class="btn secondary" (click)="expenseList()">Expense Ledger</button>
+            <button class="btn primary" (click)="addExpense()">Log Expense</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Reports ── -->
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 3v18h18" />
+          <path d="M18 17V9M13 17V5M8 17v-3" />
+        </svg>
+      </div>
+      <div>
+        <h3>Business Reports</h3>
+        <p>Download revenue, booking and expense reports</p>
+      </div>
+    </div>
+
+    <div class="form-card-body">
+      <div class="report-panel">
+        <div class="filters">
+          <select [(ngModel)]="selectedYear">
+            @for (y of years; track y) {
+            <option [value]="y">{{ y }}</option>
+            }
+          </select>
+
+          <select [(ngModel)]="selectedMonth">
+            @for (m of months; track m) {
+            <option [value]="m.value">{{ m.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn secondary" (click)="downloadMonthly()">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Month Business Report
+          </button>
+          <button class="btn primary" (click)="downloadYearly()">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Annual Business Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Upload Property Images ── -->
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <path d="m21 15-5-5L5 21" />
+        </svg>
+      </div>
+      <div>
+        <h3>Venue Gallery</h3>
+        <p>Upload venue photos for organizers to explore</p>
+      </div>
+    </div>
+
+    <div class="form-card-body">
+      <div class="field">
+        <div class="file-drop-zone" [class.has-files]="selectedPgImages.length > 0">
+          <input type="file" multiple accept="image/*" (change)="onPgImagesSelected($event)" />
+          <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <path d="M17 8l-5-5-5 5" />
+            <path d="M12 3v12" />
+          </svg>
+          <span class="drop-text">Click or drag venue images to upload</span>
+          <span class="drop-sub">PNG or JPG &middot; Showcase your venue to organizers</span>
+        </div>
+
+        @if (selectedPgImages.length > 0) {
+        <div class="file-chips">
+          <span class="chip">{{ selectedPgImages.length }} image(s) selected</span>
+        </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-submit" (click)="uploadPgImages()">
+          Upload Venue Images
+        </button>
       </div>
     </div>
   </div>

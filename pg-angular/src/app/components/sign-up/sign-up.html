@@ -13,18 +13,19 @@
     <!-- Brand row -->
     <div class="brand-row">
       <div class="brand-icon">
-        <i class="ti ti-building-estate"></i>
+        <i class="ti ti-calendar-event"></i>
       </div>
-      <span class="brand-name">Stay<span class="accent">Desk</span></span>
+      <span class="brand-name">Event<span class="accent">Flow</span></span>
     </div>
 
-    <!-- Big PG name -->
+    <!-- Hero -->
     <h1 class="pg-name">
-      Manage your Property<br /><em>Effortlessly.</em>
+      The Smart Platform for<br />
+      <em>Venue & Event Management.</em>
     </h1>
 
     <p class="pg-tagline">
-      Space, payments &amp; communication — all in one place.
+      Streamline venue bookings, organizer management, payments and business operations.
     </p>
 
   </div>
@@ -34,125 +35,175 @@
 
     <form #registration="ngForm" (ngSubmit)="register(registration)">
 
-      <p class="form-heading">Create your account</p>
-      <p class="form-sub">Get access to your StayDesk dashboard in seconds.</p>
+      <p class="form-heading">Create Your EventFlow Account</p>
+      <p class="form-sub">
+        Start managing venues, bookings and event operations effortlessly.
+      </p>
 
       <!-- Username + Email -->
       <div class="two-col">
+
         <div class="form-group">
           <label class="form-label">Username</label>
+
           <div class="input-wrap">
             <i class="ti ti-user input-icon"></i>
-            <input type="text" name="username" placeholder="rahul_sharma" [(ngModel)]="user.username" required
+
+            <input type="text" name="username" placeholder="event_manager" [(ngModel)]="user.username" required
               #usernameField="ngModel" />
           </div>
+
           @if (usernameField.invalid && usernameField.touched) {
-          <div class="error-text"><small>Username is required.</small></div>
+          <div class="error-text">
+            <small>Username is required.</small>
+          </div>
           }
         </div>
 
         <div class="form-group">
-          <label class="form-label">Email</label>
+          <label class="form-label">Email Address</label>
+
           <div class="input-wrap">
             <i class="ti ti-mail input-icon"></i>
-            <input type="email" name="email" placeholder="you@email.com" [(ngModel)]="user.email" required email
+
+            <input type="email" name="email" placeholder="you@example.com" [(ngModel)]="user.email" required email
               #emailField="ngModel" />
           </div>
+
           @if (emailField.invalid && emailField.touched) {
           <div class="error-text">
-            @if (emailField.errors?.['required']) { <small>Email is required.</small> }
-            @if (emailField.errors?.['email']) { <small>Invalid email format.</small> }
+            @if (emailField.errors?.['required']) {
+            <small>Email address is required.</small>
+            }
+
+            @if (emailField.errors?.['email']) {
+            <small>Invalid email format.</small>
+            }
           </div>
           }
         </div>
+
       </div>
 
-      <!-- Password + Confirm -->
+      <!-- Password + Confirm Password -->
       <div class="two-col">
+
         <div class="form-group">
           <label class="form-label">Password</label>
+
           <div class="input-wrap">
             <i class="ti ti-lock input-icon"></i>
+
             <input type="password" name="password" placeholder="••••••••" [(ngModel)]="user.password" required
               #passwordField="ngModel" />
           </div>
+
           @if (passwordField.invalid && passwordField.touched) {
-          <div class="error-text"><small>Password is required.</small></div>
+          <div class="error-text">
+            <small>Password is required.</small>
+          </div>
           }
         </div>
 
         <div class="form-group">
           <label class="form-label">Confirm Password</label>
+
           <div class="input-wrap">
             <i class="ti ti-lock-check input-icon"></i>
+
             <input type="password" name="confirmPassword" placeholder="••••••••" [(ngModel)]="confirmPassword" required
               #confirmPasswordField="ngModel" />
           </div>
+
           @if (confirmPasswordField.invalid && confirmPasswordField.touched) {
-          <div class="error-text"><small>Confirm password is required.</small></div>
+          <div class="error-text">
+            <small>Confirm password is required.</small>
+          </div>
           }
-          @if (user.password !== confirmPassword && confirmPasswordField.touched &&
+
+          @if (user.password !== confirmPassword &&
+          confirmPasswordField.touched &&
           !confirmPasswordField.errors?.['required']) {
-          <div class="error-text"><small>Passwords do not match.</small></div>
+          <div class="error-text">
+            <small>Passwords do not match.</small>
+          </div>
           }
         </div>
+
       </div>
 
       <div class="divider"></div>
 
-      <!-- Role -->
+      <!-- Role Selection -->
       <div class="form-group role-selection">
-        <label class="form-label">Are you staying in PG?</label>
+
+        <label class="form-label">Select Your Role</label>
+
         <div class="radio-group">
+
           <label class="radio-label">
             <input type="radio" name="pgStay" [value]="true" [(ngModel)]="isStayingInPg" />
-            <i class="ti ti-home"></i> Yes, I'm a Residant
+            <i class="ti ti-calendar-event"></i>
+            Organizer
           </label>
+
           <label class="radio-label">
             <input type="radio" name="pgStay" [value]="false" [(ngModel)]="isStayingInPg" />
-            <i class="ti ti-shield"></i> No, I'm Property Manager
+            <i class="ti ti-building-community"></i>
+            Venue Manager
           </label>
+
         </div>
+
       </div>
 
       <!-- Submit -->
-      <button type="submit" class="btn-submit">Create Account →</button>
+      <button type="submit" class="btn-submit">
+        Create Account →
+      </button>
+
       <!-- ===== GOOGLE SIGN-IN ===== -->
-      <div class="google-divider"><span>OR CONTINUE WITH GOOGLE</span></div>
+
+      <div class="google-divider">
+        <span>OR CONTINUE WITH GOOGLE</span>
+      </div>
 
       <div class="google-section">
-        <label class="form-label">Sign in as</label>
 
-        <!-- Role toggle tabs -->
+        <label class="form-label">Continue as</label>
+
+        <!-- Role Tabs -->
         <div class="google-role-tabs">
+
           <button type="button" class="g-role-tab" [class.selected]="selectedGoogleRole === 'USER'"
             (click)="selectedGoogleRole = 'USER'">
-            <i class="ti ti-home"></i> Residant
+            <i class="ti ti-calendar-event"></i>
+            Organizer
           </button>
+
           <button type="button" class="g-role-tab" [class.selected]="selectedGoogleRole === 'ADMIN'"
             (click)="selectedGoogleRole = 'ADMIN'">
-            <i class="ti ti-shield"></i> Property Manager
+            <i class="ti ti-building-community"></i>
+            Venue Manager
           </button>
+
         </div>
 
-        <!-- Custom Google button -->
-        <!-- <div class="google-btn-wrap" id="googleBtn">
-          <button class="google-btn-text">Continue with Google</button>
-          <span class="google-role-badge">
-            {{ selectedGoogleRole === 'USER' ? 'Tenant' : 'Admin' }}
-          </span>
-        </div> -->
         <div id="googleBtn"></div>
+
       </div>
+
       <!-- ===== END GOOGLE ===== -->
 
       <p class="login-link">
-        Already have an account? <a routerLink="/login">Login here</a>
+        Already have an EventFlow account?
+        <a routerLink="/login">Sign in</a>
       </p>
 
       @if (successMessage) {
       <p class="success-message">{{ successMessage }}</p>
       }
+
       @if (errorMessage) {
       <p class="error-message">{{ errorMessage }}</p>
       }

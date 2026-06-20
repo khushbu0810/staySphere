@@ -1,137 +1,299 @@
-/* ================= HOST ================= */
+/* ══════════════════════════════════════
+   expense-form.component.scss
+   Extends the Royal Blue theme
+══════════════════════════════════════ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 :host {
     display: block;
-    width: 100%;
+    background: #eef2fb;
     min-height: 100vh;
-    padding: 24px;
-    background: radial-gradient(circle at top left, #0f172a, #020617);
-    color: #e5e7eb;
-    font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* ================= TITLE ================= */
+.page-wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+}
+
+/* ── Page Heading ── */
 h2 {
-    font-size: 32px;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 26px;
-    background: linear-gradient(90deg, #818cf8, #22d3ee);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* ================= FORM CARD ================= */
-form {
-    max-width: 520px;
-    padding: 32px;
-    border-radius: 26px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-}
-
-/* ================= FORM GROUP ================= */
-form>div {
-    margin-bottom: 18px;
-}
-
-/* ================= LABEL ================= */
-label {
-    font-size: 14px;
+    font-size: 21px;
     font-weight: 600;
-    color: #c7d2fe;
+    color: #0c2461;
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* ================= INPUTS & SELECT ================= */
-input,
-select {
-    width: 100%;
-    margin-top: 8px;
-    padding: 11px 14px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(15, 23, 42, 0.8);
-    color: #e5e7eb;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.3s ease;
+h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 22px;
+    background: #2d65cc;
+    border-radius: 3px;
+    flex-shrink: 0;
 }
 
-/* Focus glow */
-input:focus,
-select:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
-}
-
-/* Disabled month field */
-input[readonly],
-input:disabled {
-    background: rgba(255, 255, 255, 0.05);
-    color: #94a3b8;
-}
-
-/* ================= VALIDATION ERRORS ================= */
-div div {
-    margin-top: 6px;
-    font-size: 13px;
-    color: #f87171;
-}
-
-/* ================= DASHBOARD BUTTON ================= */
-button[type="submit"] {
-    width: 100%;
-    margin-top: 12px;
-    padding: 10px 16px;
-    border-radius: 14px;
-    border: none;
-    font-weight: 600;
-    font-size: 15px;
-    cursor: pointer;
-    color: white;
-    background: linear-gradient(135deg, #4f46e5, #22d3ee);
-    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.35);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+/* ── Form Card ── */
+.form-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #d4e2f8;
     overflow: hidden;
+    box-shadow: 0 2px 16px rgba(26, 79, 171, 0.08);
 }
 
-/* Button glow layer */
-button[type="submit"]::after {
-    content: "";
+.form-card-header {
+    background: linear-gradient(135deg, #1e4fc2 0%, #2d65cc 100%);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-card-header .header-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 19px;
+    flex-shrink: 0;
+}
+
+.form-card-header h3 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.form-card-header p {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 11.5px;
+    margin: 3px 0 0;
+}
+
+/* ── Form Body ── */
+.expense-form {
+    padding: 26px 24px 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #2c4a8a;
+    margin-bottom: 7px;
+    letter-spacing: 0.01em;
+}
+
+.required-mark {
+    color: #e0554c;
+    font-weight: 600;
+}
+
+.auto-tag {
+    display: inline-block;
+    background: #e4edfb;
+    color: #2d65cc;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+}
+
+/* ── Inputs & Select ── */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    font-size: 13.5px;
+    color: #0c2461;
+    background: #fff;
+    border: 1.5px solid #c8daf5;
+    border-radius: 9px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.form-group input::placeholder {
+    color: #a0b8d8;
+    font-size: 13px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2d65cc;
+    box-shadow: 0 0 0 3px rgba(45, 101, 204, 0.13);
+    background: #f8fbff;
+}
+
+.form-group select {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237090b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+}
+
+/* ── Amount Field with Prefix ── */
+.input-prefix-wrap {
+    position: relative;
+}
+
+.input-prefix-wrap .input-prefix {
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent);
-    opacity: 0;
-    transition: opacity 0.25s ease;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7090b8;
+    font-size: 13.5px;
+    font-weight: 600;
+    pointer-events: none;
 }
 
-button[type="submit"]:hover:not(:disabled) {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 18px 45px rgba(79, 70, 229, 0.5);
+.input-prefix-wrap input[type="number"] {
+    padding-left: 30px;
 }
 
-button[type="submit"]:hover::after {
-    opacity: 1;
+/* Hide native number spinner for a cleaner look */
+.input-prefix-wrap input[type="number"]::-webkit-outer-spin-button,
+.input-prefix-wrap input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-/* Disabled state */
-button[type="submit"]:disabled {
-    opacity: 0.5;
+.input-prefix-wrap input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* ── Read-only Auto Field ── */
+.input-readonly {
+    background: #f4f8ff !important;
+    color: #4a5e8a !important;
+    cursor: not-allowed;
+    border-style: dashed !important;
+}
+
+/* ── Error State ── */
+.input-error {
+    border-color: #e0554c !important;
+}
+
+.input-error:focus {
+    box-shadow: 0 0 0 3px rgba(224, 85, 76, 0.13) !important;
+}
+
+.field-error {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #c0392b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.field-error::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fde2e2;
+    color: #c0392b;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ── Actions ── */
+.form-actions {
+    margin-top: 8px;
+    padding-top: 18px;
+    border-top: 1px solid #edf2fb;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 42px;
+    padding: 0 26px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    color: #fff;
+    background: linear-gradient(135deg, #1e4fc2 0%, #2d65cc 100%);
+    box-shadow: 0 2px 10px rgba(45, 101, 204, 0.3);
+    transition: transform 0.13s, box-shadow 0.13s, opacity 0.13s;
+}
+
+.btn-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(45, 101, 204, 0.38);
+}
+
+.btn-submit:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-submit:disabled {
+    background: #c8daf5;
+    color: #fff;
     cursor: not-allowed;
     box-shadow: none;
+    opacity: 0.8;
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 600px) {
-    form {
-        padding: 24px;
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .page-wrapper {
+        padding: 24px 16px 48px;
     }
-}
 
-form {
-    max-width: 520px;
-    margin: 40px auto;
-    /* 👈 centers the form */
+    .expense-form {
+        padding: 22px 18px 20px;
+    }
+
+    .form-actions {
+        justify-content: stretch;
+    }
+
+    .btn-submit {
+        width: 100%;
+        justify-content: center;
+    }
 }

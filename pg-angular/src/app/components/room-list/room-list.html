@@ -1,5 +1,6 @@
 <h2>Space List</h2>
 
+
 @if ((rooms$ | async); as rooms) {
 <div class="room-grid">
   @for (room of rooms; track room) {
@@ -7,34 +8,73 @@
 
     <!-- Background image -->
     @if (room.roomImageUrls?.length) {
-    <div class="room-bg" [style.background-image]="'url(' + room.roomImageUrls![0] + ')'">
-    </div>
+    <img class="room-bg-img" [src]="room.roomImageUrls![0]" alt="Room {{ room.roomNumber }}" loading="lazy" />
     } @else {
-    <div class="room-no-img">🏠</div>
+    <div class="room-no-img">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" />
+        <circle cx="8.5" cy="10" r="1.5" stroke="currentColor" stroke-width="1.6" />
+        <path d="M3 16l5-4.5a1.5 1.5 0 0 1 2 0L15 16M13.5 14.5l1.8-1.6a1.5 1.5 0 0 1 2 0L21 16" stroke="currentColor"
+          stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
     }
 
     <!-- Always-on gradient overlay -->
     <div class="room-overlay"></div>
 
-    <!-- Status badge -->
-    <span class="status" [class.available]="room.isAvailable" [class.full]="!room.isAvailable">
-      {{ room.isAvailable ? 'Available' : 'Full' }}
-    </span>
+    <!-- Top row: status + image count -->
+    <div class="card-top-row">
+      <span class="status" [class.available]="room.isAvailable" [class.full]="!room.isAvailable">
+        {{ room.isAvailable ? 'Available' : 'Full' }}
+      </span>
+
+      @if (room.roomImageUrls?.length) {
+      <span class="img-count-pill">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3.5 4 7.5l8 4 8-4-8-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          <path d="M4 12l8 4 8-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M4 16.5l8 4 8-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        {{ room.roomImageUrls!.length }}
+      </span>
+      }
+    </div>
 
     <!-- Eye button — only if images exist -->
     @if (room.roomImageUrls?.length) {
-    <button class="eye-btn" (click)="$event.stopPropagation(); openGallery(room)">
-      👁
+    <button class="eye-btn" (click)="$event.stopPropagation(); openGallery(room)" aria-label="View gallery">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.7"
+          stroke-linejoin="round" />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7" />
+      </svg>
     </button>
     }
 
     <!-- Card content -->
     <div class="room-content">
-      <h1>Room {{ room.roomNumber }}</h1>
-      <span class="room-type-badge">{{ room.roomType }}</span>
-      <div class="room-meta">
-        <span>👤 <strong>{{ room.currentOccupancy }}/{{ room.capacity }}</strong></span>
-        <span>💰 <strong>₹{{ room.rentAmount }}</strong></span>
+      <div class="room-title-row">
+        <h1>Room {{ room.roomNumber }}</h1>
+        <span class="room-type-badge">{{ room.roomType }}</span>
+      </div>
+
+      <div class="room-footer">
+        <div class="occ-block">
+          <span class="meta-label">Occupancy</span>
+          <span class="meta-value">{{ room.currentOccupancy }}<small>/{{ room.capacity }}</small></span>
+          <div class="occupancy-track">
+            <div class="occupancy-fill" [style.width.%]="(room.currentOccupancy / room.capacity) * 100"
+              [class.fill-full]="!room.isAvailable"></div>
+          </div>
+        </div>
+
+        <div class="rent-chip">
+          <span class="rent-chip-label">Rent/mo</span>
+          <span class="rent-chip-value">₹{{ room.rentAmount }}</span>
+        </div>
       </div>
     </div>
 
@@ -42,7 +82,18 @@
   }
 </div>
 } @else {
-<p>No rooms found</p>
+<div class="empty-state">
+  <span class="empty-state-icon">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.5" />
+      <path d="M3 7l2.5-3h13L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+        stroke-linejoin="round" />
+      <path d="M8 7v-.5A2.5 2.5 0 0 1 10.5 4h3A2.5 2.5 0 0 1 16 6.5V7" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+  </span>
+  <p>No rooms found</p>
+  <span class="empty-state-sub">Rooms you add will show up here</span>
+</div>
 }
 
 <!-- ROOM MODAL -->
@@ -59,47 +110,99 @@
       </span>
       @if (selectedRoom.roomImageUrls!.length > 1) {
       <div class="img-nav">
-        <button class="img-nav-btn" (click)="prevImage()">‹</button>
-        <button class="img-nav-btn" (click)="nextImage()">›</button>
+        <button class="img-nav-btn" (click)="prevImage()" aria-label="Previous image">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button class="img-nav-btn" (click)="nextImage()" aria-label="Next image">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
       </div>
       }
       } @else {
-      <div class="modal-img-none">🏠</div>
+      <div class="modal-img-none">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" />
+          <circle cx="8.5" cy="10" r="1.5" stroke="currentColor" stroke-width="1.6" />
+          <path d="M3 16l5-4.5a1.5 1.5 0 0 1 2 0L15 16M13.5 14.5l1.8-1.6a1.5 1.5 0 0 1 2 0L21 16" stroke="currentColor"
+            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
       }
       <div class="modal-img-gradient"></div>
+
+      <span class="modal-status" [class.available]="selectedRoom.isAvailable" [class.full]="!selectedRoom.isAvailable">
+        {{ selectedRoom.isAvailable ? 'Available' : 'Full' }}
+      </span>
     </div>
 
     <!-- Details -->
     <div class="modal-body">
-      <h2>Room {{ selectedRoom.roomNumber }}</h2>
+      <div class="modal-heading-row">
+        <h2>Room {{ selectedRoom.roomNumber }}</h2>
+        <span class="room-type-badge-modal">{{ selectedRoom.roomType }}</span>
+      </div>
 
-      <div class="modal-detail">
-        <span>Room Type</span>
-        <strong>{{ selectedRoom.roomType }}</strong>
+      <div class="modal-stat-grid">
+        <div class="modal-stat">
+          <span class="modal-stat-label">Occupied</span>
+          <strong>{{ selectedRoom.currentOccupancy }} guest{{ selectedRoom.currentOccupancy === 1 ? '' : 's' }}</strong>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">Vacancy</span>
+          <strong>{{ selectedRoom.vacancy }} spot{{ selectedRoom.vacancy === 1 ? '' : 's' }}</strong>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">Monthly Rent</span>
+          <strong class="rent-val">₹{{ selectedRoom.rentAmount }}</strong>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">Status</span>
+          <strong [style.color]="selectedRoom.isAvailable ? '#1a7a4a' : '#c0392b'">
+            {{ selectedRoom.isAvailable ? 'Available' : 'Full' }}
+          </strong>
+        </div>
       </div>
-      <div class="modal-detail">
-        <span>Occupied</span>
-        <strong>{{ selectedRoom.currentOccupancy }}</strong>
-      </div>
-      <div class="modal-detail">
-        <span>Vacancy</span>
-        <strong>{{ selectedRoom.vacancy }}</strong>
-      </div>
-      <div class="modal-detail">
-        <span>Monthly Rent</span>
-        <strong class="rent-val">₹{{ selectedRoom.rentAmount }}</strong>
-      </div>
-      <div class="modal-detail">
-        <span>Status</span>
-        <strong [style.color]="selectedRoom.isAvailable ? '#4ade80' : '#f87171'">
-          {{ selectedRoom.isAvailable ? 'Available' : 'Full' }}
-        </strong>
+
+      <div class="modal-occupancy">
+        <div class="modal-occupancy-label">
+          <span>Capacity</span>
+          <span>{{ selectedRoom.currentOccupancy }}/{{ selectedRoom.capacity }}</span>
+        </div>
+        <div class="occupancy-track">
+          <div class="occupancy-fill" [style.width.%]="(selectedRoom.currentOccupancy / selectedRoom.capacity) * 100"
+            [class.fill-full]="!selectedRoom.isAvailable"></div>
+        </div>
       </div>
 
       <div class="modal-actions">
-        <button class="btn-edit" (click)="onEdit(selectedRoom.id!)">✏ Edit</button>
-        <button class="btn-delete" (click)="onDelete(selectedRoom.id!)">🗑 Delete</button>
-        <button class="btn-close" (click)="showModal = false">✕ Close</button>
+        <button class="btn-edit" (click)="onEdit(selectedRoom.id!)">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Edit
+        </button>
+        <button class="btn-delete" (click)="onDelete(selectedRoom.id!)">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6h16Z"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          Delete
+        </button>
+        <button class="btn-close" (click)="showModal = false">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+          Close
+        </button>
       </div>
     </div>
 

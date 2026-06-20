@@ -128,14 +128,14 @@ export class TenantList implements OnInit {
 
   onVacate(tenantId: number) {
     this.rs.vacateRoomFromTenant(tenantId).subscribe(() => {
-      alert('Tenant vacated successfully');
+      alert('Venue booking cancelled successfully');
       this.ts.getAllTenants();
     });
   }
 
   onDelete(tenantId: number) {
     this.ts.deleteTenant(tenantId).subscribe(() => {
-      alert('Tenant deleted successfully');
+      alert('Organizer deactivated successfully');
     });
   }
 }

@@ -1,151 +1,138 @@
-/* ================= PAGE WRAPPER ================= */
+/* ══════════════════════════════════════
+   app.component.scss
+   Royal Blue Professional Light Theme
+   — App shell / top nav bar —
+══════════════════════════════════════ */
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background: #eef2fb;
+    font-feature-settings: "tnum" 1;
+}
+
 .page-wrapper {
     min-height: 100vh;
-    padding: 24px;
-    background: radial-gradient(circle at top left, #0f172a, #020617);
-    color: #e5e7eb;
-    font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* ================= TOP ACTIONS BAR ================= */
+/* ───────────────────────────
+   Top bar
+─────────────────────────── */
 .top-actions {
+    position: sticky;
+    top: 0;
+    z-index: 50;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    padding: 18px 22px;
-    margin-bottom: 28px;
-    border-radius: 20px;
-
-    background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.10),
-            rgba(255, 255, 255, 0.04));
-    backdrop-filter: blur(18px);
-
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    gap: 16px;
+    height: 64px;
+    padding: 0 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #d4e2f8;
+    box-shadow: 0 2px 12px rgba(26, 79, 171, 0.06);
 }
 
-/* LEFT SIDE WRAPPER */
-.top-actions>div {
+.top-actions>div:first-child {
     display: flex;
     align-items: center;
-    gap: 14px;
+    min-width: 0;
 }
 
-/* ================= WELCOME TEXT ================= */
-.welcome-text {
-    font-size: 15px;
-    font-weight: 700;
-    color: #e0e7ff;
-    padding: 10px 18px;
-    border-radius: 999px;
-
-    background: linear-gradient(135deg,
-            rgba(79, 70, 229, 0.35),
-            rgba(34, 211, 238, 0.25));
-
-    box-shadow:
-        0 8px 24px rgba(99, 102, 201, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
-
-    letter-spacing: 0.3px;
+.right-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
-/* ================= BACK BUTTON ================= */
+/* ───────────────────────────
+   Back button
+─────────────────────────── */
 .back-btn {
-    background: linear-gradient(135deg, #4f46e5, #22d3ee);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-
-    box-shadow:
-        0 10px 26px rgba(79, 70, 229, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
-
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.back-btn:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow:
-        0 16px 40px rgba(79, 70, 229, 0.65),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35);
-}
-
-.back-btn:active {
-    transform: scale(0.98);
-}
-
-/* ================= LOGOUT BUTTON ================= */
-.logout-btn {
-    background: linear-gradient(135deg,
-            rgba(239, 68, 68, 0.35),
-            rgba(239, 68, 68, 0.18));
-    color: #fee2e2;
-    border: 1px solid rgba(239, 68, 68, 0.45);
-    padding: 10px 20px;
-    border-radius: 14px;
-    font-size: 14px;
+    gap: 6px;
+    height: 38px;
+    padding: 0 16px;
+    background: #ffffff;
+    color: #1e4fc2;
+    border: 1.5px solid #c8daf5;
+    border-radius: 9px;
+    font-size: 13px;
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
+    transition: all 0.15s;
 
-    box-shadow:
-        0 10px 24px rgba(239, 68, 68, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
-
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.logout-btn:hover {
-    background: linear-gradient(135deg,
-            rgba(239, 68, 68, 0.55),
-            rgba(239, 68, 68, 0.25));
-    transform: translateY(-2px) scale(1.03);
-    box-shadow:
-        0 18px 44px rgba(239, 68, 68, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.logout-btn:active {
-    transform: scale(0.97);
-}
-
-/* ================= ROUTED CONTENT ================= */
-router-outlet+* {
-    margin-top: 10px;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 640px) {
-    .top-actions {
-        flex-direction: column;
-        gap: 16px;
-        padding: 16px;
+    &:hover {
+        border-color: #6b9de8;
+        background: #f5f8ff;
+        transform: translateX(-1px);
     }
 
-    .top-actions>div {
-        width: 100%;
-        justify-content: center;
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ───────────────────────────
+   Welcome text
+─────────────────────────── */
+.welcome-text {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #0c2461;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ───────────────────────────
+   Logout
+─────────────────────────── */
+.logout-btn {
+    height: 38px;
+    padding: 0 18px;
+    background: #fff5f5;
+    color: #c0392b;
+    border: 1.5px solid #f3c2bc;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+        background: #fde7e7;
+        border-color: #e8a8a0;
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ───────────────────────────
+   Responsive
+─────────────────────────── */
+@media (max-width: 480px) {
+    .top-actions {
+        height: auto;
+        min-height: 60px;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+    }
+
+    .welcome-text {
+        font-size: 13px;
     }
 
     .back-btn,
     .logout-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .welcome-text {
-        text-align: center;
-        width: 100%;
+        height: 34px;
+        padding: 0 13px;
+        font-size: 12px;
     }
 }

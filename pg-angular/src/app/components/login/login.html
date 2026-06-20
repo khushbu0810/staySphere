@@ -13,18 +13,19 @@
     <!-- Brand row -->
     <div class="brand-row">
       <div class="brand-icon">
-        <i class="ti ti-building-estate"></i>
+        <i class="ti ti-calendar-event"></i>
       </div>
-      <span class="brand-name">Stay<span class="accent">Desk</span></span>
+      <span class="brand-name">Event<span class="accent">Flow</span></span>
     </div>
 
-    <!-- Big PG name -->
+    <!-- Hero Title -->
     <h1 class="pg-name">
-      Manage your Property<br /><em>Effortlessly.</em>
+      The Smart Platform for<br />
+      <em>Venue & Event Management.</em>
     </h1>
 
     <p class="pg-tagline">
-      Space, payments &amp; communication — all in one place.
+      Streamline venue bookings, organizer management, payments and business operations.
     </p>
 
   </div>
@@ -39,23 +40,32 @@
 
     <form #loginForm="ngForm" (ngSubmit)="login()">
 
-      <p class="form-heading">Sign in</p>
-      <p class="form-sub">Enter your credentials to continue.</p>
+      <p class="form-heading">Welcome Back</p>
+      <p class="form-sub">
+        Sign in to access your EventFlow dashboard.
+      </p>
 
       <div class="divider"></div>
 
       <!-- Email -->
       <div class="form-group">
-        <label class="form-label">Email</label>
+        <label class="form-label">Email Address</label>
+
         <div class="input-wrap">
           <i class="ti ti-mail input-icon"></i>
+
           <input type="email" id="email" name="email" [(ngModel)]="loginInfo.email" required email #emailField="ngModel"
-            placeholder="you@email.com" autocomplete="email" />
+            placeholder="you@example.com" autocomplete="email" />
         </div>
+
         @if (emailField.invalid && emailField.touched) {
         <div class="error-text">
-          @if (emailField.errors?.['required']) { <small>Email is required.</small> }
-          @if (emailField.errors?.['email']) { <small>Please enter a valid email.</small> }
+          @if (emailField.errors?.['required']) {
+          <small>Email address is required.</small>
+          }
+          @if (emailField.errors?.['email']) {
+          <small>Please enter a valid email address.</small>
+          }
         </div>
         }
       </div>
@@ -63,24 +73,34 @@
       <!-- Password -->
       <div class="form-group">
         <label class="form-label">Password</label>
+
         <div class="input-wrap">
           <i class="ti ti-lock input-icon"></i>
+
           <input type="password" id="password" name="password" [(ngModel)]="loginInfo.password" required minlength="6"
             #passwordField="ngModel" placeholder="••••••••" autocomplete="current-password" />
         </div>
+
         @if (passwordField.invalid && passwordField.touched) {
         <div class="error-text">
-          @if (passwordField.errors?.['required']) { <small>Password is required.</small> }
-          @if (passwordField.errors?.['minlength']) { <small>Password must be at least 6 characters.</small> }
+          @if (passwordField.errors?.['required']) {
+          <small>Password is required.</small>
+          }
+          @if (passwordField.errors?.['minlength']) {
+          <small>Password must be at least 6 characters.</small>
+          }
         </div>
         }
       </div>
 
       <!-- Submit -->
-      <button type="submit" class="btn-submit">Login →</button>
+      <button type="submit" class="btn-submit">
+        Access Dashboard →
+      </button>
 
       <p class="signup-link">
-        Don't have an account? <a routerLink="/signup">Sign up here</a>
+        New to EventFlow?
+        <a routerLink="/signup">Create an account</a>
       </p>
 
     </form>

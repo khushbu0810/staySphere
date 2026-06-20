@@ -10,7 +10,11 @@
 
             <div class="profile-details">
                 <h2>{{ tenantName | titlecase }}</h2>
-                <span>PG Support Chat</span>
+                <span>
+                    {{ loggedInEmail === 'ADMIN'
+                    ? 'Organizer Conversations'
+                    : 'Booking Support' }}
+                </span>
             </div>
 
         </div>
@@ -23,14 +27,14 @@
         @if (messages.length === 0) {
         <div class="empty-chat">
             <div class="empty-icon">💬</div>
-            <p>Start a conversation with admin</p>
+            <p>Need help with a booking? Start a conversation.</p>
         </div>
         }
 
         <!-- Messages -->
         @for (message of messages; track message.id; let i = $index) {
 
-        <!-- Date divider — show when day changes -->
+        <!-- Date divider -->
         @if (i === 0 || isDifferentDay(messages[i - 1].timestamp, message.timestamp)) {
         <div class="date-divider">
             <span>{{ formatDate(message.timestamp) }}</span>
@@ -39,27 +43,26 @@
 
         <div class="message-row" [ngClass]="message.sender === loggedInEmail ? 'my-message-row' : 'other-message-row'">
 
-            <!-- Avatar chip — only for others -->
             @if (message.sender !== loggedInEmail) {
             <div class="avatar-chip" [style.background]="getAvatarGradient(message.sender)" [title]="message.sender">
                 {{ message.sender.charAt(0).toUpperCase() }}
             </div>
             }
 
-            <!-- Bubble -->
             <div class="message-bubble" [ngClass]="message.sender === loggedInEmail ? 'my-message' : 'other-message'"
                 [style.background]="message.sender !== loggedInEmail ? getBubbleBackground(message.sender) : null">
 
-                <!-- Sender label -->
                 <div class="sender-name">
                     {{ message.sender === loggedInEmail ? 'You' : message.sender }}
                 </div>
 
-                <!-- Message text -->
-                <div class="message-text">{{ message.message }}</div>
+                <div class="message-text">
+                    {{ message.message }}
+                </div>
 
-                <!-- Timestamp -->
-                <div class="message-time">{{ formatTime(message.timestamp) }}</div>
+                <div class="message-time">
+                    {{ formatTime(message.timestamp) }}
+                </div>
 
             </div>
 
@@ -71,14 +74,16 @@
     <!-- ===== INPUT TOOLBAR ===== -->
     <div class="chat-toolbar">
 
-        <input type="text" [(ngModel)]="message" name="message" placeholder="Type a message..."
+        <input type="text" [(ngModel)]="message" name="message" placeholder="Ask about bookings, venues or support..."
             (keyup.enter)="sendMessage()" autocomplete="off" />
 
         <button class="send-btn" type="button" (click)="sendMessage()" title="Send">
+
             <svg viewBox="0 0 24 24">
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
+
         </button>
 
     </div>
