@@ -28,8 +28,8 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room createRoom(Room room) {
         room.setCurrentOccupancy(0);
-        room.setVacancy(room.getCapacity());
-        room.setIsAvailable(room.getVacancy() > 0);
+        room.setVacancy(1);
+        room.setIsAvailable(true);
         return roomRepo.save(room);
     }
 
@@ -58,6 +58,13 @@ public class RoomServiceImpl implements RoomService {
             currentRoom.setRentAmount(room.getRentAmount());
             currentRoom.setIsAvailable(room.getIsAvailable());
             currentRoom.setCapacity(room.getCapacity());
+            if (currentRoom.getCurrentOccupancy() > 0) {
+                currentRoom.setVacancy(0);
+                currentRoom.setIsAvailable(false);
+            } else {
+                currentRoom.setVacancy(1);
+                currentRoom.setIsAvailable(true);
+            }
             return roomRepo.save(currentRoom);
         }
         return null;
@@ -94,8 +101,8 @@ public class RoomServiceImpl implements RoomService {
         Tenant currentTenant = tenantRepo.findById(tenantId)
                 .orElseThrow(() -> new RuntimeException("Tenant not found"));
 
-        if (currentRoom.getVacancy() <= 0) {
-            throw new RuntimeException("Room is full");
+        if (!currentRoom.getIsAvailable()) {
+            throw new RuntimeException("Venue is already booked. Please choose another venue.");
         }
 
         currentTenant.setRoom(currentRoom);
@@ -109,9 +116,9 @@ public class RoomServiceImpl implements RoomService {
         }
         currentRoom.getTenants().add(currentTenant);
 
-        currentRoom.setCurrentOccupancy(currentRoom.getCurrentOccupancy() + 1);
-        currentRoom.setVacancy(currentRoom.getCapacity() - currentRoom.getCurrentOccupancy());
-        currentRoom.setIsAvailable(currentRoom.getVacancy() > 0);
+        currentRoom.setCurrentOccupancy(1);
+        currentRoom.setVacancy(0);
+        currentRoom.setIsAvailable(false);
 
         tenantRepo.save(currentTenant);
         roomRepo.save(currentRoom);
@@ -130,8 +137,8 @@ public class RoomServiceImpl implements RoomService {
         currentTenant.setRoom(null);
         currentTenant.setOccupancyStatus("Vacated");
 
-        currentRoom.setCurrentOccupancy(currentRoom.getCurrentOccupancy() - 1);
-        currentRoom.setVacancy(currentRoom.getCapacity() - currentRoom.getCurrentOccupancy());
+        currentRoom.setCurrentOccupancy(0);
+        currentRoom.setVacancy(1);
         currentRoom.setIsAvailable(true);
 
         currentRoom.getTenants().remove(currentTenant);

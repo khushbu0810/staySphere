@@ -3,20 +3,19 @@ package com.example.pg_spring.service.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.pg_spring.model.User;
-import com.example.pg_spring.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.pg_spring.model.Room;
 import com.example.pg_spring.model.Tenant;
+import com.example.pg_spring.model.User;
 import com.example.pg_spring.repository.RoomRepo;
 import com.example.pg_spring.repository.TenantRepo;
+import com.example.pg_spring.repository.UserRepo;
 import com.example.pg_spring.service.TenantService;
 
 import jakarta.transaction.Transactional;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class TenantServiceImpl implements TenantService {
@@ -28,17 +27,17 @@ public class TenantServiceImpl implements TenantService {
 //    RedisService redisService;
 
     @Autowired
-    public TenantServiceImpl(TenantRepo tenantRepo, RoomRepo roomRepo,UserRepo userRepo,PasswordEncoder passwordEncoder) {
+    public TenantServiceImpl(TenantRepo tenantRepo, RoomRepo roomRepo, UserRepo userRepo, PasswordEncoder passwordEncoder) {
         this.tenantRepo = tenantRepo;
         this.roomRepo = roomRepo;
-        this.userRepo=userRepo;
-        this.passwordEncoder=passwordEncoder;
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
 //        this.redisService = redisService;
     }
 
     @Override
     public Tenant addTenant(Tenant tenant) {
-        if(userRepo.existsByEmail(tenant.getEmail())){
+        if (userRepo.existsByEmail(tenant.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
         User user = new User();
@@ -47,7 +46,7 @@ public class TenantServiceImpl implements TenantService {
         user.setEmail(tenant.getEmail());
         user.setAccountStatus(true);
         user.setRole("USER");
-        User savedUser=userRepo.save(user);
+        User savedUser = userRepo.save(user);
         tenant.setUser(savedUser);
         tenant.setOccupancyStatus("Not_Assigned");
         tenant.setRoom(null);
@@ -91,8 +90,8 @@ public class TenantServiceImpl implements TenantService {
             currentTenant.setJoinDate(tenant.getJoinDate());
             currentTenant.setEndDate(tenant.getEndDate());
             currentTenant.setOccupancyStatus(tenant.getOccupancyStatus());
-            Tenant updatedTenant =
-                    tenantRepo.save(currentTenant);
+            Tenant updatedTenant
+                    = tenantRepo.save(currentTenant);
             // remove old cache
 //            redisService.delete("allTenants");
             return updatedTenant;
@@ -113,8 +112,8 @@ public class TenantServiceImpl implements TenantService {
             // 🔥 remove tenant from room
             room.getTenants().remove(tenant);
             // 🔥 update room stats
-            room.setCurrentOccupancy(room.getCurrentOccupancy() - 1);
-            room.setVacancy(room.getVacancy() + 1);
+            room.setCurrentOccupancy(0);
+            room.setVacancy(1);
             room.setIsAvailable(true);
             // 🔥 break relationship
             tenant.setRoom(null);

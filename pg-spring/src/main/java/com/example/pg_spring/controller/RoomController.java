@@ -40,12 +40,22 @@ public class RoomController {
     @GetMapping("/pg-summary")
     public Map<String, Integer> getPgSummary() {
 
-        Integer staying = roomRepo.totalOccupancy();
-        Integer vacancy = roomRepo.totalVacancy();
+        List<Room> rooms = roomRepo.findAll();
 
+        int totalStaying = 0;
+        int totalVacancy = 0;
+
+        for (Room room : rooms) {
+
+            if (Boolean.TRUE.equals(room.getIsAvailable())) {
+                totalVacancy++;
+            } else {
+                totalStaying++;
+            }
+        }
         Map<String, Integer> response = new HashMap<>();
-        response.put("totalStaying", staying == null ? 0 : staying);
-        response.put("totalVacancy", vacancy == null ? 0 : vacancy);
+        response.put("totalStaying", totalStaying);
+        response.put("totalVacancy", totalVacancy);
 
         return response;
     }
