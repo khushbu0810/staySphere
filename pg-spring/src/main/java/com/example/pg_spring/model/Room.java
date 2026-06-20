@@ -6,7 +6,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +28,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer roomNumber;
+    private String roomNumber;
     private String roomType;
     private Integer capacity;
     private Integer currentOccupancy;
@@ -37,5 +43,5 @@ public class Room {
 
     @ElementCollection
     @Column(length = 1000)
-    private List<String> roomImageUrls=new ArrayList<>();
+    private List<String> roomImageUrls = new ArrayList<>();
 }
